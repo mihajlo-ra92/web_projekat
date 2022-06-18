@@ -1,14 +1,22 @@
 Vue.component("home", {
 	data: function () {
 		    return {
-				users: null
+				users: null,
+				input: {
+                    username: "",
+                    password: ""
+                },
+                approved: false
 		    }
 	},
 	template: ` 
 <div>
 	Home:
+	<input type="text" name="username" v-model="input.username" placeholder="Username" />
+    <input type="password" name="password" v-model="input.password" placeholder="Password" />
+	<button type="button" v-on:click="login()">Login</button>
 	<form action="#/sportObjects">
-            <input type="submit" value="Go to Google" />
+            <input type="submit" value="Log in" />
         </form>
 	<p>
 		<a href="#/sportObjects">Pregled sadržaja korpe</a>
@@ -29,7 +37,15 @@ Vue.component("home", {
 `
 	, 
 	methods : {
-		
+		login() {
+                for (let i = 0; i < this.users.length; i++) {
+					if (this.input.username === this.users[i].username &&
+					this.input.password === this.users[i].password){
+						console.log('pronadjen');
+						console.log(this.users[i].username);
+					}
+				}
+            }
 	},
 	mounted () {
         console.log("Mounted home");
