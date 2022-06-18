@@ -43,8 +43,12 @@ Vue.component("home", {
 					this.input.password === this.users[i].password){
 						console.log('pronadjen');
 						console.log(this.users[i].username);
+						this.approved = true;
+						console.log(this.approved);
+						router.push('/sportObjects');
 					}
 				}
+				
             }
 	},
 	mounted () {

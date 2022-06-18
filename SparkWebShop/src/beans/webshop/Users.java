@@ -52,7 +52,6 @@ public class Users {
 				User user = new User(id, username, password, firstName);
 				users.put(id, user);
 				usersList.add(user);
-				System.out.println(user);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
