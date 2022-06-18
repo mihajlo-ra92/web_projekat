@@ -9,18 +9,18 @@ Vue.component("sport-objects", {
 <div>
 	Raspoloživi sportski objekti:
 	<table border="1">
-	<tr bgcolor="lightgrey">
-		<th>Naziv</th>
-		<th>Tip objekta</th>
-		<th>Status</th>
-	</tr>
-		
-	<tr v-for="so in sportObjects">
-		<td>{{so.name }}</td>
-		<td>{{so.objectType }}</td>
-		<td>{{so.isOpen }}</td>
-	</tr>
-</table>
+		<tr bgcolor="lightgrey">
+			<th>Naziv</th>
+			<th>Tip objekta</th>
+			<th>Status</th>
+		</tr>
+			
+		<tr v-for="so in sportObjects">
+			<td>{{so.name }}</td>
+			<td>{{so.objectType }}</td>
+			<td>{{so.isOpen }}</td>
+		</tr>
+	</table>
 	<p>
 		<a href="#/sportObjects">Pregled sadržaja korpe</a>
 	</p>
@@ -39,6 +39,5 @@ Vue.component("sport-objects", {
         axios
           .get('rest/proizvodi/getJustSportObjects')
           .then(response => (this.sportObjects = response.data))
-        
-    },
+        },
 });	  

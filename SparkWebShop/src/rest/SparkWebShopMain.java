@@ -13,6 +13,7 @@ import beans.webshop.ProductToAdd;
 import beans.webshop.Products;
 import beans.webshop.ShoppingCart;
 import beans.webshop.SportObjects;
+import beans.webshop.Users;
 import spark.Request;
 import spark.Session;
 
@@ -20,6 +21,7 @@ public class SparkWebShopMain {
 
 	private static Products products = new Products();
 	private static SportObjects sportObjects = new SportObjects();
+	private static Users users = new Users();
 	private static Gson g = new Gson();
 
 
@@ -40,6 +42,11 @@ public class SparkWebShopMain {
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(sportObjects.values());
+		});
+		
+		get("/rest/proizvodi/getJustUsers", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(users.values());
 		});
 		
 		get("/rest/proizvodi/getJustSc", (req, res) -> {
