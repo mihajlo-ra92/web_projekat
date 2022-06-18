@@ -1,27 +1,24 @@
 Vue.component("web-shop", {
 	data: function () {
 		    return {
+		      sportObjects: null,
 		      products: null
 		    }
 	},
 	template: ` 
 <div>
-	Raspoloživi proizvodi:
+	Raspoloživi sportski objekti:
 	<table border="1">
 	<tr bgcolor="lightgrey">
 		<th>Naziv</th>
-		<th>Cena</th>
-		<th>&nbsp;</th>
+		<th>Tip objekta</th>
+		<th>Status</th>
 	</tr>
 		
-	<tr v-for="p in products">
-		<td>{{p.name }}</td>
-		<td>{{p.price}}</td>
-		<td>
-			<input type="number" style="width:40px" size="3" v-model="p.count" name="itemCount"> 
-			<input type="hidden" name="itemId" v-model="p.id"> 
-			<button v-on:click="addToCart(p)">Dodaj</button>
-		</td>
+	<tr v-for="so in sportObjects">
+		<td>{{so.name }}</td>
+		<td>{{so.objectType }}</td>
+		<td>{{so.isOpen }}</td>
 	</tr>
 </table>
 	<p>
@@ -39,7 +36,8 @@ Vue.component("web-shop", {
 	},
 	mounted () {
         axios
-          .get('rest/proizvodi/getJustProducts')
-          .then(response => (this.products = response.data))
+          .get('rest/proizvodi/getJustSportObjects')
+          .then(response => (this.sportObjects = response.data))
+        
     },
 });

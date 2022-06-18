@@ -12,12 +12,14 @@ import com.google.gson.Gson;
 import beans.webshop.ProductToAdd;
 import beans.webshop.Products;
 import beans.webshop.ShoppingCart;
+import beans.webshop.SportObjects;
 import spark.Request;
 import spark.Session;
 
 public class SparkWebShopMain {
 
 	private static Products products = new Products();
+	private static SportObjects sportObjects = new SportObjects();
 	private static Gson g = new Gson();
 
 
@@ -33,6 +35,11 @@ public class SparkWebShopMain {
 		get("/rest/proizvodi/getJustProducts", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(products.values());
+		});
+		
+		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(sportObjects.values());
 		});
 		
 		get("/rest/proizvodi/getJustSc", (req, res) -> {
