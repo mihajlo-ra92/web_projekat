@@ -1,4 +1,4 @@
-Vue.component("web-shop", {
+Vue.component("sport-objects", {
 	data: function () {
 		    return {
 		      sportObjects: null,
@@ -25,7 +25,7 @@ Vue.component("web-shop", {
 		<a href="#/sportObjects">Pregled sadržaja korpe</a>
 	</p>
 </div>		  
-`
+`	  
 	, 
 	methods : {
 		addToCart : function (product) {
@@ -35,9 +35,10 @@ Vue.component("web-shop", {
 		}
 	},
 	mounted () {
+		console.log("Mounted sportObjects!");
         axios
           .get('rest/proizvodi/getJustSportObjects')
           .then(response => (this.sportObjects = response.data))
         
     },
-});
+});	  

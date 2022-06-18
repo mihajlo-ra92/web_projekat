@@ -1,11 +1,14 @@
-const WebShop = { template: '<web-shop></web-shop>' }
+const Login = { template: '<login></login>' }
+const SportObjects = { template: '<sport-objects></sport-objects>' }
 const ShoppingCart = { template: '<shopping-cart></shopping-cart>' }
+const WebShop = { template: '<web-shop></web-shop>' }
 
 const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
-	    { path: '/', component: WebShop},
-	    { path: '/sc', component: ShoppingCart }
+	    { path: '/', component: Login},
+	    { path: '/sc', component: ShoppingCart },
+	    { path: '/sportObjects', component: SportObjects}
 	  ]
 });
 
