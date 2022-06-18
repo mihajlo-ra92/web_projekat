@@ -1,2 +1,2 @@
-1;mihajlo00;mihajlo123;Mihajlo
-2;nikola00;nikola123;Nikola
+1;mihajlo00;m;Mihajlo
+2;nikola00;n;Nikola
