@@ -11,10 +11,10 @@ import java.util.StringTokenizer;
 public class SportObjects {
 	private HashMap<String, SportObject> sportObjects = new HashMap<String, SportObject>();
 	private ArrayList<SportObject> sportObjectsList = new ArrayList<SportObject>();
-	public SportObjects() {
-		this(".");
+	public SportObjects(Locations locations) {
+		this(".", locations);
 	}
-	public SportObjects(String path) {
+	public SportObjects(String path, Locations locations) {
 		BufferedReader in = null;
 		try {
 			File file = new File(path + "/sportObjects.txt");
@@ -35,7 +35,7 @@ public class SportObjects {
 	}
 	
 	private void readSportObjects(BufferedReader in) {
-		String line, id = "", name = "", type = "", isOpen = "";
+		String line, id = "", name = "", objectType = "", isOpen = "";
 		StringTokenizer st;
 		try {
 			while ((line = in.readLine()) != null) {
@@ -46,10 +46,10 @@ public class SportObjects {
 				while (st.hasMoreTokens()) {
 					id = st.nextToken().trim();
 					name = st.nextToken().trim();
-					type = st.nextToken().trim();
+					objectType = st.nextToken().trim();
 					isOpen = st.nextToken().trim();
 				}
-				SportObject sportObject = new SportObject(id, name, type, Boolean.parseBoolean(isOpen));
+				SportObject sportObject = new SportObject(id, name, objectType, Boolean.parseBoolean(isOpen));
 				sportObjects.put(id, sportObject);
 				sportObjectsList.add(sportObject);
 			}

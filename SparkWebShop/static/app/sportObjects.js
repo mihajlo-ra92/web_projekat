@@ -8,7 +8,9 @@ Vue.component("sport-objects", {
 	computed: {
 		filteredSportObjects() {
 			if(this.sportObjects !== null){
-				return this.sportObjects.filter(so => so.name.includes(this.search))
+				const nameFilter = this.sportObjects.filter(so => so.name.toLowerCase().includes(this.search.toLowerCase()));
+				const objectTypeFilter = this.sportObjects.filter(so => so.objectType.toLowerCase().includes(this.search.toLowerCase()));
+				return nameFilter;
 			}
 		}
 	},

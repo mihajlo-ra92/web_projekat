@@ -9,6 +9,7 @@ import java.io.File;
 
 import com.google.gson.Gson;
 
+import beans.webshop.Locations;
 import beans.webshop.ProductToAdd;
 import beans.webshop.Products;
 import beans.webshop.ShoppingCart;
@@ -20,7 +21,8 @@ import spark.Session;
 public class SparkWebShopMain {
 
 	private static Products products = new Products();
-	private static SportObjects sportObjects = new SportObjects();
+	private static Locations locations = new Locations();
+	private static SportObjects sportObjects = new SportObjects(locations);
 	private static Users users = new Users();
 	private static Gson g = new Gson();
 
