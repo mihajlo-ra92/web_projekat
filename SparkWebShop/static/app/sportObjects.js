@@ -2,13 +2,20 @@ Vue.component("sport-objects", {
 	data: function () {
 		    return {
 		      sportObjects: null,
-		      products: null
+		      search: ''
 		    }
+	},
+	computed: {
+		filteredSportObjects() {
+			if(this.sportObjects !== null){
+				return this.sportObjects.filter(so => so.name.includes(this.search))
+			}
+		}
 	},
 	template: ` 
 <div>
 	Raspoloživi sportski objekti:
-	<input type="text" placeholder="Pretraga objekata"/>
+	<input type="text" v-model="search" placeholder="Pretraga objekata"/>
 	<table border="1">
 		<tr bgcolor="lightgrey">
 			<th>Naziv</th>
@@ -16,7 +23,7 @@ Vue.component("sport-objects", {
 			<th>Status</th>
 		</tr>
 			
-		<tr v-for="so in sportObjects">
+		<tr v-for="so in filteredSportObjects">
 			<td>{{so.name }}</td>
 			<td>{{so.objectType }}</td>
 			<td v-if="so.isOpen">Otvoren</td>
@@ -30,11 +37,7 @@ Vue.component("sport-objects", {
 `	  
 	, 
 	methods : {
-		addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}
+		
 	},
 	mounted () {
 		console.log("Mounted sportObjects!");
