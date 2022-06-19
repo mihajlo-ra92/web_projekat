@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import enums.Gender;
+
 public class Users {
 	private HashMap<String, User> users = new HashMap<String, User>();
 	private ArrayList<User> usersList = new ArrayList<User>();
@@ -40,7 +42,8 @@ public class Users {
 	}
 	private void readUsers(BufferedReader in) {
 		String line, id = "", username = "", password = "",
-				firstName = "", lastName = "";
+				firstName = "", lastName = "", gender = "",
+				birthDateStr = "";
 		StringTokenizer st;
 		try {
 			while ((line = in.readLine()) != null) {
@@ -54,8 +57,11 @@ public class Users {
 					password = st.nextToken().trim();
 					firstName = st.nextToken().trim();
 					lastName = st.nextToken().trim();
+					birthDateStr = st.nextToken().trim();
+					gender = st.nextToken().trim();
 				}
-				User user = new User(id, username, password, firstName, lastName);
+				User user = new User(id, username, password, firstName,
+						lastName, birthDateStr, Gender.valueOf(gender));
 				users.put(id, user);
 				usersList.add(user);
 			}
@@ -89,8 +95,20 @@ public class Users {
 		lastName = lastName.substring(1, lastName.length() - 1);
 		System.out.println("lastName: " + lastName);
 		
+		String birthDateStr = reqSplit[4].split(":")[1];
+		//removes first and last character
+		birthDateStr = birthDateStr.substring(1, birthDateStr.length() - 1);
+		System.out.println("birthDateStr: " + birthDateStr);
+		
+		String genderStr = reqSplit[5].split(":")[1];
+		//removes first and last character
+		genderStr = genderStr.substring(1, genderStr.length() - 1);
+		System.out.println("genderStr: " + genderStr);
+		Gender gender = Gender.valueOf(genderStr); 
+		
 		String id = Integer.toString(usersList.size()+1);
-		User newUser = new User(id, username, password, firstName, lastName);
+		User newUser = new User(id, username, password, firstName,
+				lastName, birthDateStr, gender);
 		addUser(newUser);
 	}
 	public void addUser(User user) throws FileNotFoundException {
@@ -104,7 +122,9 @@ public class Users {
 		for (User userIt : users.values()) {
 			out.printf(userIt.getId() + ";" + userIt.getUsername()
 			+ ";" + userIt.getPassword() + ";" + userIt.getFirstName()
-			+ ";" + userIt.getLastName() + "\n");
+			+ ";" + userIt.getLastName() + ";" + userIt.getBirthDate()
+			+ ";" + userIt.getGender().toString()
+			+ "\n");
 		}
 		out.close();
 	}

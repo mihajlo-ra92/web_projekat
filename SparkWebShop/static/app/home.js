@@ -26,11 +26,19 @@ Vue.component("home", {
 			<tr bgcolor="lightgrey">
 				<th>Username</th>
 				<th>Password</th>
+				<th>FirstName</th>
+				<th>LastName</th>
+				<th>BirthDate</th>
+				<th>Gender</th>
 			</tr>
 				
 			<tr v-for="user in users">
 				<td>{{user.username}}</td>
 				<td>{{user.password }}</td>
+				<td>{{user.firstName }}</td>
+				<td>{{user.lastName }}</td>
+				<td>{{user.birthDate }}</td>
+				<td>{{user.gender }}</td>
 			</tr>
 		</table>
 	</div>	
