@@ -52,7 +52,7 @@ Vue.component("home", {
                 for (let i = 0; i < this.users.length; i++) {
 					if (this.input.username === this.users[i].username &&
 					this.input.password === this.users[i].password){
-						console.log('pronadjen');
+						console.log('found');
 						console.log(this.users[i].username);
 						this.approved = true;
 						console.log(this.approved);
@@ -60,7 +60,7 @@ Vue.component("home", {
 					}
             	}
 				if(this.approved === false){
-					console.log('Neuspesno logovanje!!!!');
+					console.log('Failed log in!!!!');
 					toast("Incorrect information!");
 				}
         }

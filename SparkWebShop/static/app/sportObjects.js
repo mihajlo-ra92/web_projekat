@@ -22,24 +22,24 @@ Vue.component("sport-objects", {
 	template: ` 
 <div class="h-100 d-flex align-items-center justify-content-center">
 	<div>
-		Raspoloživi sportski objekti:
+		Existing sport objects:
 		<br>
-		<input type="text" v-model="search" placeholder="Pretraga objekata"/>
+		<input type="text" v-model="search" placeholder="Search objects"/>
 		<br>
 		<table class="table table-bordered table-hover"">
 			<tr bgcolor="lightgrey">
-				<th scope="col">Naziv</th>
-				<th scope="col">Tip objekta</th>
+				<th scope="col">Name</th>
+				<th scope="col">Object type</th>
 				<th scope="col">Status</th>
-				<th scope="col">Adresa</th>
-				<th scope="col">Ocena</th>
+				<th scope="col">Address</th>
+				<th scope="col">Grade</th>
 			</tr>
 				
 			<tr v-for="so in filteredSportObjects">
 				<td scope="row">{{so.name }}</td>
 				<td>{{so.objectType }}</td>
-				<td v-if="so.isOpen">Otvoren</td>
-				<td v-else>Zatvoren</td>
+				<td v-if="so.isOpen">Open</td>
+				<td v-else>Closed</td>
 				<td>{{so.location.address }}</td>
 				<td>{{so.avegareGrade }}</td>
 			</tr>
