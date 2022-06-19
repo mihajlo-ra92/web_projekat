@@ -61,6 +61,7 @@ Vue.component("home", {
             	}
 				if(this.approved === false){
 					console.log('Neuspesno logovanje!!!!');
+					toast("Incorrect information!");
 				}
         }
 	},

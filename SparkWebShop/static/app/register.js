@@ -6,7 +6,8 @@ Vue.component("register", {
 				password: '',
 				firstName: '',
 				lastName: '',
-				
+				birthDate: '',
+				gender: ''
 			}
 		}
 	},
@@ -44,7 +45,8 @@ Vue.component("register", {
 		axios
 		    .post('/rest/proizvodi/register', this.user)
 		    .then(response => (console.log(response)))
-		    .catch((error) => console.log(error))
+		    .catch((error) => console.log(error));
+		toast("Successfuly registered user!")
 		}
 	},
 	mounted () {

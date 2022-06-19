@@ -11,8 +11,8 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName;
-	private Gender gender;
 	private String birthDate; //zalio se kada je bio LocalDate
+	private Gender gender;
 	//istorija treninga ako je TRENER
 	//membershipFee ako je KUPAC
 	//sportski objekat ako je MENADZER
