@@ -1,5 +1,0 @@
-1;mihajlo00;m;Mihajlo
-2;nikola00;n;Nikola
-4;tUsername;tPassword;tFName
-5;tUsername;tPassword;tFName
-6;tUsername;tPassword;tFName

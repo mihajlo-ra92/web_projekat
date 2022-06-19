@@ -82,17 +82,17 @@ public class Users {
 		fName = fName.substring(1, fName.length() - 1);
 		System.out.println("fName: " + fName);
 		
-		String id = Integer.toString(usersList.size()+2);
+		String id = Integer.toString(usersList.size()+1);
 		User newUser = new User(id, username, password, fName);
 		addUser(newUser);
 	}
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
 		usersList.add(user);
-		toCSV(path + "/users_test.txt");
+		toCSV(path + "/users.txt");
 	}
 	private void toCSV(String filename) throws FileNotFoundException {
-		System.out.println(filename);
+		
 		PrintWriter out = new PrintWriter(filename);
 		for (User userIt : users.values()) {
 			out.printf(userIt.getId() + ";" + userIt.getUsername()
