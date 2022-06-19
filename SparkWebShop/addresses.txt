@@ -1,0 +1,3 @@
+1;111;101;Ulica 1, Novi Sad, 21000
+2;222;202;Neka druga 2, Beograd 11000
+3;333;303;Treca 3, Subotica, 24000

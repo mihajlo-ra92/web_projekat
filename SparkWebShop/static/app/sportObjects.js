@@ -8,6 +8,7 @@ Vue.component("sport-objects", {
 	template: ` 
 <div>
 	Raspoloživi sportski objekti:
+	<input type="text" placeholder="Pretraga objekata"/>
 	<table border="1">
 		<tr bgcolor="lightgrey">
 			<th>Naziv</th>
@@ -18,7 +19,8 @@ Vue.component("sport-objects", {
 		<tr v-for="so in sportObjects">
 			<td>{{so.name }}</td>
 			<td>{{so.objectType }}</td>
-			<td>{{so.isOpen }}</td>
+			<td v-if="so.isOpen">Otvoren</td>
+			<td v-else>Zatvoren</td>
 		</tr>
 	</table>
 	<p>
@@ -39,5 +41,5 @@ Vue.component("sport-objects", {
         axios
           .get('rest/proizvodi/getJustSportObjects')
           .then(response => (this.sportObjects = response.data))
-        },
+    },
 });	  

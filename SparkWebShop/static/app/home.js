@@ -15,12 +15,7 @@ Vue.component("home", {
 	<input type="text" name="username" v-model="input.username" placeholder="Username" />
     <input type="password" name="password" v-model="input.password" placeholder="Password" />
 	<button type="button" v-on:click="login()">Login</button>
-	<form action="#/sportObjects">
-            <input type="submit" value="Log in" />
-        </form>
-	<p>
-		<a href="#/sportObjects">Pregled sadržaja korpe</a>
-	</p>
+	<br>
 	Korisnici:
 	<table border="1">
 		<tr bgcolor="lightgrey">
@@ -47,9 +42,11 @@ Vue.component("home", {
 						console.log(this.approved);
 						router.push('/sportObjects');
 					}
+            	}
+				if(this.approved === false){
+					console.log('Neuspesno logovanje!!!!');
 				}
-				
-            }
+        }
 	},
 	mounted () {
         console.log("Mounted home");
