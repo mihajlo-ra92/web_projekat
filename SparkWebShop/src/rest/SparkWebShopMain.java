@@ -74,6 +74,13 @@ public class SparkWebShopMain {
 			getSc(req).getItems().clear();
 			return "OK";
 		});
+		
+		post("/rest/proizvodi/register", (req, res) -> {
+			res.type("application/json");
+			System.out.println(req.body());
+			users.addUserRequest(req.body());
+			return "OK";
+		});
 	}
 	
 	private static ShoppingCart getSc(Request req) {
