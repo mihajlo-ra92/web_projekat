@@ -20,7 +20,7 @@ public class SportObjects {
 			File file = new File(path + "/sportObjects.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
-			readSportObjects(in);
+			readSportObjects(in, locations);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -34,8 +34,9 @@ public class SportObjects {
 		}
 	}
 	
-	private void readSportObjects(BufferedReader in) {
-		String line, id = "", name = "", objectType = "", isOpen = "";
+	private void readSportObjects(BufferedReader in, Locations locations) {
+		String line, id = "", name = "", objectType = "", isOpen = "", locationId = "";
+		Location loadedLocation = new Location();
 		StringTokenizer st;
 		try {
 			while ((line = in.readLine()) != null) {
@@ -48,8 +49,11 @@ public class SportObjects {
 					name = st.nextToken().trim();
 					objectType = st.nextToken().trim();
 					isOpen = st.nextToken().trim();
+					locationId = st.nextToken().trim();
+					loadedLocation = locations.ReadById(locationId);
 				}
-				SportObject sportObject = new SportObject(id, name, objectType, Boolean.parseBoolean(isOpen));
+				SportObject sportObject = new SportObject(id, name, objectType,
+						Boolean.parseBoolean(isOpen), loadedLocation);
 				sportObjects.put(id, sportObject);
 				sportObjectsList.add(sportObject);
 			}

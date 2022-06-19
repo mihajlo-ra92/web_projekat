@@ -15,27 +15,30 @@ Vue.component("sport-objects", {
 		}
 	},
 	template: ` 
-<div>
-	Raspoloživi sportski objekti:
-	<input type="text" v-model="search" placeholder="Pretraga objekata"/>
-	<table border="1">
-		<tr bgcolor="lightgrey">
-			<th>Naziv</th>
-			<th>Tip objekta</th>
-			<th>Status</th>
-		</tr>
-			
-		<tr v-for="so in filteredSportObjects">
-			<td>{{so.name }}</td>
-			<td>{{so.objectType }}</td>
-			<td v-if="so.isOpen">Otvoren</td>
-			<td v-else>Zatvoren</td>
-		</tr>
-	</table>
-	<p>
-		<a href="#/sportObjects">Pregled sadržaja korpe</a>
-	</p>
-</div>		  
+<div class="h-100 d-flex align-items-center justify-content-center">
+	<div>
+		Raspoloživi sportski objekti:
+		<input type="text" v-model="search" placeholder="Pretraga objekata"/>
+		<br>
+		<br>
+		<table border="1">
+			<tr bgcolor="lightgrey">
+				<th>Naziv</th>
+				<th>Tip objekta</th>
+				<th>Status</th>
+				<th>Adresa</th>
+			</tr>
+				
+			<tr v-for="so in filteredSportObjects">
+				<td>{{so.name }}</td>
+				<td>{{so.objectType }}</td>
+				<td v-if="so.isOpen">Otvoren</td>
+				<td v-else>Zatvoren</td>
+				<td>{{so.location.address }}</td>
+			</tr>
+		</table>
+	</div>		  
+</div>
 `	  
 	, 
 	methods : {
