@@ -4,7 +4,9 @@ Vue.component("register", {
 			user: {
 				username: '',
 				password: '',
-				firstName: ''
+				firstName: '',
+				lastName: '',
+				
 			}
 		}
 	},
@@ -13,8 +15,13 @@ Vue.component("register", {
 	<div>
 		<p>Register!!!!</p>
 		<input type="text" name="username" v-model="user.username" placeholder="Username" />
+		<br>
 		<input type="text" name="password" v-model="user.password" placeholder="Password" />
-		<input type="text" name="fName" v-model="user.firstName" placeholder="First name" />
+		<br>
+		<input type="text" name="firstName" v-model="user.firstName" placeholder="First name" />
+		<br>
+		<input type="text" name="lastName" v-model="user.lastName" placeholder="Last name" />
+		<br>
 		<button v-on:click="register" >Register test</button>
 	</div>		  
 </div>

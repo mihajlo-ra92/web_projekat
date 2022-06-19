@@ -39,7 +39,8 @@ public class Users {
 		}
 	}
 	private void readUsers(BufferedReader in) {
-		String line, id = "", username = "", password = "", firstName = "", isOpen = "";
+		String line, id = "", username = "", password = "",
+				firstName = "", lastName = "";
 		StringTokenizer st;
 		try {
 			while ((line = in.readLine()) != null) {
@@ -52,8 +53,9 @@ public class Users {
 					username = st.nextToken().trim();
 					password = st.nextToken().trim();
 					firstName = st.nextToken().trim();
+					lastName = st.nextToken().trim();
 				}
-				User user = new User(id, username, password, firstName);
+				User user = new User(id, username, password, firstName, lastName);
 				users.put(id, user);
 				usersList.add(user);
 			}
@@ -77,13 +79,18 @@ public class Users {
 		password = password.substring(1, password.length() - 1);
 		System.out.println("password: " + password);
 		
-		String fName = reqSplit[2].split(":")[1];
+		String firstName = reqSplit[2].split(":")[1];
 		//removes first and last character
-		fName = fName.substring(1, fName.length() - 1);
-		System.out.println("fName: " + fName);
+		firstName = firstName.substring(1, firstName.length() - 1);
+		System.out.println("firstName: " + firstName);
+		
+		String lastName = reqSplit[3].split(":")[1];
+		//removes first and last character
+		lastName = lastName.substring(1, lastName.length() - 1);
+		System.out.println("lastName: " + lastName);
 		
 		String id = Integer.toString(usersList.size()+1);
-		User newUser = new User(id, username, password, fName);
+		User newUser = new User(id, username, password, firstName, lastName);
 		addUser(newUser);
 	}
 	public void addUser(User user) throws FileNotFoundException {
@@ -96,7 +103,8 @@ public class Users {
 		PrintWriter out = new PrintWriter(filename);
 		for (User userIt : users.values()) {
 			out.printf(userIt.getId() + ";" + userIt.getUsername()
-			+ ";" + userIt.getPassword() + ";" + userIt.getFirstName() + "\n");
+			+ ";" + userIt.getPassword() + ";" + userIt.getFirstName()
+			+ ";" + userIt.getLastName() + "\n");
 		}
 		out.close();
 	}

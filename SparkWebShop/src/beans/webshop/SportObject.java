@@ -16,12 +16,13 @@ public class SportObject {
 		// TODO Auto-generated constructor stub
 	}
 	public SportObject(String id, String name, String objectType,
-			boolean isOpen, Location location) {
+			boolean isOpen, Location location, double averageGrade) {
 		this.id = id;
 		this.name = name;
 		this.objectType = objectType;
 		this.isOpen = isOpen;
 		this.location = location;
+		this.avegareGrade = averageGrade;
 	}
 
 }

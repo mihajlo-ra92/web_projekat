@@ -10,25 +10,33 @@ Vue.component("home", {
 		    }
 	},
 	template: ` 
-<div>
-	Home:
-	<input type="text" name="username" v-model="input.username" placeholder="Username" />
-    <input type="password" name="password" v-model="input.password" placeholder="Password" />
-	<button type="button" v-on:click="login()">Login</button>
-	<br>
-	Korisnici:
-	<table border="1">
-		<tr bgcolor="lightgrey">
-			<th>Username</th>
-			<th>Password</th>
-		</tr>
-			
-		<tr v-for="user in users">
-			<td>{{user.username}}</td>
-			<td>{{user.password }}</td>
-		</tr>
-	</table>
-</div>		  
+<div class="h-100 d-flex align-items-center justify-content-center">
+	<div>
+		Log in:
+		<br>
+		<input type="text" name="username" v-model="input.username" placeholder="Username" />
+		<br>
+	    <input type="password" name="password" v-model="input.password" placeholder="Password" />
+		<br>
+		<button type="button" v-on:click="login()">Login</button>
+		<br>
+		<br>
+		Korisnici:
+		<table border="1">
+			<tr bgcolor="lightgrey">
+				<th>Username</th>
+				<th>Password</th>
+			</tr>
+				
+			<tr v-for="user in users">
+				<td>{{user.username}}</td>
+				<td>{{user.password }}</td>
+			</tr>
+		</table>
+	</div>	
+	
+	
+</div>	  
 `
 	, 
 	methods : {

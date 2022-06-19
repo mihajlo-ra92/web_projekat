@@ -1,3 +1,2 @@
-1;mihajlo00;m;Mihajlo
-2;nikola00;n;Nikola
-3;asd;das;ewr
+1;mihajlo00;m;Mihajlo;Maksimovic
+2;nikola00;n;Nikola;Rosic

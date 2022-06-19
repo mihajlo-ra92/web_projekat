@@ -35,7 +35,8 @@ public class SportObjects {
 	}
 	
 	private void readSportObjects(BufferedReader in, Locations locations) {
-		String line, id = "", name = "", objectType = "", isOpen = "", locationId = "";
+		String line, id = "", name = "", objectType = "",
+				isOpen = "", locationId = "", averageGrade = "";
 		Location loadedLocation = new Location();
 		StringTokenizer st;
 		try {
@@ -51,9 +52,10 @@ public class SportObjects {
 					isOpen = st.nextToken().trim();
 					locationId = st.nextToken().trim();
 					loadedLocation = locations.ReadById(locationId);
+					averageGrade = st.nextToken().trim();
 				}
 				SportObject sportObject = new SportObject(id, name, objectType,
-						Boolean.parseBoolean(isOpen), loadedLocation);
+						Boolean.parseBoolean(isOpen), loadedLocation, Double.parseDouble(averageGrade));
 				sportObjects.put(id, sportObject);
 				sportObjectsList.add(sportObject);
 			}
