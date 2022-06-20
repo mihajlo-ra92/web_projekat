@@ -11,16 +11,16 @@ import java.util.StringTokenizer;
 public class SportObjects {
 	private HashMap<String, SportObject> sportObjects = new HashMap<String, SportObject>();
 	private ArrayList<SportObject> sportObjectsList = new ArrayList<SportObject>();
-	public SportObjects() {
-		this(".");
+	public SportObjects(Locations locations) {
+		this(".", locations);
 	}
-	public SportObjects(String path) {
+	public SportObjects(String path, Locations locations) {
 		BufferedReader in = null;
 		try {
 			File file = new File(path + "/sportObjects.txt");
 			System.out.println(file.getCanonicalPath());
 			in = new BufferedReader(new FileReader(file));
-			readSportObjects(in);
+			readSportObjects(in, locations);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -34,8 +34,10 @@ public class SportObjects {
 		}
 	}
 	
-	private void readSportObjects(BufferedReader in) {
-		String line, id = "", name = "", type = "", isOpen = "";
+	private void readSportObjects(BufferedReader in, Locations locations) {
+		String line, id = "", name = "", objectType = "",
+				isOpen = "", locationId = "", averageGrade = "";
+		Location loadedLocation = new Location();
 		StringTokenizer st;
 		try {
 			while ((line = in.readLine()) != null) {
@@ -46,10 +48,14 @@ public class SportObjects {
 				while (st.hasMoreTokens()) {
 					id = st.nextToken().trim();
 					name = st.nextToken().trim();
-					type = st.nextToken().trim();
+					objectType = st.nextToken().trim();
 					isOpen = st.nextToken().trim();
+					locationId = st.nextToken().trim();
+					loadedLocation = locations.ReadById(locationId);
+					averageGrade = st.nextToken().trim();
 				}
-				SportObject sportObject = new SportObject(id, name, type, Boolean.parseBoolean(isOpen));
+				SportObject sportObject = new SportObject(id, name, objectType,
+						Boolean.parseBoolean(isOpen), loadedLocation, Double.parseDouble(averageGrade));
 				sportObjects.put(id, sportObject);
 				sportObjectsList.add(sportObject);
 			}

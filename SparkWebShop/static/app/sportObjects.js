@@ -2,43 +2,59 @@ Vue.component("sport-objects", {
 	data: function () {
 		    return {
 		      sportObjects: null,
-		      products: null
+		      search: ''
 		    }
 	},
+	computed: {
+		filteredSportObjects() {
+			if(this.sportObjects !== null){
+				const nameFilter = this.sportObjects.filter(so => so.name.toLowerCase().includes(this.search.toLowerCase()));
+				const objectTypeFilter = this.sportObjects.filter(so => so.objectType.toLowerCase().includes(this.search.toLowerCase()));
+				const addressFilter = this.sportObjects.filter(so => so.location.address.toLowerCase().includes(this.search.toLowerCase()));
+				const gradeFilter = this.sportObjects.filter(so => so.avegareGrade == this.search);
+				const allFilters = nameFilter.concat(objectTypeFilter, addressFilter, gradeFilter);
+				const final = Array.from(allFilters.reduce((map, obj) => map.set(obj.id,
+				obj),new Map()).values());
+				return final;
+			}
+		}
+	},
 	template: ` 
-<div>
-	Raspoloživi sportski objekti:
-	<table border="1">
-	<tr bgcolor="lightgrey">
-		<th>Naziv</th>
-		<th>Tip objekta</th>
-		<th>Status</th>
-	</tr>
-		
-	<tr v-for="so in sportObjects">
-		<td>{{so.name }}</td>
-		<td>{{so.objectType }}</td>
-		<td>{{so.isOpen }}</td>
-	</tr>
-</table>
-	<p>
-		<a href="#/sportObjects">Pregled sadržaja korpe</a>
-	</p>
-</div>		  
+<div class="h-100 d-flex align-items-center justify-content-center">
+	<div>
+		Existing sport objects:
+		<br>
+		<input type="text" v-model="search" placeholder="Search objects"/>
+		<br>
+		<table class="table table-bordered table-hover"">
+			<tr bgcolor="lightgrey">
+				<th scope="col">Name</th>
+				<th scope="col">Object type</th>
+				<th scope="col">Status</th>
+				<th scope="col">Address</th>
+				<th scope="col">Grade</th>
+			</tr>
+				
+			<tr v-for="so in filteredSportObjects">
+				<td scope="row">{{so.name }}</td>
+				<td>{{so.objectType }}</td>
+				<td v-if="so.isOpen">Open</td>
+				<td v-else>Closed</td>
+				<td>{{so.location.address }}</td>
+				<td>{{so.avegareGrade }}</td>
+			</tr>
+		</table>
+	</div>		  
+</div>
 `	  
 	, 
 	methods : {
-		addToCart : function (product) {
-			axios
-			.post('rest/proizvodi/add', {"id":''+product.id, "count":parseInt(product.count)})
-			.then(response => (toast('Product ' + product.name + " added to the Shopping Cart")))
-		}
+		
 	},
 	mounted () {
 		console.log("Mounted sportObjects!");
         axios
           .get('rest/proizvodi/getJustSportObjects')
           .then(response => (this.sportObjects = response.data))
-        
     },
 });	  
