@@ -21,7 +21,7 @@ Vue.component("home", {
 		<button type="button" v-on:click="login()">Login</button>
 		<br>
 		<br>
-		Korisnici:
+		<!-- Korisnici:
 		<table border="1">
 			<tr bgcolor="lightgrey">
 				<th>Username</th>
@@ -40,7 +40,7 @@ Vue.component("home", {
 				<td>{{user.birthDate }}</td>
 				<td>{{user.gender }}</td>
 			</tr>
-		</table>
+		</table> -->
 	</div>	
 	
 	
