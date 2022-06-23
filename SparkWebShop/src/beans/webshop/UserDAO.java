@@ -20,6 +20,7 @@ import enums.Gender;
 public class UserDAO {
 	private HashMap<String, User> users = new HashMap<String, User>();
 	private ArrayList<User> usersList = new ArrayList<User>();
+	private User currentUser = new User();
 	private String path;
 	private static Gson g = new Gson();
 	private static final java.lang.reflect.Type USERS_TYPE = new TypeToken<ArrayList<User>>() {
@@ -47,6 +48,7 @@ public class UserDAO {
 			System.out.println("hashmap test");
 			System.out.println(users.toString());
 			System.out.println("hashmap test");
+			System.out.println(getCurrentUser());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,6 +70,9 @@ public class UserDAO {
 		System.out.println("JSON PRINT::");
 		System.out.println(us.toString());
 		addUser(us);
+	}
+	public User getCurrentUser() {
+		return users.get("1");
 	}
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
