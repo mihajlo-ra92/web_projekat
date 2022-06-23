@@ -1,7 +1,7 @@
-Vue.component("myProfil", {
+Vue.component("my-profile", {
 	data: function () {
 		    return {
-				user: {},
+				currentUser: null,
 				input: {
                     username: "",
                     firstname:"",
@@ -17,19 +17,19 @@ Vue.component("myProfil", {
 		My profile:
 		<br>
 		<label>username:</label>
-		<input type="text" name="username" v-model="user.username" />
+		<input type="text" name="username" v-bind="currentUser.username" />
 		<br>
 	    <label>firstname:</label>
-	    <input type="text" name="firstname" v-model="user.firstname"/>
+	    <input type="text" name="firstname" v-model="currentUser.firstname"/>
 		<br>
 		<label>lastname:</label>
-		<input type="text" name="lastname" v-model="user.lastname"/>
+		<input type="text" name="lastname" v-model="currentUser.lastname"/>
 		<br>
 		<label>birthdate:</label>
-		<input type="text" name="birthdate" v-model="user.birthdate"/>
+		<input type="text" name="birthdate" v-model="currentUser.birthdate"/>
 		<br>
 		<label>gender:</label>
-		<select name="gender" v-bind="user.gender">
+		<select name="gender" v-bind="currentUser.gender">
 			<option value="MALE">MALE</option>
 			<optionvalue="FEMALE">FEMALE</option>
 		</select>
@@ -55,14 +55,15 @@ Vue.component("myProfil", {
 	cancal(){
 		axios
           .get('/rest/proizvodi/getUser')
-          .then(response => (this.user = response.data))
+          .then(response => (this.currentUser = response.data))
 	}
 		
 	},
 	mounted () {
         console.log("Mounted MyProfile");
         axios
-          .get('rest/proizvodi/getUser')
-          .then(response => (this.user = response.data))
+          .get('rest/getCurrentUser')
+          .then(response => (this.currentUser = response.data));
+        console.log(this.currentUser);
     },
 });

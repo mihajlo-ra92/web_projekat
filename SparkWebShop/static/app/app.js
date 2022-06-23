@@ -2,8 +2,9 @@ const Home = { template: '<home></home>' }
 const SportObjects = { template: '<sport-objects></sport-objects>' }
 const Register = { template: '<register></register>' }
 const ShoppingCart = { template: '<shopping-cart></shopping-cart>' }
+const Profile = { template: '<profile></profile>'}
 const WebShop = { template: '<web-shop></web-shop>' }
-const MyProfil = { template: '<myProfil></myProfil>'}
+const MyProfile = { template: '<my-profile></my-profile>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -11,8 +12,9 @@ const router = new VueRouter({
 	    { path: '/', component: Home},
 	    { path: '/sc', component: ShoppingCart },
 	    { path: '/sportObjects', component: SportObjects},
-	    { path: '/Register', component: Register},
-	    { path: '/MyProfil', component: MyProfil}
+	    { path: '/register', component: Register},
+	    { path: '/profile', component: Profile},
+	    { path: '/my-profile', component: MyProfile}
 	  ]
 });
 
