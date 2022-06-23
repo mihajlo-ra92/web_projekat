@@ -13,8 +13,8 @@ import beans.webshop.Locations;
 import beans.webshop.ProductToAdd;
 import beans.webshop.Products;
 import beans.webshop.ShoppingCart;
-import beans.webshop.SportObjects;
-import beans.webshop.Users;
+import beans.webshop.SportObjectDAO;
+import beans.webshop.UserDAO;
 import spark.Request;
 import spark.Session;
 
@@ -22,8 +22,8 @@ public class SparkWebShopMain {
 
 	private static Products products = new Products();
 	private static Locations locations = new Locations();
-	private static SportObjects sportObjects = new SportObjects(locations);
-	private static Users users = new Users();
+	private static SportObjectDAO sportObjects = new SportObjectDAO(locations);
+	private static UserDAO users = new UserDAO();
 	private static Gson g = new Gson();
 
 

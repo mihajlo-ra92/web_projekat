@@ -14,17 +14,17 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-public class SportObjects {
+public class SportObjectDAO {
 	private HashMap<String, SportObject> sportObjects = new HashMap<String, SportObject>();
 	private ArrayList<SportObject> sportObjectsList = new ArrayList<SportObject>();
 	private String path;
 	private static Gson g = new Gson();
 	private static final java.lang.reflect.Type SPORTOBJECTS_TYPE = new TypeToken<ArrayList<SportObject>>() {
 	}.getType();
-	public SportObjects(Locations locations) {
+	public SportObjectDAO(Locations locations) {
 		this(".", locations);
 	}
-	public SportObjects(String path, Locations locations) {
+	public SportObjectDAO(String path, Locations locations) {
 		this.path = path;
 		BufferedReader in = null;
 		try {
@@ -42,9 +42,6 @@ public class SportObjects {
 			System.out.println("hashmap test");
 			System.out.println(sportObjects.toString());
 			System.out.println("hashmap test");
-			
-			in = new BufferedReader(new FileReader(file));
-			readSportObjects(in, locations);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,36 +52,6 @@ public class SportObjects {
 				}
 				catch (Exception e) { }
 			}
-		}
-	}
-	
-	private void readSportObjects(BufferedReader in, Locations locations) {
-		String line, id = "", name = "", objectType = "",
-				isOpen = "", locationId = "", averageGrade = "";
-		Location loadedLocation = new Location();
-		StringTokenizer st;
-		try {
-			while ((line = in.readLine()) != null) {
-				line = line.trim();
-				if (line.equals("") || line.indexOf('#') == 0)
-					continue;
-				st = new StringTokenizer(line, ";");
-				while (st.hasMoreTokens()) {
-					id = st.nextToken().trim();
-					name = st.nextToken().trim();
-					objectType = st.nextToken().trim();
-					isOpen = st.nextToken().trim();
-					locationId = st.nextToken().trim();
-					loadedLocation = locations.ReadById(locationId);
-					averageGrade = st.nextToken().trim();
-				}
-				SportObject sportObject = new SportObject(id, name, objectType,
-						Boolean.parseBoolean(isOpen), loadedLocation, Double.parseDouble(averageGrade));
-				sportObjects.put(id, sportObject);
-				sportObjectsList.add(sportObject);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
 		}
 	}
 	
