@@ -43,10 +43,14 @@ Vue.component("register", {
 		console.log("Register!!!");
 		
 		axios
-		    .post('/rest/proizvodi/register', this.user)
+		    .post('/rest/register', this.user)
 		    .then(response => (console.log(response)))
 		    .catch((error) => console.log(error));
 		toast("Successfuly registered user!")
+		//if response.data === false
+			//failed login
+		//else
+			//successful login
 		}
 	},
 	mounted () {

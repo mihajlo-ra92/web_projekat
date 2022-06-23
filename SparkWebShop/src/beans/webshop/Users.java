@@ -1,5 +1,6 @@
 package beans.webshop;
 
+import java.awt.Window.Type;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,24 +11,45 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+
 import enums.Gender;
 
 public class Users {
 	private HashMap<String, User> users = new HashMap<String, User>();
 	private ArrayList<User> usersList = new ArrayList<User>();
-	String path;
+	private String path;
+	private static Gson g = new Gson();
+	private static final java.lang.reflect.Type USERS_TYPE = new TypeToken<ArrayList<User>>() {
+	}.getType();
 	public Users() {
 		this(".");
 	}
 	
 	public Users(String path) {
 		this.path = path;
+		
 		BufferedReader in = null;
 		try {
-			File file = new File(path + "/users.txt");
+			File file = new File(path + "/users.json");
 			System.out.println(file.getCanonicalPath());
-			in = new BufferedReader(new FileReader(file));
-			readUsers(in);
+			JsonReader reader = new JsonReader(new FileReader(file));
+			usersList = g.fromJson(reader, USERS_TYPE);
+			System.out.println("list test");
+			System.out.println(usersList.toString());
+			System.out.println("list test");
+			
+			for (User userIt : usersList) {
+				users.put(userIt.getId(), userIt);
+			}
+			System.out.println("hashmap test");
+			System.out.println(users.toString());
+			System.out.println("hashmap test");
+			//in = new BufferedReader(new FileReader(file));
+			
+			//readUsers(in);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,53 +91,69 @@ public class Users {
 			ex.printStackTrace();
 		}
 	}
+	
 	public void addUserRequest(String req) throws FileNotFoundException {
-		//removes { } from request
-		req = req.substring(1, req.length() - 1);
 		
-		String[] reqSplit = req.split(",");
-		
-		String username = reqSplit[0].split(":")[1];
-		//removes first and last character
-		username = username.substring(1, username.length() - 1);
-		System.out.println("username: " + username);
-		
-		String password = reqSplit[1].split(":")[1];
-		//removes first and last character
-		password = password.substring(1, password.length() - 1);
-		System.out.println("password: " + password);
-		
-		String firstName = reqSplit[2].split(":")[1];
-		//removes first and last character
-		firstName = firstName.substring(1, firstName.length() - 1);
-		System.out.println("firstName: " + firstName);
-		
-		String lastName = reqSplit[3].split(":")[1];
-		//removes first and last character
-		lastName = lastName.substring(1, lastName.length() - 1);
-		System.out.println("lastName: " + lastName);
-		
-		String birthDateStr = reqSplit[4].split(":")[1];
-		//removes first and last character
-		birthDateStr = birthDateStr.substring(1, birthDateStr.length() - 1);
-		System.out.println("birthDateStr: " + birthDateStr);
-		
-		String genderStr = reqSplit[5].split(":")[1];
-		//removes first and last character
-		genderStr = genderStr.substring(1, genderStr.length() - 1);
-		System.out.println("genderStr: " + genderStr);
-		Gender gender = Gender.valueOf(genderStr); 
-		
+		User us = g.fromJson(req, User.class);
 		String id = Integer.toString(usersList.size()+1);
-		User newUser = new User(id, username, password, firstName,
-				lastName, birthDateStr, gender);
-		addUser(newUser);
+		us.setId(id);
+		System.out.println("JSON PRINT::");
+		System.out.println(us.toString());
+		
+//		//removes { } from request
+//		req = req.substring(1, req.length() - 1);
+//		
+//		String[] reqSplit = req.split(",");
+//		
+//		String username = reqSplit[0].split(":")[1];
+//		//removes first and last character
+//		username = username.substring(1, username.length() - 1);
+//		System.out.println("username: " + username);
+//		
+//		String password = reqSplit[1].split(":")[1];
+//		//removes first and last character
+//		password = password.substring(1, password.length() - 1);
+//		System.out.println("password: " + password);
+//		
+//		String firstName = reqSplit[2].split(":")[1];
+//		//removes first and last character
+//		firstName = firstName.substring(1, firstName.length() - 1);
+//		System.out.println("firstName: " + firstName);
+//		
+//		String lastName = reqSplit[3].split(":")[1];
+//		//removes first and last character
+//		lastName = lastName.substring(1, lastName.length() - 1);
+//		System.out.println("lastName: " + lastName);
+//		
+//		String birthDateStr = reqSplit[4].split(":")[1];
+//		//removes first and last character
+//		birthDateStr = birthDateStr.substring(1, birthDateStr.length() - 1);
+//		System.out.println("birthDateStr: " + birthDateStr);
+//		
+//		String genderStr = reqSplit[5].split(":")[1];
+//		//removes first and last character
+//		genderStr = genderStr.substring(1, genderStr.length() - 1);
+//		System.out.println("genderStr: " + genderStr);
+//		Gender gender = Gender.valueOf(genderStr); 
+		
+		
+		
+//		User newUser = new User(id, username, password, firstName,
+//				lastName, birthDateStr, gender);
+		addUser(us);
 	}
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
 		usersList.add(user);
-		toCSV(path + "/users.txt");
+		//toCSV(path + "/users.txt");
+		toJSON(path + "/users.json");
 	}
+	private void toJSON(String filename) throws FileNotFoundException {
+		PrintWriter out = new PrintWriter(filename);
+		out.printf(g.toJson(users.values()));
+		out.close();
+	}
+	
 	private void toCSV(String filename) throws FileNotFoundException {
 		
 		PrintWriter out = new PrintWriter(filename);
