@@ -69,6 +69,66 @@ public class Users {
 			ex.printStackTrace();
 		}
 	}
+	public void editUserRequest(String req) throws FileNotFoundException {
+		req = req.substring(1, req.length() - 1);
+		String[] reqSplit = req.split(",");
+		
+		String username = reqSplit[0].split(":")[1];
+		//removes first and last character
+		username = username.substring(1, username.length() - 1);
+		System.out.println("username: " + username);
+		
+		String password = reqSplit[1].split(":")[1];
+		//removes first and last character
+		password = password.substring(1, password.length() - 1);
+		System.out.println("password: " + password);
+		
+		String firstName = reqSplit[2].split(":")[1];
+		//removes first and last character
+		firstName = firstName.substring(1, firstName.length() - 1);
+		System.out.println("firstName: " + firstName);
+		
+		String lastName = reqSplit[3].split(":")[1];
+		//removes first and last character
+		lastName = lastName.substring(1, lastName.length() - 1);
+		System.out.println("lastName: " + lastName);
+		
+		String birthDateStr = reqSplit[4].split(":")[1];
+		//removes first and last character
+		birthDateStr = birthDateStr.substring(1, birthDateStr.length() - 1);
+		System.out.println("birthDateStr: " + birthDateStr);
+		
+		String genderStr = reqSplit[5].split(":")[1];
+		//removes first and last character
+		genderStr = genderStr.substring(1, genderStr.length() - 1);
+		System.out.println("genderStr: " + genderStr);
+		Gender gender = Gender.valueOf(genderStr); 
+		
+		
+		for (int i = 0; i < this.usersList.size(); i++ ) {
+			User newUser = usersList.get(i);
+			if(newUser.getUsername() == username) {
+				newUser.setId(usersList.get(i).getId());
+				newUser.setPassword(password);
+				users.get(usersList.get(i).getId()).setPassword(password);
+				newUser.setFirstName(firstName);
+				users.get(usersList.get(i).getId()).setFirstName(firstName);
+				newUser.setLastName(lastName);
+				users.get(usersList.get(i).getId()).setLastName(lastName);
+				newUser.setGender(gender);
+				users.get(usersList.get(i).getId()).setGender(gender);
+				newUser.setBirthDate(birthDateStr);
+				users.get(usersList.get(i).getId()).setBirthDate(birthDateStr);
+				usersList.set(i, newUser);
+				
+			}
+			toCSV(path + "/users.txt");
+		}
+	//	User newUser = new User(id, username, password, firstName,
+	//			lastName, birthDateStr, gender);
+	//	addUser(newUser);
+	}
+	
 	public void addUserRequest(String req) throws FileNotFoundException {
 		//removes { } from request
 		req = req.substring(1, req.length() - 1);

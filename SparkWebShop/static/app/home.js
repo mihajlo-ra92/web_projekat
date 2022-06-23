@@ -57,13 +57,16 @@ Vue.component("home", {
 						this.approved = true;
 						console.log(this.approved);
 						router.push('/sportObjects');
+						LogedInUser = this.users[i];
+						console.log(LogedInUser);
 					}
             	}
 				if(this.approved === false){
 					console.log('Failed log in!!!!');
 					toast("Incorrect information!");
 				}
-        }
+        },
+		
 	},
 	mounted () {
         console.log("Mounted home");

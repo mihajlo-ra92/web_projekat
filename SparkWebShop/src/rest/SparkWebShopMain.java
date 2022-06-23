@@ -35,7 +35,6 @@ public class SparkWebShopMain {
 		get("/test", (req, res) -> {
 			return "Works";
 		});
-		
 		get("/rest/proizvodi/getJustProducts", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(products.values());
@@ -60,6 +59,19 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			return g.toJson(getSc(req).getTotal());
 		});
+		
+		get("rest/proizvodi/getUser", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(users.getUser("1"));
+		});
+		
+		post("/rest/proizvodi/editUser", (req, res) -> {
+			res.type("application/json");
+			System.out.println(req.body());
+			users.editUserRequest(req.body());
+			return "OK";
+		});
+		
 		
 		post("/rest/proizvodi/add", (req, res) -> {
 			res.type("application/json");
