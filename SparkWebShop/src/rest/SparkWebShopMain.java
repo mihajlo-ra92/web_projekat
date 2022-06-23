@@ -36,6 +36,11 @@ public class SparkWebShopMain {
 			return "Works";
 		});
 		
+		get("/rest/getCurrentUser", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(users.getCurrentUser());
+		});
+		
 		get("/rest/proizvodi/getJustProducts", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(products.values());
