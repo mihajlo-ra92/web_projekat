@@ -11,5 +11,4 @@ public class TrainingHistory {
 	public TrainingHistory() {
 		// TODO Auto-generated constructor stub
 	}
-
 }
