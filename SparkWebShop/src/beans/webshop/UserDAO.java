@@ -34,21 +34,23 @@ public class UserDAO {
 		
 		BufferedReader in = null;
 		try {
-			File file = new File(path + "/users.json");
+			File file = new File(path + "/resources/JSON/users.json");
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<User> usersList = g.fromJson(reader, USERS_TYPE);
-			System.out.println("list test");
-			System.out.println(usersList.toString());
-			System.out.println("list test");
+//			System.out.println("users list test");
+//			System.out.println(usersList.toString());
+//			System.out.println("users list test");
 			
+			//fill hashmap from arraylist
 			for (User userIt : usersList) {
 				users.put(userIt.getId(), userIt);
 			}
-			System.out.println("hashmap test");
+			
+			System.out.println("users hashmap test");
 			System.out.println(users.toString());
-			System.out.println("hashmap test");
-			System.out.println(getCurrentUser());
+			System.out.println("users hashmap test");
+			//System.out.println(getCurrentUser());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,16 +67,21 @@ public class UserDAO {
 	public Boolean editUserRequest(String req) throws FileNotFoundException {
 		
 		User us = g.fromJson(req, User.class);
-		System.out.println("JSON PRINT::");
+		
+		System.out.println("JSON PRINT of edit request user object:");
 		System.out.println(us.toString());
+		
 		for (User userIt : users.values()) {
-			if ((userIt.getUsername().equals(us.getUsername())) &
-					!(userIt.getId().equals(us.getId()))) {
+			if (usernamesAreSameEdit(userIt, us)) {
 				return false;
 			}
 		}
 		editUser(us);
 		return true;
+	}
+	private Boolean usernamesAreSameEdit(User us1, User us2) {
+		return ((us1.getUsername().equals(us2.getUsername())) &
+				!(us1.getId().equals(us2.getId())));
 	}
 		
 	private void editUser(User user) throws FileNotFoundException {
@@ -87,7 +94,7 @@ public class UserDAO {
 //		for (User userIt : users.values()) {
 //			System.out.println(userIt.toString());
 //		}
-		toJSON(path + "/users.json");
+		toJSON(path + "/resources/JSON/users.json");
 	}
 	
 	public Boolean addUserRequest(String req) throws FileNotFoundException {
@@ -95,15 +102,20 @@ public class UserDAO {
 		User us = g.fromJson(req, User.class);
 		String id = Integer.toString(users.size()+1);
 		us.setId(id);
-		System.out.println("JSON PRINT::");
+		
+		System.out.println("JSON PRINT of add request user object:");
 		System.out.println(us.toString());
+		
 		for (User userIt : users.values()) {
-			if (userIt.getUsername().equals(us.getUsername())) {
+			if (usernamesAreSame(userIt, us)) {
 				return false;
 			}
 		}
 		addUser(us);
 		return true;
+	}
+	private Boolean usernamesAreSame(User us1, User us2) {
+		return (us1.getUsername().equals(us2.getUsername()));
 	}
 	
 	public User getCurrentUser() {
@@ -112,7 +124,7 @@ public class UserDAO {
 	
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
-		toJSON(path + "/users.json");
+		toJSON(path + "/resources/JSON/users.json");
 	}
 	
 	private void toJSON(String filename) throws FileNotFoundException {

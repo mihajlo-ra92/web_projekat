@@ -36,7 +36,7 @@ Vue.component("edit-profile", {
 		<br>
 		<input type="radio" name="gender" value="FEMALE" v-model="user.gender">Female
 		<br>
-		<button v-on:click="submit" >Register</button>
+		<button v-on:click="submit" >Submit changes</button>
 	
 	</div>	
 	
