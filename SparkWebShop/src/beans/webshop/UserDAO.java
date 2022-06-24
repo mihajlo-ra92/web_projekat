@@ -38,18 +38,18 @@ public class UserDAO {
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<User> usersList = g.fromJson(reader, USERS_TYPE);
-//			System.out.println("list test");
+//			System.out.println("users list test");
 //			System.out.println(usersList.toString());
-//			System.out.println("list test");
+//			System.out.println("users list test");
 			
 			//fill hashmap from arraylist
 			for (User userIt : usersList) {
 				users.put(userIt.getId(), userIt);
 			}
 			
-			System.out.println("hashmap test");
+			System.out.println("users hashmap test");
 			System.out.println(users.toString());
-			System.out.println("hashmap test");
+			System.out.println("users hashmap test");
 			//System.out.println(getCurrentUser());
 		} catch (Exception e) {
 			e.printStackTrace();

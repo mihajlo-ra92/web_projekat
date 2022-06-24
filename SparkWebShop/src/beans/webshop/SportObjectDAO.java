@@ -16,7 +16,6 @@ import com.google.gson.stream.JsonReader;
 
 public class SportObjectDAO {
 	private HashMap<String, SportObject> sportObjects = new HashMap<String, SportObject>();
-	private ArrayList<SportObject> sportObjectsList = new ArrayList<SportObject>();
 	private String path;
 	private static Gson g = new Gson();
 	private static final java.lang.reflect.Type SPORTOBJECTS_TYPE = new TypeToken<ArrayList<SportObject>>() {
@@ -32,17 +31,16 @@ public class SportObjectDAO {
 			File file = new File(path + "/resources/JSON/sportObjects.json");
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
-			sportObjectsList = g.fromJson(reader, SPORTOBJECTS_TYPE);
-			System.out.println("list test");
-			System.out.println(sportObjectsList.toString());
-			System.out.println("list test");
+			ArrayList<SportObject> sportObjectsList = g.fromJson(reader, SPORTOBJECTS_TYPE);
 			
+			//hashmap from arraylist
 			for (SportObject soIt : sportObjectsList) {
 				sportObjects.put(soIt.getId(), soIt);
 			}
-			System.out.println("hashmap test");
-			System.out.println(sportObjects.toString());
-			System.out.println("hashmap test");
+			
+//			System.out.println("sport object hashmap test");
+//			System.out.println(sportObjects.toString());
+//			System.out.println("sport object hashmap test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,17 +56,16 @@ public class SportObjectDAO {
 	
 	public void addSportObjectsRequest(String req) throws FileNotFoundException {
 		SportObject so = g.fromJson(req, SportObject.class);
-		String id = Integer.toString(sportObjectsList.size()+1);
+		String id = Integer.toString(sportObjects.size()+1);
 		so.setId(id);
-		System.out.println("JSON PRINT::");
+		
+		System.out.println("JSON PRINT add request sport object:");
 		System.out.println(so.toString());
+		
 		addSportObject(so);
 	}
 	public void addSportObject(SportObject sportObject) throws FileNotFoundException {
-		System.out.println("sportObjects::");
-		System.out.println(g.toJson(sportObjects.values()));
 		sportObjects.put(sportObject.getId(), sportObject);
-		sportObjectsList.add(sportObject);
 		toJSON(path + "/resources/JSON/sportObjects.json");
 	}
 
@@ -92,10 +89,5 @@ public class SportObjectDAO {
 	/** Vraca proizvod na osnovu njegovog id-a. */
 	public SportObject getSportObject(String id) {
 		return sportObjects.get(id);
-	}
-
-	/** Vraca listu proizvoda. */
-	public ArrayList<SportObject> getSportObjectList() {
-		return sportObjectsList;
 	}
 }
