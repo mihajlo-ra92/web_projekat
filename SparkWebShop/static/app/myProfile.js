@@ -18,6 +18,9 @@ Vue.component("my-profile", {
 			<p>Birthdate: {{this.currentUser.birthDate}}</p>
 			<p>Gender: {{this.currentUser.gender}}</p>
 			<button type="button" v-on:click="startEdit()">Edit</button>
+			
+			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createSportObject()">Create sport object</button>
+			
 		</div>
 	</div>	
 	
@@ -29,6 +32,11 @@ Vue.component("my-profile", {
 		startEdit(){
 			console.log("Pushing router to edit profile!");
 			router.push('/edit-profile')
+		},
+		
+		createSportObject(){
+			console.log("Pushing router to create sport object!");
+			router.push('/create-sport-object')
 		}
 	},
 	mounted () {

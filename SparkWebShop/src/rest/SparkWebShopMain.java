@@ -40,11 +40,6 @@ public class SparkWebShopMain {
 			return g.toJson(users.getCurrentUser());
 		});
 		
-		get("/rest/proizvodi/getJustProducts", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(products.values());
-		});
-		
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(sportObjects.values());
@@ -53,16 +48,6 @@ public class SparkWebShopMain {
 		get("/rest/proizvodi/getJustUsers", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(users.values());
-		});
-		
-		get("/rest/proizvodi/getJustSc", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(getSc(req).getItems());
-		});
-		
-		get("/rest/proizvodi/getTotal", (req, res) -> {
-			res.type("application/json");
-			return g.toJson(getSc(req).getTotal());
 		});
 		
 		get("rest/proizvodi/getUser", (req, res) -> {
@@ -74,21 +59,6 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			System.out.println(req.body());
 			users.editUserRequest(req.body());
-			return "OK";
-		});
-		
-		
-		post("/rest/proizvodi/add", (req, res) -> {
-			res.type("application/json");
-			String payload = req.body();
-			ProductToAdd pd = g.fromJson(payload, ProductToAdd.class);
-			getSc(req).addItem(products.getProduct(pd.id), pd.count);
-			return ("OK");
-		});
-		
-		post("/rest/proizvodi/clearSc", (req, res) -> {
-			res.type("application/json");
-			getSc(req).getItems().clear();
 			return "OK";
 		});
 		
@@ -108,15 +78,4 @@ public class SparkWebShopMain {
 			return isSuccessful;
 		});
 	}
-	
-	private static ShoppingCart getSc(Request req) {
-		Session ss = req.session(true);
-		ShoppingCart sc = ss.attribute("sc"); 
-		if (sc == null) {
-			sc = new ShoppingCart();
-			ss.attribute("sc", sc);
-		}
-		return sc;
-	}
-
 }
