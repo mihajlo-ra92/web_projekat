@@ -83,11 +83,6 @@ public class UserDAO {
 				users.replace(userIt.getId(), user);
 			}
 		}
-//		for (User userIt : usersList) {
-//			if (userIt.getId().equals(user.getId())) {
-//				users.replace(userIt.getId(), user);
-//			}
-//		}
 //		System.out.println("new hashmap:");
 //		for (User userIt : users.values()) {
 //			System.out.println(userIt.toString());
@@ -110,14 +105,16 @@ public class UserDAO {
 		addUser(us);
 		return true;
 	}
+	
 	public User getCurrentUser() {
-		return users.get("1");
+		return users.get("3");
 	}
+	
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
-		//usersList.add(user);
 		toJSON(path + "/users.json");
 	}
+	
 	private void toJSON(String filename) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(filename);
 		out.printf(g.toJson(users.values()));
@@ -126,11 +123,6 @@ public class UserDAO {
 	
 	/** Vraca kolekciju proizvoda. */
 	public Collection<User> values() {
-		return users.values();
-	}
-
-	/** Vraca kolekciju proizvoda. */
-	public Collection<User> getValues() {
 		return users.values();
 	}
 

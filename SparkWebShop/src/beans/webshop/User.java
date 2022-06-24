@@ -2,8 +2,8 @@ package beans.webshop;
 
 
 import java.time.LocalDate;
-
 import enums.Gender;
+import enums.Role;
 
 public class User {
 	private String id;
@@ -11,8 +11,9 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName;
-	private String birthDate; //zalio se kada je bio LocalDate
+	private String birthDate;
 	private Gender gender;
+	private Role role;
 	//istorija treninga ako je TRENER
 	//membershipFee ako je KUPAC
 	//sportski objekat ako je MENADZER
@@ -37,7 +38,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", gender=" + gender + ", birthDate=" + birthDate + "]";
+				+ ", lastName=" + lastName + ", birthDate=" + birthDate + ", gender=" + gender + ", role=" + role + "]";
 	}
 	public String getId() {
 		return id;
@@ -81,5 +82,10 @@ public class User {
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
-
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
 }

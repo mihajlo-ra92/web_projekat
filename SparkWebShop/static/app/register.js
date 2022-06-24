@@ -7,7 +7,8 @@ Vue.component("register", {
 				firstName: '',
 				lastName: '',
 				birthDate: '',
-				gender: ''
+				gender: '',
+				role: 'BUYER'
 			},
 			responseData : null
 		}
