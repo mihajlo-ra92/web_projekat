@@ -57,6 +57,15 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			return g.toJson(sportObjects.values());
 		});
+		
+		//SPORTOBJECT POST REQUESTS:
+		post("/rest/register-sport-object", (req, res) -> {
+			res.type("application/json");
+			System.out.println(req.body());
+			Boolean isSuccessful = sportObjects.addSportObjectsRequest(req.body());
+			System.out.println("Register sport object is successful: " + isSuccessful);
+			return isSuccessful;
+		});
 		//treba get za pretragu objekta na beku da napravim
 	}
 }
