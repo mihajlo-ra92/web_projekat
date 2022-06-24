@@ -19,10 +19,7 @@ import spark.Request;
 import spark.Session;
 
 public class SparkWebShopMain {
-
-	private static Products products = new Products();
-	private static Locations locations = new Locations();
-	private static SportObjectDAO sportObjects = new SportObjectDAO(locations);
+	private static SportObjectDAO sportObjects = new SportObjectDAO();
 	private static UserDAO users = new UserDAO();
 	private static Gson g = new Gson();
 

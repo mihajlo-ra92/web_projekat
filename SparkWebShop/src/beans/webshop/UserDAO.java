@@ -34,7 +34,7 @@ public class UserDAO {
 		
 		BufferedReader in = null;
 		try {
-			File file = new File(path + "/users.json");
+			File file = new File(path + "/resources/JSON/users.json");
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<User> usersList = g.fromJson(reader, USERS_TYPE);
@@ -87,7 +87,7 @@ public class UserDAO {
 //		for (User userIt : users.values()) {
 //			System.out.println(userIt.toString());
 //		}
-		toJSON(path + "/users.json");
+		toJSON(path + "/resources/JSON/users.json");
 	}
 	
 	public Boolean addUserRequest(String req) throws FileNotFoundException {
@@ -112,7 +112,7 @@ public class UserDAO {
 	
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
-		toJSON(path + "/users.json");
+		toJSON(path + "/resources/JSON/users.json");
 	}
 	
 	private void toJSON(String filename) throws FileNotFoundException {

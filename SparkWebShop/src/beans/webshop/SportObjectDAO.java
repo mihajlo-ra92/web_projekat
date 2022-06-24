@@ -21,14 +21,15 @@ public class SportObjectDAO {
 	private static Gson g = new Gson();
 	private static final java.lang.reflect.Type SPORTOBJECTS_TYPE = new TypeToken<ArrayList<SportObject>>() {
 	}.getType();
-	public SportObjectDAO(Locations locations) {
-		this(".", locations);
+	public SportObjectDAO() {
+		this(".");
 	}
-	public SportObjectDAO(String path, Locations locations) {
+	public SportObjectDAO(String path) {
 		this.path = path;
+		
 		BufferedReader in = null;
 		try {
-			File file = new File(path + "/sportObjects.json");
+			File file = new File(path + "/resources/JSON/sportObjects.json");
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			sportObjectsList = g.fromJson(reader, SPORTOBJECTS_TYPE);
@@ -68,7 +69,7 @@ public class SportObjectDAO {
 		System.out.println(g.toJson(sportObjects.values()));
 		sportObjects.put(sportObject.getId(), sportObject);
 		sportObjectsList.add(sportObject);
-		toJSON(path + "/sportObjects.json");
+		toJSON(path + "/resources/JSON/sportObjects.json");
 	}
 
 	private void toJSON(String filename) throws FileNotFoundException {
