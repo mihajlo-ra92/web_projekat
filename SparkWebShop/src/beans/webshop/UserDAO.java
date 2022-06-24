@@ -19,7 +19,7 @@ import enums.Gender;
 
 public class UserDAO {
 	private HashMap<String, User> users = new HashMap<String, User>();
-	private ArrayList<User> usersList = new ArrayList<User>();
+	//private ArrayList<User> usersList = new ArrayList<User>();
 	private User currentUser = new User();
 	private String path;
 	private static Gson g = new Gson();
@@ -37,7 +37,7 @@ public class UserDAO {
 			File file = new File(path + "/users.json");
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
-			usersList = g.fromJson(reader, USERS_TYPE);
+			ArrayList<User> usersList = g.fromJson(reader, USERS_TYPE);
 			System.out.println("list test");
 			System.out.println(usersList.toString());
 			System.out.println("list test");
@@ -62,80 +62,43 @@ public class UserDAO {
 		}
 	}
 	
-	public void editUserRequest(String req) throws FileNotFoundException {
-		req = req.substring(1, req.length() - 1);
-		String[] reqSplit = req.split(",");
+	public Boolean editUserRequest(String req) throws FileNotFoundException {
 		
-		String username = reqSplit[0].split(":")[1];
-		//removes first and last character
-		username = username.substring(1, username.length() - 1);
-		System.out.println("username: " + username);
-		
-		String password = reqSplit[1].split(":")[1];
-		//removes first and last character
-		password = password.substring(1, password.length() - 1);
-		System.out.println("password: " + password);
-		
-		String firstName = reqSplit[2].split(":")[1];
-		//removes first and last character
-		firstName = firstName.substring(1, firstName.length() - 1);
-		System.out.println("firstName: " + firstName);
-		
-		String lastName = reqSplit[3].split(":")[1];
-		//removes first and last character
-		lastName = lastName.substring(1, lastName.length() - 1);
-		System.out.println("lastName: " + lastName);
-		
-		String birthDateStr = reqSplit[4].split(":")[1];
-		//removes first and last character
-		birthDateStr = birthDateStr.substring(1, birthDateStr.length() - 1);
-		System.out.println("birthDateStr: " + birthDateStr);
-		
-		String genderStr = reqSplit[5].split(":")[1];
-		//removes first and last character
-		genderStr = genderStr.substring(1, genderStr.length() - 1);
-		System.out.println("genderStr: " + genderStr);
-		Gender gender = Gender.valueOf(genderStr); 
-		
-		
-		for (int i = 0; i < this.usersList.size(); i++ ) {
-			User newUser = usersList.get(i);
-			if(newUser.getUsername() == username) {
-				newUser.setId(usersList.get(i).getId());
-				newUser.setPassword(password);
-				users.get(usersList.get(i).getId()).setPassword(password);
-				newUser.setFirstName(firstName);
-				users.get(usersList.get(i).getId()).setFirstName(firstName);
-				newUser.setLastName(lastName);
-				users.get(usersList.get(i).getId()).setLastName(lastName);
-				newUser.setGender(gender);
-				users.get(usersList.get(i).getId()).setGender(gender);
-				newUser.setBirthDate(birthDateStr);
-				users.get(usersList.get(i).getId()).setBirthDate(birthDateStr);
-				usersList.set(i, newUser);
-				
+		User us = g.fromJson(req, User.class);
+		System.out.println("JSON PRINT::");
+		System.out.println(us.toString());
+		for (User userIt : users.values()) {
+			if ((userIt.getUsername().equals(us.getUsername())) &
+					!(userIt.getId().equals(us.getId()))) {
+				return false;
 			}
-			toCSV(path + "/users.txt");
 		}
+		editUser(us);
+		return true;
 	}
 		
-	private void toCSV(String filename) throws FileNotFoundException {
-			
-		PrintWriter out = new PrintWriter(filename);
+	private void editUser(User user) throws FileNotFoundException {
 		for (User userIt : users.values()) {
-			out.printf(userIt.getId() + ";" + userIt.getUsername()
-			+ ";" + userIt.getPassword() + ";" + userIt.getFirstName()
-			+ ";" + userIt.getLastName() + ";" + userIt.getBirthDate()
-			+ ";" + userIt.getGender().toString()
-			+ "\n");
+			if (userIt.getId().equals(user.getId())) {
+				users.replace(userIt.getId(), user);
+			}
 		}
-		out.close();
+//		for (User userIt : usersList) {
+//			if (userIt.getId().equals(user.getId())) {
+//				users.replace(userIt.getId(), user);
+//			}
+//		}
+//		System.out.println("new hashmap:");
+//		for (User userIt : users.values()) {
+//			System.out.println(userIt.toString());
+//		}
+		toJSON(path + "/users.json");
 	}
 	
 	public Boolean addUserRequest(String req) throws FileNotFoundException {
 		
 		User us = g.fromJson(req, User.class);
-		String id = Integer.toString(usersList.size()+1);
+		String id = Integer.toString(users.size()+1);
 		us.setId(id);
 		System.out.println("JSON PRINT::");
 		System.out.println(us.toString());
@@ -152,7 +115,7 @@ public class UserDAO {
 	}
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
-		usersList.add(user);
+		//usersList.add(user);
 		toJSON(path + "/users.json");
 	}
 	private void toJSON(String filename) throws FileNotFoundException {
@@ -174,10 +137,5 @@ public class UserDAO {
 	/** Vraca proizvod na osnovu njegovog id-a. */
 	public User getUser(String id) {
 		return users.get(id);
-	}
-
-	/** Vraca listu proizvoda. */
-	public ArrayList<User> getUserList() {
-		return usersList;
 	}
 }

@@ -41,6 +41,17 @@ Vue.component("edit-profile", {
 	methods : {
 		submit: function(){
 			console.log("Submit!");
+			axios
+				.post('rest/edit-profile', this.user)
+				.then(response => {
+					if (response.data === false){
+					toast("Failed, username is taken!");
+					}
+					else {
+						toast("Succesfully edited user!");
+					}
+				})
+				.catch((error) => console.log(error));
 		}
 	},
 	mounted () {
