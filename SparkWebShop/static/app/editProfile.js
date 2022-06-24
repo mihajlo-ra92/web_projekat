@@ -1,21 +1,23 @@
-Vue.component("register", {
+Vue.component("edit-profile", {
 	data: function () {
-		return {
-			user: {
+		    return {
+				user: {
+				id: '',
 				username: '',
 				password: '',
 				firstName: '',
 				lastName: '',
 				birthDate: '',
 				gender: ''
-			},
-			responseData : null
-		}
+				}
+		    }
 	},
+	
 	template: ` 
 <div class="h-100 d-flex align-items-center justify-content-center">
 	<div>
-		<p>Register user</p>
+		Edit profile:
+		<br>
 		<input type="text" name="username" v-model="user.username" placeholder="Username" />
 		<br>
 		<input type="text" name="password" v-model="user.password" placeholder="Password" />
@@ -24,39 +26,38 @@ Vue.component("register", {
 		<br>
 		<input type="text" name="lastName" v-model="user.lastName" placeholder="Last name" />
 		<br>
-		
-		<input type="date" id="birthDate" name="birthDate"
-       	value="2022-01-01" v-model=user.birthDate
-       	min="1900-01-01" max="2122-01-01">
-       	<br>
-       	
 		<input type="radio" name="gender" value="MALE" v-model="user.gender">Male
 		<br>
 		<input type="radio" name="gender" value="FEMALE" v-model="user.gender">Female
 		<br>
-		<button v-on:click="register" >Register</button>
-	</div>		  
-</div>
-`	  
-	, 
+		<button v-on:click="submit" >Register</button>
+	
+	</div>	
+	
+	
+</div>	  
+`
+	,
 	methods : {
-		register : function (){
-		console.log("Register!!!");
-		axios
-		    .post('/rest/register', this.user)
-		    .then(response => {
-				if (response.data === false){
+		submit: function(){
+			console.log("Submit!");
+			axios
+				.post('rest/edit-profile', this.user)
+				.then(response => {
+					if (response.data === false){
 					toast("Failed, username is taken!");
-				}
-				else {
-					toast("Succesfully registered user!");
-				}
-		})
-		    .catch((error) => console.log(error));
-		
+					}
+					else {
+						toast("Succesfully edited user!");
+					}
+				})
+				.catch((error) => console.log(error));
 		}
 	},
 	mounted () {
-		console.log("Mounted register!");
-    },
-});	  
+        console.log("Mounted EditProfile");
+        axios
+			.get('rest/getCurrentUser')
+      		.then(response => (this.user = response.data))
+    }
+});
