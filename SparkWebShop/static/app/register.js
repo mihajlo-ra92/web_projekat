@@ -44,20 +44,16 @@ Vue.component("register", {
 		console.log("Register!!!");
 		axios
 		    .post('/rest/register', this.user)
-		    .then(response => (this.responseData = response.data))
+		    .then(response => {
+				if (response.data === false){
+					toast("Failed, username is taken!");
+				}
+				else {
+					toast("Succesfully registered user!");
+				}
+		})
 		    .catch((error) => console.log(error));
-		console.log("response data: " + this.responseData);
-		console.log("real response: " + response.data);
-		if (this.responseData === false){
-			toast("Failed, username is taken!");
-		}
-		else {
-			toast("Succesfully registered user!");
-		}
-		//if response.data === false
-			//failed login
-		//else
-			//successful login
+		
 		}
 	},
 	mounted () {
