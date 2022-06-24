@@ -18,8 +18,10 @@ Vue.component("my-profile", {
 			<p>Birthdate: {{this.currentUser.birthDate}}</p>
 			<p>Gender: {{this.currentUser.gender}}</p>
 			<button type="button" v-on:click="startEdit()">Edit</button>
-			
+			<br>
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createSportObject()">Create sport object</button>
+			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createMenager()">Create menager</button>
+			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createTrainer()">Create trainer</button>
 			
 		</div>
 	</div>	
@@ -37,6 +39,16 @@ Vue.component("my-profile", {
 		createSportObject(){
 			console.log("Pushing router to create sport object!");
 			router.push('/create-sport-object')
+		},
+		
+		createMenager(){
+			console.log("Pushing router to create menager!");
+			router.push('/create-menager')
+		},
+		
+		createTrainer(){
+			console.log("Pushing router to create trainer!");
+			router.push('/create-trainer')
 		}
 	},
 	mounted () {
