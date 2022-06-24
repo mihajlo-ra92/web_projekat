@@ -22,6 +22,9 @@ Vue.component("my-profile", {
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createSportObject()">Create sport object</button>
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createMenager()">Create menager</button>
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createTrainer()">Create trainer</button>
+			<br>
+			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="listUsers()">List users</button>
+			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="listSportObjects()">List sport objects</button>
 			
 		</div>
 	</div>	
@@ -49,6 +52,16 @@ Vue.component("my-profile", {
 		createTrainer(){
 			console.log("Pushing router to create trainer!");
 			router.push('/create-trainer')
+		},
+		
+		listUsers(){
+			console.log("Pushing router to list users!");
+			router.push('/list-users')
+		},
+		
+		listSportObjects(){
+			console.log("Pushing router to list sport objects!");
+			router.push('/list-sport-objects')
 		}
 	},
 	mounted () {
