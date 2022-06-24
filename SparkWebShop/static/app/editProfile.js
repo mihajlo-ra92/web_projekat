@@ -26,6 +26,12 @@ Vue.component("edit-profile", {
 		<br>
 		<input type="text" name="lastName" v-model="user.lastName" placeholder="Last name" />
 		<br>
+		<input type="radio" name="gender" value="MALE" v-model="user.gender">Male
+		<br>
+		<input type="radio" name="gender" value="FEMALE" v-model="user.gender">Female
+		<br>
+		<button v-on:click="submit" >Register</button>
+	
 	</div>	
 	
 	
@@ -33,9 +39,8 @@ Vue.component("edit-profile", {
 `
 	,
 	methods : {
-		startEdit(){
-			console.log("Pushing router to edit profile!");
-			router.push('/edit-profile')
+		submit: function(){
+			console.log("Submit!");
 		}
 	},
 	mounted () {
