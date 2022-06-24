@@ -51,9 +51,8 @@ Vue.component("register", {
 				else {
 					toast("Succesfully registered user!");
 				}
-		})
-		    .catch((error) => console.log(error));
-		
+			})
+	    	.catch((error) => console.log(error));
 		}
 	},
 	mounted () {
