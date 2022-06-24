@@ -1,7 +1,15 @@
 Vue.component("my-profile", {
 	data: function () {
 		    return {
-				currentUser: null
+				currentUser: null,
+				input: {
+                    username: "",
+                    firstname:"",
+                    lastname:"",
+                    birthdate:"",
+                    gender:""
+                },
+                editing: false
 		    }
 	},
 	
@@ -10,7 +18,7 @@ Vue.component("my-profile", {
 	<div>
 		My profile:
 		<br>
-		<div v-if="currentUser != null">
+		<div v-if="currentUser != null" v-if="!editing" >
 			<p>Username: {{this.currentUser.username}}</p>
 			<p>Password: {{this.currentUser.password}}</p>
 			<p>First name: {{this.currentUser.firstName}}</p>
@@ -27,8 +35,21 @@ Vue.component("my-profile", {
 	,
 	methods : {
 		startEdit(){
-			console.log("Pushing router to edit profile!");
-			router.push('/edit-profile')
+			console.log("editing is currently: " + this.editing);
+			this.editing = true;
+			console.log("editing is after change: " + this.editing);
+		},
+        edit(){
+		 	axios
+			 	.post('rest/proizvodi/editUser')
+			 	.then(response => (console.log(response)))
+				.catch((error) => console.log(error));
+			router.push('/sportObjects');
+		},
+		cancal(){
+			axios
+	          	.get('/rest/proizvodi/getUser')
+	          	.then(response => (this.currentUser = response.data))
 		}
 	},
 	mounted () {

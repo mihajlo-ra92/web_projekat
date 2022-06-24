@@ -8,7 +8,8 @@ Vue.component("register", {
 				lastName: '',
 				birthDate: '',
 				gender: ''
-			}
+			},
+			responseData : null
 		}
 	},
 	template: ` 
@@ -41,12 +42,18 @@ Vue.component("register", {
 	methods : {
 		register : function (){
 		console.log("Register!!!");
-		
 		axios
 		    .post('/rest/register', this.user)
-		    .then(response => (console.log(response)))
+		    .then(response => (this.responseData = response.data))
 		    .catch((error) => console.log(error));
-		toast("Successfuly registered user!")
+		console.log("response data: " + this.responseData);
+		console.log("real response: " + response.data);
+		if (this.responseData === false){
+			toast("Failed, username is taken!");
+		}
+		else {
+			toast("Succesfully registered user!");
+		}
 		//if response.data === false
 			//failed login
 		//else
@@ -55,8 +62,5 @@ Vue.component("register", {
 	},
 	mounted () {
 		console.log("Mounted register!");
-        axios
-          .get('rest/proizvodi/getJustSportObjects')
-          .then(response => (this.sportObjects = response.data))
     },
 });	  

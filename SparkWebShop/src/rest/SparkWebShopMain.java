@@ -95,8 +95,9 @@ public class SparkWebShopMain {
 		post("/rest/register", (req, res) -> {
 			res.type("application/json");
 			System.out.println(req.body());
-			users.addUserRequest(req.body());
-			return "OK";
+			Boolean isSuccessful = users.addUserRequest(req.body());
+			System.out.println("isSuccessful: " + isSuccessful);
+			return isSuccessful;
 		});
 	}
 	
