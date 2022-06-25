@@ -41,13 +41,14 @@ public class SparkWebShopMain {
 			return g.toJson(users.values());
 		});
 		
+		//USER POST REQUESTS:
 		post("/rest/proizvodi/log-in", (req, res) -> {
 			res.type("application/json");
-			System.out.println("REQ BODY:::");
-			System.out.println(req.body());
+			//System.out.println("REQ BODY:::");
+			//System.out.println(req.body());
 			User testUs = users.getUser(req.session().attribute("logednUserId"));
-			System.out.println("loged user:");
-			System.out.println(testUs);
+			//System.out.println("loged user:");
+			//System.out.println(testUs);
 			if (testUs != null) {
 				return "403";
 			}
@@ -63,7 +64,6 @@ public class SparkWebShopMain {
 			return "OK";
 		});
 		
-		//USER POST REQUESTS:
 		post("/rest/register", (req, res) -> {
 			res.type("application/json");
 			System.out.println(req.body());
