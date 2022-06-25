@@ -10,7 +10,7 @@ Vue.component("create-menager", {
 				birthDate: '',
 				gender: '',
 				role: 'MENAGER'
-			}
+				}
 		    }
 	},
 	template: ` 
