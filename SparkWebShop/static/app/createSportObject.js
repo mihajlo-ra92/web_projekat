@@ -56,22 +56,27 @@ Vue.component("create-sport-object", {
 `
 	,
 	methods : {
-		register(){
+		register : function(){
 			console.log("Register clicked!");
-			this.sportObject.workHours = this.timeInput.timeStart
-			 + "-" + this.timeInput.timeEnd;
-			console.log(this.sportObject.workHours);
-			axios
-		    .post('/rest/register-sport-object', this.sportObject)
-		    .then(response => {
-				if (response.data === false){
-					toast("Failed, sport object name is taken!");
-				}
-				else {
-					toast("Succesfully registered sport object!");
-				}
-			})
-	    	.catch((error) => console.log(error));
+			if (this.currentUser.role != 'ADMIN'){
+				toast("You are not loged in as admin!")
+			}
+			else {
+				this.sportObject.workHours = this.timeInput.timeStart
+				 + "-" + this.timeInput.timeEnd;
+				console.log(this.sportObject.workHours);
+				axios
+			    .post('/rest/register-sport-object', this.sportObject)
+			    .then(response => {
+					if (response.data === false){
+						toast("Failed, sport object name is taken!");
+					}
+					else {
+						toast("Succesfully registered sport object!");
+					}
+				})
+		    	.catch((error) => console.log(error));
+			}
 		}
 	},
 	mounted () {
