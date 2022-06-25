@@ -59,7 +59,11 @@ Vue.component("home", {
 						router.push('/sportObjects');
 						LogedInUser = this.users[i];
 						console.log(LogedInUser);
+					
 					}
+					axios
+						.post('rest/proizvodi/log-in', this.input)
+						.then(response => (localStorage.setItem('loggedUser', response.data)))
             	}
 				if(this.approved === false){
 					console.log('Failed log in!!!!');

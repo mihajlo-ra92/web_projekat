@@ -142,4 +142,13 @@ public class UserDAO {
 	public User getUser(String id) {
 		return users.get(id);
 	}
+	
+	public User getUserByUsername(String username) {
+		for (User userIt : users.values()) {
+			if (userIt.getUsername().equals(username)) {
+				return userIt;
+			}
+		}
+		return null;
+	}
 }

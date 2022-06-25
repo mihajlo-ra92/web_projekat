@@ -7,6 +7,7 @@ import static spark.Spark.staticFiles;
 import java.io.File;
 import com.google.gson.Gson;
 import beans.webshop.SportObjectDAO;
+import beans.webshop.User;
 import beans.webshop.UserDAO;
 
 public class SparkWebShopMain {
@@ -27,12 +28,34 @@ public class SparkWebShopMain {
 		//USER GET REQUESTS:
 		get("/rest/getCurrentUser", (req, res) -> {
 			res.type("application/json");
-			return g.toJson(users.getCurrentUser());
+			User us = users.getUser(req.session().attribute("logednUserId"));
+			System.out.println(us.toString());
+			return g.toJson(us);
 		});
 		
 		get("/rest/proizvodi/getJustUsers", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(users.values());
+		});
+		
+		post("/rest/proizvodi/log-in", (req, res) -> {
+			res.type("application/json");
+			System.out.println("REQ BODY:::");
+			System.out.println(req.body());
+			User testUs = users.getUser(req.session().attribute("logednUserId"));
+			if (testUs != null) {
+				return "403";
+			}
+			User us = g.fromJson(req.body(), User.class);
+			User user = users.getUserByUsername(us.getUsername());
+			req.session().attribute("logednUserId", user.getId());
+			return g.toJson(us);
+		});
+		
+		post("/rest/proizvodi/log-out", (req, res) -> {
+			res.type("application/json");
+			req.session().invalidate();
+			return "OK";
 		});
 		
 		//USER POST REQUESTS:
