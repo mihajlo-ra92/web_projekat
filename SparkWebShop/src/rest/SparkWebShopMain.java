@@ -29,6 +29,9 @@ public class SparkWebShopMain {
 		get("/rest/getCurrentUser", (req, res) -> {
 			res.type("application/json");
 			User us = users.getUser(req.session().attribute("logednUserId"));
+			if (us == null) {
+				return "404";
+			}
 			System.out.println(us.toString());
 			return g.toJson(us);
 		});
@@ -43,6 +46,8 @@ public class SparkWebShopMain {
 			System.out.println("REQ BODY:::");
 			System.out.println(req.body());
 			User testUs = users.getUser(req.session().attribute("logednUserId"));
+			System.out.println("loged user:");
+			System.out.println(testUs);
 			if (testUs != null) {
 				return "403";
 			}
@@ -52,7 +57,7 @@ public class SparkWebShopMain {
 			return g.toJson(us);
 		});
 		
-		post("/rest/proizvodi/log-out", (req, res) -> {
+		post("/rest/log-out", (req, res) -> {
 			res.type("application/json");
 			req.session().invalidate();
 			return "OK";
