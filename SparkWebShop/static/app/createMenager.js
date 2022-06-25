@@ -45,18 +45,23 @@ Vue.component("create-menager", {
 	,
 	methods : {
 		register : function (){
-		console.log("Register!!!");
-		axios
-		    .post('/rest/register', this.user)
-		    .then(response => {
-				if (response.data === false){
-					toast("Failed, username is taken!");
-				}
-				else {
-					toast("Succesfully registered user!");
-				}
-			})
-	    	.catch((error) => console.log(error));
+			console.log("Register!!!");
+			if (this.currentUser.role != 'ADMIN'){
+				toast("You are not loged in as admin!")
+			}
+			else {
+				axios
+			    .post('/rest/register', this.user)
+			    .then(response => {
+					if (response.data === false){
+						toast("Failed, username is taken!");
+					}
+					else {
+						toast("Succesfully registered user!");
+					}
+				})
+		    	.catch((error) => console.log(error));
+			}
 		}
 	},
 	mounted () {
