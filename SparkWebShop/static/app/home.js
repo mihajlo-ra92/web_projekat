@@ -76,7 +76,6 @@ Vue.component("home", {
 					})
 				}
         },
-		
 	},
 	mounted () {
         console.log("Mounted home");

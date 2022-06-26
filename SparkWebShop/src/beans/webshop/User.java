@@ -1,7 +1,6 @@
 package beans.webshop;
 
 
-import java.time.LocalDate;
 import enums.Gender;
 import enums.Role;
 

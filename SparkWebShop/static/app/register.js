@@ -8,7 +8,11 @@ Vue.component("register", {
 				lastName: '',
 				birthDate: '',
 				gender: '',
-				role: 'BUYER'
+				role: 'BUYER',
+				membership : null,
+				visitedSportObject : null,
+				points : null,
+				buyerType : null
 			},
 			responseData : null
 		}
