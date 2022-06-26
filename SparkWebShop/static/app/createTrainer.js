@@ -3,13 +3,14 @@ Vue.component("create-trainer", {
 		    return {
 				currentUser: null,
 				user: {
-				username: '',
-				password: '',
-				firstName: '',
-				lastName: '',
-				birthDate: '',
-				gender: '',
-				role: 'TRAINER'
+					username: '',
+					password: '',
+					firstName: '',
+					lastName: '',
+					birthDate: '',
+					gender: '',
+					role: 'TRAINER',
+					trainingHistory: null
 				}
 		    }
 	},
@@ -45,13 +46,12 @@ Vue.component("create-trainer", {
 	,
 	methods : {
 		register : function (){
-			console.log("Register!!!");
 			if (this.currentUser.role != 'ADMIN'){
 				toast("You are not loged in as admin!")
 			}
 			else {
 				axios
-			    .post('/rest/register', this.user)
+			    .post('/rest/register-trainer', this.user)
 			    .then(response => {
 					if (response.data === false){
 						toast("Failed, username is taken!");

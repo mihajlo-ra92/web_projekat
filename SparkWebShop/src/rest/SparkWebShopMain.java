@@ -80,6 +80,14 @@ public class SparkWebShopMain {
 			return isSuccessful;
 		});
 		
+		post("/rest/register-trainer", (req, res) -> {
+			res.type("application/json");
+			System.out.println(req.body());
+			Boolean isSuccessful = users.addTrainerRequest(req.body());
+			System.out.println("Register is successful: " + isSuccessful);
+			return isSuccessful;
+		});
+		
 		post("/rest/edit-profile", (req, res) -> {
 			res.type("application/json");
 			System.out.println(req.body());

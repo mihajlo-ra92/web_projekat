@@ -18,7 +18,7 @@ public class UserDAO {
 	private HashMap<String, User> users = new HashMap<String, User>();
 	private HashMap<String, Buyer> buyers = new HashMap<String, Buyer>();
 	private HashMap<String, Menager> menagers= new HashMap<String, Menager>();
-	//private ArrayList<User> usersList = new ArrayList<User>();
+	private HashMap<String, Trainer> trainers= new HashMap<String, Trainer>();
 	
 	private String path;
 	private static Gson g = new Gson();
@@ -57,40 +57,51 @@ public class UserDAO {
 			JsonReader menagersReader = new JsonReader(new FileReader(menagersFile));
 			ArrayList<Menager> menagersList = g.fromJson(menagersReader, MENAGERS_TYPE);
 			
-			System.out.println("menagers list test");
-			//System.out.println(menagersList.toString());
-			System.out.println("menagers list test");
+			//reading users
+			File trainersFile = new File(path + "/resources/JSON/trainers.json");
+			System.out.println(trainersFile.getCanonicalPath());
+			JsonReader trainersReader = new JsonReader(new FileReader(trainersFile));
+			ArrayList<Trainer> trainersList = g.fromJson(trainersReader, TRAINERS_TYPE);
 			
-//			System.out.println("users list test");
-//			System.out.println(usersList.toString());
-//			System.out.println("users list test");
+//			System.out.println("trainers list test");
+//			System.out.println(trainersList.toString());
+//			System.out.println("trainers list test");
 			
 			//fill users hashmap from arraylist
 			for (User userIt : usersList) {
 				users.put(userIt.getId(), userIt);
 			}
 			
-			System.out.println("users hashmap test");
-			System.out.println(users.toString());
-			System.out.println("users hashmap test");
+//			System.out.println("users hashmap test");
+//			System.out.println(users.toString());
+//			System.out.println("users hashmap test");
 			
 			//fill buyers hashmap from arraylist
 			for (Buyer buyerIt : buyersList) {
 				buyers.put(buyerIt.getId(), buyerIt);
 			}
 			
-			System.out.println("buyers hashmap test");
-			System.out.println(buyers.toString());
-			System.out.println("buyers hashmap test");
+//			System.out.println("buyers hashmap test");
+//			System.out.println(buyers.toString());
+//			System.out.println("buyers hashmap test");
 			
 			//fill menagers hashmap from arraylist
-//			for (Menager menagerIt : menagersList) {
-//				menagers.put(menagerIt.getId(), menagerIt);
-//			}
+			for (Menager menagerIt : menagersList) {
+				menagers.put(menagerIt.getId(), menagerIt);
+			}
 			
-			System.out.println("menagers hashmap test");
-			System.out.println(menagers.toString());
-			System.out.println("menagers hashmap test");
+//			System.out.println("menagers hashmap test");
+//			System.out.println(menagers.toString());
+//			System.out.println("menagers hashmap test");
+			
+			//fill users hashmap from arraylist
+			for (Trainer trainerIt : trainersList) {
+				trainers.put(trainerIt.getId(), trainerIt);
+			}
+			
+//			System.out.println("trainers hashmap test");
+//			System.out.println(trainers.toString());
+//			System.out.println("trainers hashmap test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -179,6 +190,29 @@ public class UserDAO {
 		return true;
 	}
 
+public Boolean addTrainerRequest(String req) throws FileNotFoundException {
+		
+		Trainer tr= g.fromJson(req, Trainer.class);
+		//User us = g.fromJson(req, User.class);
+		String id = Integer.toString(users.size()+1);
+		tr.setId(id);
+		
+		System.out.println("JSON PRINT of add request trainer object:");
+		System.out.println(tr.toString());
+		
+		for (User userIt : users.values()) {
+			if (usernamesAreSame(userIt, tr)) {
+				System.out.println("Username taken!");
+				return false;
+			}
+		}
+		User us = (User) tr;
+		//System.out.println("BUYER CASTED TO USER:" + us);
+		addUser(us);
+		addTrainer(tr);
+		return true;
+	}
+	
 	private Boolean usernamesAreSame(User us1, User us2) {
 		return (us1.getUsername().equals(us2.getUsername()));
 	}
@@ -198,6 +232,11 @@ public class UserDAO {
 		toJSON(path + "/resources/JSON/menagers.json", "MENAGER");
 	}
 	
+	public void addTrainer(Trainer trainer) throws FileNotFoundException {
+		trainers.put(trainer.getId(), trainer);
+		toJSON(path + "/resources/JSON/trainers.json", "TRAINER");
+	}
+	
 	private void toJSON(String filename, String command) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(filename);
 		switch(command) {
@@ -212,6 +251,10 @@ public class UserDAO {
 		case "MENAGER":
 			System.out.println("menagers to json: " + menagers);
 			out.printf(g.toJson(menagers.values()));
+			break;
+		case "TRAINER":
+			System.out.println("trainers to json: " + trainers);
+			out.printf(g.toJson(trainers.values()));
 		default:
 			//
 		}
