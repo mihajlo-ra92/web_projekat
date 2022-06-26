@@ -1,6 +1,5 @@
 package beans.webshop;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,6 +11,8 @@ import java.util.HashMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+
+import enums.Role;
 
 
 public class UserDAO {
@@ -117,17 +118,31 @@ public class UserDAO {
 	
 	public Boolean editUserRequest(String req) throws FileNotFoundException {
 		
-		User us = g.fromJson(req, User.class);
+		User user = g.fromJson(req, User.class);
 		
 		System.out.println("JSON PRINT of edit request user object:");
-		System.out.println(us.toString());
+		System.out.println(user.toString());
 		
 		for (User userIt : users.values()) {
-			if (usernamesAreSameEdit(userIt, us)) {
+			if (usernamesAreSameEdit(userIt, user)) {
 				return false;
 			}
 		}
-		editUser(us);
+		editUser(user);
+		if (user.getRole() == Role.BUYER) {
+			Buyer buyer = g.fromJson(req, Buyer.class);
+			editBuyer(buyer);
+		}
+		
+		if (user.getRole() == Role.MENAGER) {
+			Menager menager = g.fromJson(req, Menager.class);
+			editMenager(menager);
+		}
+		
+		if (user.getRole() == Role.TRAINER) {
+			Trainer trainer = g.fromJson(req, Trainer.class);
+			editTrainer(trainer);
+		}
 		return true;
 	}
 	private Boolean usernamesAreSameEdit(User us1, User us2) {
@@ -142,6 +157,33 @@ public class UserDAO {
 			}
 		}
 		toJSON(path + "/resources/JSON/users.json", "USER");
+	}
+	
+	private void editBuyer(Buyer buyer) throws FileNotFoundException {
+		for (Buyer buyerIt : buyers.values()) {
+			if (buyerIt.getId().equals(buyer.getId())) {
+				buyers.replace(buyerIt.getId(), buyer);
+			}
+		}
+		toJSON(path + "/resources/JSON/buyers.json", "BUYER");
+	}
+	
+	private void editMenager(Menager menager) throws FileNotFoundException {
+		for (Menager menagerIt : menagers.values()) {
+			if (menagerIt.getId().equals(menager.getId())) {
+				menagers.replace(menagerIt.getId(), menager);
+			}
+		}
+		toJSON(path + "/resources/JSON/menagers.json", "MENAGER");
+	}
+	
+	private void editTrainer(Trainer trainer) throws FileNotFoundException {
+		for (Trainer trainerIt : trainers.values()) {
+			if (trainerIt.getId().equals(trainer.getId())) {
+				trainers.replace(trainerIt.getId(), trainer);
+			}
+		}
+		toJSON(path + "/resources/JSON/trainers.json", "TRAINER");
 	}
 	
 	public Boolean addBuyerRequest(String req) throws FileNotFoundException {
@@ -190,7 +232,7 @@ public class UserDAO {
 		return true;
 	}
 
-public Boolean addTrainerRequest(String req) throws FileNotFoundException {
+	public Boolean addTrainerRequest(String req) throws FileNotFoundException {
 		
 		Trainer tr= g.fromJson(req, Trainer.class);
 		//User us = g.fromJson(req, User.class);
@@ -222,6 +264,7 @@ public Boolean addTrainerRequest(String req) throws FileNotFoundException {
 		System.out.println("PUTING USER: " + user);
 		toJSON(path + "/resources/JSON/users.json", "USER");
 	}
+	
 	public void addBuyer(Buyer buyer) throws FileNotFoundException {
 		buyers.put(buyer.getId(), buyer);
 		toJSON(path + "/resources/JSON/buyers.json", "BUYER");
@@ -263,6 +306,16 @@ public Boolean addTrainerRequest(String req) throws FileNotFoundException {
 		
 	}
 	
+	public Collection<Menager> getMenagersWithoutSportObject(){
+		ArrayList<Menager> collection = new ArrayList<Menager>();
+		for (Menager menagerIt : menagers.values()) {
+			if (menagerIt.getSportObject() == null) {
+				collection.add(menagerIt);
+			}
+		}
+		return collection;
+	}
+	
 	/** Vraca kolekciju proizvoda. */
 	public Collection<User> values() {
 		return users.values();
@@ -271,6 +324,18 @@ public Boolean addTrainerRequest(String req) throws FileNotFoundException {
 	/** Vraca proizvod na osnovu njegovog id-a. */
 	public User getUser(String id) {
 		return users.get(id);
+	}
+	
+	public Buyer getBuyer(String id) {
+		return buyers.get(id);
+	}
+	
+	public Menager getMenager(String id) {
+		return menagers.get(id);
+	}
+	
+	public Trainer getTrainer(String id) {
+		return trainers.get(id);
 	}
 	
 	public User getUserByUsername(String username) {

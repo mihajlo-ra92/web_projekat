@@ -6,8 +6,7 @@ public class Workout {
 	private String workoutType;
 	private SportObject sportObject;
 	private String workoutDuration; //u minutima ili satima
-	private User trainer; //can be null
-	private String destription;
+	private String description;
 	//slika ??
 	public Workout() {
 		// TODO Auto-generated constructor stub

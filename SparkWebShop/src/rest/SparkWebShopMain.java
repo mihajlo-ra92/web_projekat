@@ -6,9 +6,14 @@ import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 import java.io.File;
 import com.google.gson.Gson;
+
+import beans.webshop.Buyer;
+import beans.webshop.Menager;
 import beans.webshop.SportObjectDAO;
+import beans.webshop.Trainer;
 import beans.webshop.User;
 import beans.webshop.UserDAO;
+import enums.Role;
 
 public class SparkWebShopMain {
 	private static SportObjectDAO sportObjects = new SportObjectDAO();
@@ -28,12 +33,28 @@ public class SparkWebShopMain {
 		//USER GET REQUESTS:
 		get("/rest/getCurrentUser", (req, res) -> {
 			res.type("application/json");
-			User us = users.getUser(req.session().attribute("logednUserId"));
-			if (us == null) {
+			User user = users.getUser(req.session().attribute("logednUserId"));
+			if (user == null) {
 				return "404";
 			}
-			System.out.println(us.toString());
-			return g.toJson(us);
+			System.out.println(user.toString());
+			switch (user.getRole()){
+			case BUYER:
+				Buyer buyer = users.getBuyer(user.getId());
+				System.out.println("RETURNING BUYER");
+				return g.toJson(buyer);
+			case MENAGER:
+				Menager menager = users.getMenager(user.getId());
+				System.out.println("RETURNING MENAGER");
+				return g.toJson(menager);
+			case TRAINER:
+				Trainer trainer = users.getTrainer(user.getId());
+				System.out.println("RETURNING TRAINER");
+				return g.toJson(trainer);
+			default:
+				System.out.println("RETURNING USER");
+				return g.toJson(user);
+			}
 		});
 		
 		get("/rest/proizvodi/getJustUsers", (req, res) -> {

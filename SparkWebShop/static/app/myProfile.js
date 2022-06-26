@@ -11,26 +11,35 @@ Vue.component("my-profile", {
 		My profile:
 		<br>
 		<div v-if="currentUser != null">
-			<p>Username: {{this.currentUser.username}}</p>
-			<p>Password: {{this.currentUser.password}}</p>
-			<p>First name: {{this.currentUser.firstName}}</p>
-			<p>Last name: {{this.currentUser.lastName}}</p>
-			<p>Birthdate: {{this.currentUser.birthDate}}</p>
-			<p>Gender: {{this.currentUser.gender}}</p>
-			<button type="button" v-on:click="startEdit()">Edit</button>
-			<br>
-			<button type="button" v-on:click="logOut()">Log out</button>
-			<br>
+			<div>
+				<p>Username: {{this.currentUser.username}}</p>
+				<p>Password: {{this.currentUser.password}}</p>
+				<p>First name: {{this.currentUser.firstName}}</p>
+				<p>Last name: {{this.currentUser.lastName}}</p>
+				<p>Birthdate: {{this.currentUser.birthDate}}</p>
+				<p>Gender: {{this.currentUser.gender}}</p>
+				<button type="button" v-on:click="startEdit()">Edit</button>
+				<br>
+				<button type="button" v-on:click="logOut()">Log out</button>
+				<br>
+			</div>
 			
-			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createSportObject()">Create sport object</button>
-			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createMenager()">Create menager</button>
-			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createTrainer()">Create trainer</button>
-			<br>
-			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="listUsers()">List users</button>
-			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="listSportObjects()">List sport objects</button>
+			<div v-if="currentUser.role.includes('ADMIN')">
+				<button type="button" v-on:click="createSportObject()">Create sport object</button>
+				<button type="button" v-on:click="createMenager()">Create menager</button>
+				<button type="button" v-on:click="createTrainer()">Create trainer</button>
+				<br>
+				<button type="button" v-on:click="listUsers()">List users</button>
+				<button type="button" v-on:click="listSportObjects()">List sport objects</button>
+			</div>
 			
+			<div v-if="currentUser.role.includes('MENAGER')">			
+				<button type="button" v-if="currentUser.role.includes('MENAGER')" v-on:click="showSportObject()">Show my sport object</button>
+			</div>
 			
-			<button type="button" v-if="currentUser.role.includes('MENAGER')" v-on:click="showSportObject()">Show my sport object</button>
+			<div v-if="currentUser.role.includes('TRAINER')">
+			Trainer options
+			</div>
 			
 		</div>
 	</div>	
@@ -82,6 +91,7 @@ Vue.component("my-profile", {
 		},
 		showSportObject(){
 			console.log("Show sport object selected!");
+			console.log(this.currentUser);
 		}
 	},
 	mounted () {
