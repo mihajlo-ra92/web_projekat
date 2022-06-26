@@ -19,6 +19,9 @@ Vue.component("my-profile", {
 			<p>Gender: {{this.currentUser.gender}}</p>
 			<button type="button" v-on:click="startEdit()">Edit</button>
 			<br>
+			<button type="button" v-on:click="logOut()">Log out</button>
+			<br>
+			
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createSportObject()">Create sport object</button>
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createMenager()">Create menager</button>
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="createTrainer()">Create trainer</button>
@@ -37,6 +40,17 @@ Vue.component("my-profile", {
 		startEdit(){
 			console.log("Pushing router to edit profile!");
 			router.push('/edit-profile')
+		},
+		
+		logOut(){
+			console.log("Log out clicked");
+			axios
+		    .post('rest/log-out')
+		    .then(response => {
+				console.log(response.data);
+			})
+	    	.catch((error) => console.log(error));
+			router.push('/');
 		},
 		
 		createSportObject(){
@@ -68,6 +82,13 @@ Vue.component("my-profile", {
         console.log("Mounted MyProfile");
         axios
 			.get('rest/getCurrentUser')
-      		.then(response => (this.currentUser = response.data))
+      		.then(response => {
+				if (response.data == '404'){
+					console.log('No loged in user!');
+				}
+				else {
+					this.currentUser = response.data
+				}
+			})
     }
 });

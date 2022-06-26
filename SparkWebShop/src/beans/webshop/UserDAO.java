@@ -1,6 +1,5 @@
 package beans.webshop;
 
-import java.awt.Window.Type;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,21 +8,27 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import enums.Gender;
 
 public class UserDAO {
 	private HashMap<String, User> users = new HashMap<String, User>();
-	//private ArrayList<User> usersList = new ArrayList<User>();
-	private User currentUser = new User();
+	private HashMap<String, Buyer> buyers = new HashMap<String, Buyer>();
+	private HashMap<String, Menager> menagers= new HashMap<String, Menager>();
+	private HashMap<String, Trainer> trainers= new HashMap<String, Trainer>();
+	
 	private String path;
 	private static Gson g = new Gson();
 	private static final java.lang.reflect.Type USERS_TYPE = new TypeToken<ArrayList<User>>() {
+	}.getType();
+	private static final java.lang.reflect.Type BUYERS_TYPE = new TypeToken<ArrayList<Buyer>>() {
+	}.getType();
+	private static final java.lang.reflect.Type MENAGERS_TYPE = new TypeToken<ArrayList<Menager>>() {
+	}.getType();
+	private static final java.lang.reflect.Type TRAINERS_TYPE = new TypeToken<ArrayList<Trainer>>() {
 	}.getType();
 	public UserDAO() {
 		this(".");
@@ -32,36 +37,82 @@ public class UserDAO {
 	public UserDAO(String path) {
 		this.path = path;
 		
-		BufferedReader in = null;
+		//BufferedReader in = null;
 		try {
-			File file = new File(path + "/resources/JSON/users.json");
-			System.out.println(file.getCanonicalPath());
-			JsonReader reader = new JsonReader(new FileReader(file));
-			ArrayList<User> usersList = g.fromJson(reader, USERS_TYPE);
-//			System.out.println("users list test");
-//			System.out.println(usersList.toString());
-//			System.out.println("users list test");
+			//reading users
+			File usersFile = new File(path + "/resources/JSON/users.json");
+			System.out.println(usersFile.getCanonicalPath());
+			JsonReader usersReader = new JsonReader(new FileReader(usersFile));
+			ArrayList<User> usersList = g.fromJson(usersReader, USERS_TYPE);
 			
-			//fill hashmap from arraylist
+			//reading buyers
+			File buyersFile = new File(path + "/resources/JSON/buyers.json");
+			System.out.println(buyersFile.getCanonicalPath());
+			JsonReader buyersReader = new JsonReader(new FileReader(buyersFile));
+			ArrayList<Buyer> buyersList = g.fromJson(buyersReader, BUYERS_TYPE);
+			
+			//reading menagers
+			File menagersFile = new File(path + "/resources/JSON/menagers.json");
+			System.out.println(menagersFile.getCanonicalPath());
+			JsonReader menagersReader = new JsonReader(new FileReader(menagersFile));
+			ArrayList<Menager> menagersList = g.fromJson(menagersReader, MENAGERS_TYPE);
+			
+			//reading users
+			File trainersFile = new File(path + "/resources/JSON/trainers.json");
+			System.out.println(trainersFile.getCanonicalPath());
+			JsonReader trainersReader = new JsonReader(new FileReader(trainersFile));
+			ArrayList<Trainer> trainersList = g.fromJson(trainersReader, TRAINERS_TYPE);
+			
+//			System.out.println("trainers list test");
+//			System.out.println(trainersList.toString());
+//			System.out.println("trainers list test");
+			
+			//fill users hashmap from arraylist
 			for (User userIt : usersList) {
 				users.put(userIt.getId(), userIt);
 			}
 			
-			System.out.println("users hashmap test");
-			System.out.println(users.toString());
-			System.out.println("users hashmap test");
-			//System.out.println(getCurrentUser());
+//			System.out.println("users hashmap test");
+//			System.out.println(users.toString());
+//			System.out.println("users hashmap test");
+			
+			//fill buyers hashmap from arraylist
+			for (Buyer buyerIt : buyersList) {
+				buyers.put(buyerIt.getId(), buyerIt);
+			}
+			
+//			System.out.println("buyers hashmap test");
+//			System.out.println(buyers.toString());
+//			System.out.println("buyers hashmap test");
+			
+			//fill menagers hashmap from arraylist
+			for (Menager menagerIt : menagersList) {
+				menagers.put(menagerIt.getId(), menagerIt);
+			}
+			
+//			System.out.println("menagers hashmap test");
+//			System.out.println(menagers.toString());
+//			System.out.println("menagers hashmap test");
+			
+			//fill users hashmap from arraylist
+			for (Trainer trainerIt : trainersList) {
+				trainers.put(trainerIt.getId(), trainerIt);
+			}
+			
+//			System.out.println("trainers hashmap test");
+//			System.out.println(trainers.toString());
+//			System.out.println("trainers hashmap test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		finally {
-			if ( in != null ) {
-				try {
-					in.close();
-				}
-				catch (Exception e) { }
-			}
-		}
+//		finally {
+//			if ( in != null ) {
+//				try {
+//					in.close();
+//				}
+//				catch (Exception e) { }
+//			}
+//		}
 	}
 	
 	public Boolean editUserRequest(String req) throws FileNotFoundException {
@@ -90,47 +141,126 @@ public class UserDAO {
 				users.replace(userIt.getId(), user);
 			}
 		}
-//		System.out.println("new hashmap:");
-//		for (User userIt : users.values()) {
-//			System.out.println(userIt.toString());
-//		}
-		toJSON(path + "/resources/JSON/users.json");
+		toJSON(path + "/resources/JSON/users.json", "USER");
 	}
 	
-	public Boolean addUserRequest(String req) throws FileNotFoundException {
+	public Boolean addBuyerRequest(String req) throws FileNotFoundException {
 		
-		User us = g.fromJson(req, User.class);
+		Buyer bu = g.fromJson(req, Buyer.class);
+		//User us = g.fromJson(req, User.class);
 		String id = Integer.toString(users.size()+1);
-		us.setId(id);
+		bu.setId(id);
 		
-		System.out.println("JSON PRINT of add request user object:");
-		System.out.println(us.toString());
+		System.out.println("JSON PRINT of add request buyer object:");
+		System.out.println(bu.toString());
 		
 		for (User userIt : users.values()) {
-			if (usernamesAreSame(userIt, us)) {
+			if (usernamesAreSame(userIt, bu)) {
+				System.out.println("Username taken!");
 				return false;
 			}
 		}
+		User us = (User) bu;
+		//System.out.println("BUYER CASTED TO USER:" + us);
 		addUser(us);
+		addBuyer(bu);
 		return true;
 	}
+	
+	public Boolean addMenagerRequest(String req) throws FileNotFoundException {
+		
+		Menager me= g.fromJson(req, Menager.class);
+		//User us = g.fromJson(req, User.class);
+		String id = Integer.toString(users.size()+1);
+		me.setId(id);
+		
+		System.out.println("JSON PRINT of add request menager object:");
+		System.out.println(me.toString());
+		
+		for (User userIt : users.values()) {
+			if (usernamesAreSame(userIt, me)) {
+				System.out.println("Username taken!");
+				return false;
+			}
+		}
+		User us = (User) me;
+		//System.out.println("BUYER CASTED TO USER:" + us);
+		addUser(us);
+		addMenager(me);
+		return true;
+	}
+
+public Boolean addTrainerRequest(String req) throws FileNotFoundException {
+		
+		Trainer tr= g.fromJson(req, Trainer.class);
+		//User us = g.fromJson(req, User.class);
+		String id = Integer.toString(users.size()+1);
+		tr.setId(id);
+		
+		System.out.println("JSON PRINT of add request trainer object:");
+		System.out.println(tr.toString());
+		
+		for (User userIt : users.values()) {
+			if (usernamesAreSame(userIt, tr)) {
+				System.out.println("Username taken!");
+				return false;
+			}
+		}
+		User us = (User) tr;
+		//System.out.println("BUYER CASTED TO USER:" + us);
+		addUser(us);
+		addTrainer(tr);
+		return true;
+	}
+	
 	private Boolean usernamesAreSame(User us1, User us2) {
 		return (us1.getUsername().equals(us2.getUsername()));
 	}
 	
-	public User getCurrentUser() {
-		return users.get("3");
-	}
-	
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
-		toJSON(path + "/resources/JSON/users.json");
+		System.out.println("PUTING USER: " + user);
+		toJSON(path + "/resources/JSON/users.json", "USER");
+	}
+	public void addBuyer(Buyer buyer) throws FileNotFoundException {
+		buyers.put(buyer.getId(), buyer);
+		toJSON(path + "/resources/JSON/buyers.json", "BUYER");
 	}
 	
-	private void toJSON(String filename) throws FileNotFoundException {
+	public void addMenager(Menager menager) throws FileNotFoundException {
+		menagers.put(menager.getId(), menager);
+		toJSON(path + "/resources/JSON/menagers.json", "MENAGER");
+	}
+	
+	public void addTrainer(Trainer trainer) throws FileNotFoundException {
+		trainers.put(trainer.getId(), trainer);
+		toJSON(path + "/resources/JSON/trainers.json", "TRAINER");
+	}
+	
+	private void toJSON(String filename, String command) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(filename);
-		out.printf(g.toJson(users.values()));
+		switch(command) {
+		case "USER":
+			//System.out.println("users to json: " + users);
+			out.printf(g.toJson(users.values()));
+			break;
+		case "BUYER":
+			System.out.println("buyers to json: " + buyers);
+			out.printf(g.toJson(buyers.values()));
+			break;
+		case "MENAGER":
+			System.out.println("menagers to json: " + menagers);
+			out.printf(g.toJson(menagers.values()));
+			break;
+		case "TRAINER":
+			System.out.println("trainers to json: " + trainers);
+			out.printf(g.toJson(trainers.values()));
+		default:
+			//
+		}
 		out.close();
+		
+		
 	}
 	
 	/** Vraca kolekciju proizvoda. */
@@ -141,5 +271,14 @@ public class UserDAO {
 	/** Vraca proizvod na osnovu njegovog id-a. */
 	public User getUser(String id) {
 		return users.get(id);
+	}
+	
+	public User getUserByUsername(String username) {
+		for (User userIt : users.values()) {
+			if (userIt.getUsername().equals(username)) {
+				return userIt;
+			}
+		}
+		return null;
 	}
 }
