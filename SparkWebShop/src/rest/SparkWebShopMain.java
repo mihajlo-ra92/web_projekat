@@ -56,7 +56,13 @@ public class SparkWebShopMain {
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(sportObjects.values());
+		});	
+			
+		get("/rest/getSportObject", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(sportObjects.getSportObject("1"));
 		});
+		
 		//treba get za pretragu objekta na beku da napravim
 	}
 }
