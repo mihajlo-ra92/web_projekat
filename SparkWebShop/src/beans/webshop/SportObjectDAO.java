@@ -54,7 +54,7 @@ public class SportObjectDAO {
 		}
 	}
 	
-	public void addSportObjectsRequest(String req) throws FileNotFoundException {
+	public Boolean addSportObjectsRequest(String req) throws FileNotFoundException {
 		SportObject so = g.fromJson(req, SportObject.class);
 		String id = Integer.toString(sportObjects.size()+1);
 		so.setId(id);
@@ -62,7 +62,16 @@ public class SportObjectDAO {
 		System.out.println("JSON PRINT add request sport object:");
 		System.out.println(so.toString());
 		
+		for (SportObject objectIt : sportObjects.values()) {
+			if (objectNamesAreSame(objectIt, so)) {
+				return false;
+			}
+		}
 		addSportObject(so);
+		return true;
+	}
+	private Boolean objectNamesAreSame(SportObject so1, SportObject so2) {
+		return (so1.getName().equals(so2.getName()));
 	}
 	public void addSportObject(SportObject sportObject) throws FileNotFoundException {
 		sportObjects.put(sportObject.getId(), sportObject);
@@ -71,7 +80,7 @@ public class SportObjectDAO {
 
 	private void toJSON(String filename) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(filename);
-		System.out.println(filename);
+		//System.out.println(filename);
 		out.printf(g.toJson(sportObjects.values()));
 		out.close();
 	}

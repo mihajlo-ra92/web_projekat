@@ -9,7 +9,7 @@ public class SportObject {
 	private ArrayList<String> content;
 	private boolean isOpen;
 	private Location location;
-	//slika logo objekta
+	//private String logo;
 	private double avegareGrade;
 	private String workHours;//mozda bude nesto drugo
 	public SportObject() {

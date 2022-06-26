@@ -1,7 +1,21 @@
 Vue.component("create-sport-object", {
 	data: function () {
 		    return {
-				currentUser: null
+				currentUser: null,
+				sportObject: {
+					name: '',
+					objectType: '',
+					location: {
+						geoLenght: '',
+						geoWidth: '',
+						address: ''
+					},
+					workHours: ''
+				},
+				timeInput: {
+					timeStart: '',
+					timeEnd: ''
+				}
 		    }
 	},
 	template: ` 
@@ -9,6 +23,32 @@ Vue.component("create-sport-object", {
 	<div>
 		Create sport object:
 		<br>
+		<input type="text" name="name" v-model="sportObject.name" placeholder="Name" />
+		<br>
+		
+		<input type="radio" name="objectType" value="gym" v-model="sportObject.objectType">Gym
+		<br>
+		<input type="radio" name="objectType" value="pool" v-model="sportObject.objectType">Pool
+		<br>
+		<input type="radio" name="objectType" value="dance studio" v-model="sportObject.objectType">Dance studio
+		<br>
+		
+		<input type="text" name="location_geoLenght" v-model="sportObject.location.geoLenght" placeholder="Location geoLenght" />
+		<br>
+		<input type="text" name="location_geoWidth" v-model="sportObject.location.geoWidth" placeholder="Location geoWidth" />
+		<br>
+		<input type="text" name="location_address" v-model="sportObject.location.address" placeholder="Location address" />
+		<br>
+		
+		Pocetno vreme:
+		<input type="time" name="timeStart" v-model="timeInput.timeStart">
+		<br>
+		
+		Vreme zatvaranja:
+		<input type="time" name="timeEnd" v-model="timeInput.timeEnd">
+		<br>
+		
+		<button v-on:click="register" >Register</button>
 	</div>	
 	
 	
@@ -16,9 +56,27 @@ Vue.component("create-sport-object", {
 `
 	,
 	methods : {
-		startEdit(){
-			console.log("Pushing router to edit profile!");
-			router.push('/edit-profile')
+		register : function(){
+			console.log("Register clicked!");
+			if (this.currentUser.role != 'ADMIN'){
+				toast("You are not loged in as admin!")
+			}
+			else {
+				this.sportObject.workHours = this.timeInput.timeStart
+				 + "-" + this.timeInput.timeEnd;
+				console.log(this.sportObject.workHours);
+				axios
+			    .post('/rest/register-sport-object', this.sportObject)
+			    .then(response => {
+					if (response.data === false){
+						toast("Failed, sport object name is taken!");
+					}
+					else {
+						toast("Succesfully registered sport object!");
+					}
+				})
+		    	.catch((error) => console.log(error));
+			}
 		}
 	},
 	mounted () {

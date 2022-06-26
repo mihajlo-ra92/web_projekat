@@ -52,21 +52,30 @@ Vue.component("home", {
                 for (let i = 0; i < this.users.length; i++) {
 					if (this.input.username === this.users[i].username &&
 					this.input.password === this.users[i].password){
-						console.log('found');
-						console.log(this.users[i].username);
 						this.approved = true;
-						console.log(this.approved);
-						router.push('/sportObjects');
 						LogedInUser = this.users[i];
-						console.log(LogedInUser);
 					}
             	}
+            	
 				if(this.approved === false){
 					console.log('Failed log in!!!!');
 					toast("Incorrect information!");
 				}
+				else{
+            		axios
+					.post('rest/proizvodi/log-in', this.input)
+					.then(response => {
+						if (response.data == '403'){
+							toast("User is already loged in!");
+						}
+						else {
+							localStorage.setItem('loggedUser', response.data);
+							toast("Loged in user!");
+							router.push('/sportObjects');
+						}
+					})
+				}
         },
-		
 	},
 	mounted () {
         console.log("Mounted home");
