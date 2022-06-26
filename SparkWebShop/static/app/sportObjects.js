@@ -2,6 +2,7 @@ Vue.component("sport-objects", {
 	data: function () {
 		    return {
 		      sportObjects: null,
+		      selectedObject: {},
 		      search: ''
 		    }
 	},
@@ -23,10 +24,9 @@ Vue.component("sport-objects", {
 <div class="h-100 d-flex align-items-center justify-content-center">
 	<div>
 		Existing sport objects:
-		<br>
 		<input type="text" v-model="search" placeholder="Search objects"/>
 		<br>
-		<table class="table table-bordered table-hover"">
+		<table class="table table-bordered table--lg team-roster-table table-hover"">
 			<tr bgcolor="lightgrey">
 				<th scope="col">Name</th>
 				<th scope="col">Object type</th>
@@ -35,7 +35,7 @@ Vue.component("sport-objects", {
 				<th scope="col">Grade</th>
 			</tr>
 				
-			<tr v-for="so in filteredSportObjects">
+			<tr v-for="so in filteredSportObjects" v-on:click="selectObject(so)">
 				<td scope="row">{{so.name }}</td>
 				<td>{{so.objectType }}</td>
 				<td v-if="so.isOpen">Open</td>
@@ -44,12 +44,22 @@ Vue.component("sport-objects", {
 				<td>{{so.avegareGrade }}</td>
 			</tr>
 		</table>
+		<br>
+		<br>
+		<br>
+		<
 	</div>		  
 </div>
 `	  
 	, 
 	methods : {
-		
+		selectObject : function(sportObject){
+			console.log("Usli smo u select.");
+			selectedObject = sportObject;
+			console.log(selectedObject);
+			router.push('/sport-object');
+			
+		}
 	},
 	mounted () {
 		console.log("Mounted sportObjects!");
