@@ -29,6 +29,9 @@ Vue.component("my-profile", {
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="listUsers()">List users</button>
 			<button type="button" v-if="currentUser.role.includes('ADMIN')" v-on:click="listSportObjects()">List sport objects</button>
 			
+			
+			<button type="button" v-if="currentUser.role.includes('MENAGER')" v-on:click="showSportObject()">Show my sport object</button>
+			
 		</div>
 	</div>	
 	
@@ -76,6 +79,9 @@ Vue.component("my-profile", {
 		listSportObjects(){
 			console.log("Pushing router to list sport objects!");
 			router.push('/list-sport-objects')
+		},
+		showSportObject(){
+			console.log("Show sport object selected!");
 		}
 	},
 	mounted () {
