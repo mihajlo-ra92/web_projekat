@@ -15,6 +15,19 @@ Vue.component("create-sport-object", {
 				timeInput: {
 					timeStart: '',
 					timeEnd: ''
+				},
+				freeMenagers: null,
+				makingNewMenager: false,
+				buttonText: 'Create new menager',
+				newMenager: {
+					username: '',
+					password: '',
+					firstName: '',
+					lastName: '',
+					birthDate: '',
+					gender: '',
+					role: 'MENAGER',
+					sportObject: null
 				}
 		    }
 	},
@@ -40,14 +53,26 @@ Vue.component("create-sport-object", {
 		<input type="text" name="location_address" v-model="sportObject.location.address" placeholder="Location address" />
 		<br>
 		
-		Pocetno vreme:
+		Open time:
 		<input type="time" name="timeStart" v-model="timeInput.timeStart">
 		<br>
 		
-		Vreme zatvaranja:
+		Close time:
 		<input type="time" name="timeEnd" v-model="timeInput.timeEnd">
 		<br>
-		
+		<div v-if="!makingNewMenager">
+			<label for="cars">Choose a menager:</label>
+			
+		  	<select name="menagers" id="menagers">
+			    <option v-for="men in freeMenagers" value="men.username">{{men.username}}</option>
+		    </select>
+	    </div>
+	    <button v-on:click="toggleMake">{{buttonText}}</button>
+		<br>
+		<div v-if="makingNewMenager">
+			MAKING NEW MENAGER
+		</div>
+		<br>
 		<button v-on:click="register" >Register</button>
 	</div>	
 	
@@ -77,12 +102,28 @@ Vue.component("create-sport-object", {
 				})
 		    	.catch((error) => console.log(error));
 			}
+		},
+		toggleMake : function(){
+			this.makingNewMenager = !this.makingNewMenager;
+			if (this.makingNewMenager){
+				this.buttonText = 'Select existin menager';
+			}
+			else {
+				this.buttonText = 'Create new menager';
+			}
 		}
 	},
 	mounted () {
         console.log("Mounted create sport object");
         axios
 			.get('rest/getCurrentUser')
-      		.then(response => (this.currentUser = response.data))
+      		.then(response => (this.currentUser = response.data));
+      	console.log("Getting free menagers...")
+      	axios
+      		.get('rest/proizvodi/getFreeMenagers')
+      		.then(response => {
+				this.freeMenagers = response.data;
+				console.log(this.freeMenagers);
+			})
     }
 });

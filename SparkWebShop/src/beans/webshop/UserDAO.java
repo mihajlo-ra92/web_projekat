@@ -306,7 +306,7 @@ public class UserDAO {
 		
 	}
 	
-	public Collection<Menager> getMenagersWithoutSportObject(){
+	public Collection<Menager> getFreeMenagers(){
 		ArrayList<Menager> collection = new ArrayList<Menager>();
 		for (Menager menagerIt : menagers.values()) {
 			if (menagerIt.getSportObject() == null) {
