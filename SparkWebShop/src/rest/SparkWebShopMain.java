@@ -121,8 +121,13 @@ public class SparkWebShopMain {
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(sportObjects.values());
+		});	
+			
+		get("/rest/getSportObject", (req, res) -> {
+			res.type("application/json");
+			return g.toJson(sportObjects.getSportObject("1"));
 		});
-		
+    
 		//SPORTOBJECT POST REQUESTS:
 		post("/rest/register-sport-object", (req, res) -> {
 			res.type("application/json");
@@ -131,6 +136,5 @@ public class SparkWebShopMain {
 			System.out.println("Register sport object is successful: " + isSuccessful);
 			return isSuccessful;
 		});
-		//treba get za pretragu objekta na beku da napravim
 	}
 }
