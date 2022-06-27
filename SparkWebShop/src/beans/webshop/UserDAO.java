@@ -150,6 +150,17 @@ public class UserDAO {
 				!(us1.getId().equals(us2.getId())));
 	}
 		
+	public void setSportObjectToMenager(SportObject sportObject, Menager menager) throws FileNotFoundException {
+		for (Menager menagerIt : menagers.values()) {
+			if (menagerIt.getId().equals(menager.getId())) {
+				menagerIt.setSportObject(sportObject);
+				menagers.replace(menagerIt.getId(), menagerIt);
+			}
+		}
+		toJSON(path + "/resources/JSON/menagers.json", "MENAGER");
+		
+	}
+	
 	private void editUser(User user) throws FileNotFoundException {
 		for (User userIt : users.values()) {
 			if (userIt.getId().equals(user.getId())) {
@@ -306,7 +317,7 @@ public class UserDAO {
 		
 	}
 	
-	public Collection<Menager> getMenagersWithoutSportObject(){
+	public Collection<Menager> getFreeMenagers(){
 		ArrayList<Menager> collection = new ArrayList<Menager>();
 		for (Menager menagerIt : menagers.values()) {
 			if (menagerIt.getSportObject() == null) {
@@ -342,6 +353,15 @@ public class UserDAO {
 		for (User userIt : users.values()) {
 			if (userIt.getUsername().equals(username)) {
 				return userIt;
+			}
+		}
+		return null;
+	}
+	
+	public Menager getMenagerByUsername(String username) {
+		for (Menager menagerIt : menagers.values()) {
+			if (menagerIt.getUsername().equals(username)) {
+				return menagerIt;
 			}
 		}
 		return null;

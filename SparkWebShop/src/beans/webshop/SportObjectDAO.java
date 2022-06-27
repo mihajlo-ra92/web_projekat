@@ -99,4 +99,13 @@ public class SportObjectDAO {
 	public SportObject getSportObject(String id) {
 		return sportObjects.get(id);
 	}
+	
+	public SportObject getSportObjectByName(String name) {
+		for (SportObject sportIt : sportObjects.values()) {
+			if (sportIt.getName().equals(name)) {
+				return sportIt;
+			}
+		}
+		return null;
+	}
 }
