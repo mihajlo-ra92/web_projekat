@@ -28,7 +28,9 @@ Vue.component("create-sport-object", {
 					gender: '',
 					role: 'MENAGER',
 					sportObject: null
-				}
+				},
+				canCreate: true,
+				selected: ''
 		    }
 	},
 	template: ` 
@@ -61,16 +63,35 @@ Vue.component("create-sport-object", {
 		<input type="time" name="timeEnd" v-model="timeInput.timeEnd">
 		<br>
 		<div v-if="!makingNewMenager">
-			<label for="cars">Choose a menager:</label>
+			<label for="choose">Choose a menager:</label>
 			
-		  	<select name="menagers" id="menagers">
-			    <option v-for="men in freeMenagers" value="men.username">{{men.username}}</option>
+		  	<select name="menagers" id="menagers" v-model="selected">
+			    <option v-for="men in freeMenagers" v-bind:value="{id: men.username, text: men.username}">{{men.username}}</option>
 		    </select>
 	    </div>
 	    <button v-on:click="toggleMake">{{buttonText}}</button>
 		<br>
 		<div v-if="makingNewMenager">
-			MAKING NEW MENAGER
+			
+			Create menager:
+			<br>
+			<input type="text" name="username" v-model="newMenager.username" placeholder="Username" />
+			<br>
+			<input type="text" name="password" v-model="newMenager.password" placeholder="Password" />
+			<br>
+			<input type="text" name="firstName" v-model="newMenager.firstName" placeholder="First name" />
+			<br>
+			<input type="text" name="lastName" v-model="newMenager.lastName" placeholder="Last name" />
+			<br>
+			
+			<input type="date" id="birthDate" name="birthDate"
+	       	value="2022-01-01" v-model=newMenager.birthDate
+	       	min="1900-01-01" max="2122-01-01">
+	       	<br>
+	       	
+			<input type="radio" name="gender" value="MALE" v-model="newMenager.gender">Male
+			<br>
+			<input type="radio" name="gender" value="FEMALE" v-model="newMenager.gender">Female
 		</div>
 		<br>
 		<button v-on:click="register" >Register</button>
@@ -90,23 +111,71 @@ Vue.component("create-sport-object", {
 				this.sportObject.workHours = this.timeInput.timeStart
 				 + "-" + this.timeInput.timeEnd;
 				console.log(this.sportObject.workHours);
-				axios
-			    .post('/rest/register-sport-object', this.sportObject)
-			    .then(response => {
-					if (response.data === false){
-						toast("Failed, sport object name is taken!");
-					}
-					else {
-						toast("Succesfully registered sport object!");
-					}
-				})
-		    	.catch((error) => console.log(error));
+				if (this.makingNewMenager){
+			    	//creating menager
+			    	axios
+				    .post('/rest/register-menager', this.newMenager)
+				    .then(response => {
+						if (response.data === false){
+							toast("Failed, username is taken!");
+							this.canCreate = false;
+						}
+						else {
+							toast("Succesfully registered menager!");
+						}
+					})
+			    	.catch((error) => console.log(error));
+				}
+				
+		    	if (this.canCreate){
+					//creating new sportobject
+					axios
+				    .post('/rest/register-sport-object', this.sportObject)
+				    .then(response => {
+						if (response.data === false){
+							toast("Failed, sport object name is taken!");
+							this.canCreate = false;
+						}
+						else {
+							toast("Succesfully registered sport object!");
+						}
+					})
+			    	.catch((error) => console.log(error));
+				}
+				
+		    	
+		    	if (this.makingNewMenager && this.canCreate){
+					//setting sportobject to new menager
+					const request = this.sportObject.name + '+' + this.newMenager.username;
+					console.log('Requset concatenated:');
+					console.log(request);
+					axios
+					.post('/rest/set-object-to-menager', request)
+					.then(response => {
+						console.log('Set object to new menager post req')
+					})
+			    	.catch((error) => console.log(error));
+				}
+				
+				if (!this.makingNewMenager && this.canCreate){
+					//setting sportobject to selected menager
+					const request = this.sportObject.name + '+' + this.selected.text;
+					console.log('Requset concatenated:');
+					console.log(request);
+					axios
+					.post('/rest/set-object-to-menager', request)
+					.then(response => {
+						console.log('Set object to new menager post req')
+					})
+			    	.catch((error) => console.log(error));
+				}
+		    	
 			}
 		},
 		toggleMake : function(){
 			this.makingNewMenager = !this.makingNewMenager;
 			if (this.makingNewMenager){
-				this.buttonText = 'Select existin menager';
+				this.buttonText = 'Select existing menager';
 			}
 			else {
 				this.buttonText = 'Create new menager';

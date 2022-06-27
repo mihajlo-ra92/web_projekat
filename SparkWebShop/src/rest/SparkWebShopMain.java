@@ -41,18 +41,18 @@ public class SparkWebShopMain {
 			switch (user.getRole()){
 			case BUYER:
 				Buyer buyer = userDAO.getBuyer(user.getId());
-				System.out.println("RETURNING BUYER");
+				//System.out.println("RETURNING BUYER");
 				return g.toJson(buyer);
 			case MENAGER:
 				Menager menager = userDAO.getMenager(user.getId());
-				System.out.println("RETURNING MENAGER");
+				//System.out.println("RETURNING MENAGER");
 				return g.toJson(menager);
 			case TRAINER:
 				Trainer trainer = userDAO.getTrainer(user.getId());
-				System.out.println("RETURNING TRAINER");
+				//System.out.println("RETURNING TRAINER");
 				return g.toJson(trainer);
 			default:
-				System.out.println("RETURNING USER");
+				//System.out.println("RETURNING USER");
 				return g.toJson(user);
 			}
 		});
@@ -92,33 +92,41 @@ public class SparkWebShopMain {
 		
 		post("/rest/register", (req, res) -> {
 			res.type("application/json");
-			System.out.println(req.body());
+			//System.out.println(req.body());
 			Boolean isSuccessful = userDAO.addBuyerRequest(req.body());
-			System.out.println("Register is successful: " + isSuccessful);
+			//System.out.println("Register is successful: " + isSuccessful);
 			return isSuccessful;
+		});
+		
+		post("/rest/set-object-to-menager", (req, res) -> {
+			res.type("application/json");
+			System.out.println("SET SPORT OBJECT TO MENAGER REQUEST BODY:");
+			System.out.println(req.body());
+			
+			return "OK";
 		});
 		
 		post("/rest/register-menager", (req, res) -> {
 			res.type("application/json");
-			System.out.println(req.body());
+			//System.out.println(req.body());
 			Boolean isSuccessful = userDAO.addMenagerRequest(req.body());
-			System.out.println("Register is successful: " + isSuccessful);
+			//System.out.println("Register is successful: " + isSuccessful);
 			return isSuccessful;
 		});
 		
 		post("/rest/register-trainer", (req, res) -> {
 			res.type("application/json");
-			System.out.println(req.body());
+			//System.out.println(req.body());
 			Boolean isSuccessful = userDAO.addTrainerRequest(req.body());
-			System.out.println("Register is successful: " + isSuccessful);
+			//System.out.println("Register is successful: " + isSuccessful);
 			return isSuccessful;
 		});
 		
 		post("/rest/edit-profile", (req, res) -> {
 			res.type("application/json");
-			System.out.println(req.body());
+			//System.out.println(req.body());
 			Boolean isSuccessful = userDAO.editUserRequest(req.body());
-			System.out.println("Edit is successful: " + isSuccessful);
+			//System.out.println("Edit is successful: " + isSuccessful);
 			return isSuccessful;
 		});
 		
@@ -131,9 +139,9 @@ public class SparkWebShopMain {
 		//SPORTOBJECT POST REQUESTS:
 		post("/rest/register-sport-object", (req, res) -> {
 			res.type("application/json");
-			System.out.println(req.body());
+			//System.out.println(req.body());
 			Boolean isSuccessful = sportObjectDAO.addSportObjectsRequest(req.body());
-			System.out.println("Register sport object is successful: " + isSuccessful);
+			//System.out.println("Register sport object is successful: " + isSuccessful);
 			return isSuccessful;
 		});
 		//treba get za pretragu objekta na beku da napravim
