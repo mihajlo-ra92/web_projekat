@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import beans.webshop.Buyer;
 import beans.webshop.Menager;
+import beans.webshop.SportObject;
 import beans.webshop.SportObjectDAO;
 import beans.webshop.Trainer;
 import beans.webshop.User;
@@ -102,6 +103,12 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			System.out.println("SET SPORT OBJECT TO MENAGER REQUEST BODY:");
 			System.out.println(req.body());
+			String [] names = req.body().split("\\+");
+			System.out.println("names0: " + names[0]);
+			System.out.println("names1: " + names[1]);
+			SportObject sportObject = sportObjectDAO.getSportObjectByName(names[0]);
+			Menager menager = userDAO.getMenagerByUsername(names[1]);
+			userDAO.setSportObjectToMenager(sportObject, menager);
 			
 			return "OK";
 		});

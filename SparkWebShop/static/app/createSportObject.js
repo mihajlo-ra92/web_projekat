@@ -110,7 +110,6 @@ Vue.component("create-sport-object", {
 			else {
 				this.sportObject.workHours = this.timeInput.timeStart
 				 + "-" + this.timeInput.timeEnd;
-				console.log(this.sportObject.workHours);
 				if (this.makingNewMenager){
 			    	//creating menager
 			    	axios
@@ -147,8 +146,6 @@ Vue.component("create-sport-object", {
 		    	if (this.makingNewMenager && this.canCreate){
 					//setting sportobject to new menager
 					const request = this.sportObject.name + '+' + this.newMenager.username;
-					console.log('Requset concatenated:');
-					console.log(request);
 					axios
 					.post('/rest/set-object-to-menager', request)
 					.then(response => {
