@@ -58,6 +58,7 @@ Vue.component("edit-profile", {
 					}
 				})
 				.catch((error) => console.log(error));
+			router.push('/my-profile');
 		}
 	},
 	mounted () {
