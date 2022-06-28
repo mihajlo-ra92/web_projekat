@@ -41,6 +41,10 @@ Vue.component("my-profile", {
 			Trainer options
 			</div>
 			
+			<div v-if="currentUser.role.includes('BUYER')">
+				<button type="button" v-on:click="showTrainingHistory()">Show training history</button>
+			</div>
+			
 		</div>
 	</div>	
 	
@@ -92,6 +96,19 @@ Vue.component("my-profile", {
 		showSportObject(){
 			console.log("Show sport object selected!");
 			console.log(this.currentUser);
+		},
+		showTrainingHistory(){
+			console.log("Show training history selected!");
+			axios
+			.post('rest/proizvodi/getTrainingHistory', this.currentUser)
+      		.then(response => {
+				if (response.data == 'EMPTY'){
+					console.log('No loged training sessions!');
+				}
+				else {
+					console.log(response.data);
+				}
+			})
 		}
 	},
 	mounted () {

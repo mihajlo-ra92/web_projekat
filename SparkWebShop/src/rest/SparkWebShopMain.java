@@ -5,6 +5,8 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 import java.io.File;
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 
 import beans.webshop.Buyer;
@@ -13,6 +15,7 @@ import beans.webshop.SportObject;
 import beans.webshop.SportObjectDAO;
 import beans.webshop.Trainer;
 import beans.webshop.TrainingHistoryDAO;
+import beans.webshop.TrainingSession;
 import beans.webshop.User;
 import beans.webshop.UserDAO;
 import beans.webshop.WorkoutDAO;
@@ -70,6 +73,26 @@ public class SparkWebShopMain {
 		get("/rest/proizvodi/getFreeMenagers", (req, res) -> {
 			res.type("application/json");
 			return g.toJson(userDAO.getFreeMenagers());
+		});
+		
+		post("/rest/proizvodi/getTrainingHistory", (req, res) -> {
+			res.type("application/json");
+			System.out.println("TRAINING HISTORY REQ: " + req.body());
+			User user= g.fromJson(req.body(), User.class);
+			System.out.println("SENT USER: " + user);
+			ArrayList<TrainingSession> retVal = new ArrayList<TrainingSession>();
+			for (TrainingSession tsIt : trainingHistoryDAO.values()) {
+				if (user.getId().equals(tsIt.getBuyerId())) {
+					System.out.println("FOUND TRAININGSESSION:" + tsIt.getWorkout());
+					retVal.add(tsIt);
+				}
+			}
+			if (retVal.isEmpty()) {	
+				return "EMPTY";
+			}
+			else {				
+				return g.toJson(retVal);
+			}
 		});
 		
 		//USER POST REQUESTS:

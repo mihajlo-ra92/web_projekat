@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
@@ -49,5 +50,8 @@ public class TrainingHistoryDAO {
 		PrintWriter out = new PrintWriter(filename);
 		out.printf(g.toJson(trainingHistory.values()));
 		out.close();
+	}
+	public Collection<TrainingSession> values() {
+		return trainingHistory.values();
 	}
 }
