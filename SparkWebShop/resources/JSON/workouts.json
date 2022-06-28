@@ -1,1 +1,1 @@
-[{"name":"Trening1","workoutType":"personal","sportObjectId":"1","workoutDuration":"45min","description":"description","trainerId":"6"}]
+[{"name":"VrstaTreninga2","workoutType":"withTrainer","sportObjectId":"3","workoutDuration":"45","description":"description2","trainerId":"6"},{"name":"VrstaTreninga3","workoutType":"swimming","sportObjectId":"2","workoutDuration":"45","description":"description3","trainerId":""},{"name":"VrstaTreninga1","workoutType":"personal","sportObjectId":"1","workoutDuration":"45","description":"description1","trainerId":""}]

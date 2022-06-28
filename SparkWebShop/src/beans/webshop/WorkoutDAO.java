@@ -35,7 +35,7 @@ public class WorkoutDAO {
 				workouts.put(workIt.getName(), workIt);
 			}
 			System.out.println(workouts);
-//			Workout w = new Workout("Trening1", "personal", "1", "45min", "description", "6");
+//			Workout w = new Workout("VrstaTreninga3", "swimming", "2", "45", "description3", "");
 //			addWorkout(w);
 			
 		} catch (Exception e) {

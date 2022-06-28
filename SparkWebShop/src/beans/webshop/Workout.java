@@ -8,7 +8,7 @@ public class Workout {
 	private String sportObjectId;
 	private String workoutDuration; //in minutes
 	private String description;
-	private String trainerId;
+	private String trainerId;//can be empty or null
 	//slika ??
 	public Workout() {
 		// TODO Auto-generated constructor stub
