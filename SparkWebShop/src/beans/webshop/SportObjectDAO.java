@@ -1,6 +1,5 @@
 package beans.webshop;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,13 +18,13 @@ public class SportObjectDAO {
 	private static Gson g = new Gson();
 	private static final java.lang.reflect.Type SPORTOBJECTS_TYPE = new TypeToken<ArrayList<SportObject>>() {
 	}.getType();
+	
 	public SportObjectDAO() {
 		this(".");
 	}
 	public SportObjectDAO(String path) {
 		this.path = path;
 		
-		BufferedReader in = null;
 		try {
 			File file = new File(path + "/resources/JSON/sportObjects.json");
 			System.out.println(file.getCanonicalPath());
@@ -34,6 +32,7 @@ public class SportObjectDAO {
 			ArrayList<SportObject> sportObjectsList = g.fromJson(reader, SPORTOBJECTS_TYPE);
 			
 			//hashmap from arraylist
+			//treba da bude posebna f-ja
 			for (SportObject soIt : sportObjectsList) {
 				sportObjects.put(soIt.getId(), soIt);
 			}
@@ -43,14 +42,6 @@ public class SportObjectDAO {
 //			System.out.println("sport object hashmap test");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally {
-			if ( in != null ) {
-				try {
-					in.close();
-				}
-				catch (Exception e) { }
-			}
 		}
 	}
 	

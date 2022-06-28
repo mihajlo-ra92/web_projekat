@@ -13,12 +13,6 @@ public class User {
 	private String birthDate;
 	private Gender gender;
 	private Role role;
-	//istorija treninga ako je TRENER
-	//membershipFee ako je KUPAC
-	//sportski objekat ako je MENADZER
-	//poseceni objekat ako je KUPAC
-	//broj sakupljenih bodova ako je KUPAC
-	//tip kupca, naravno ako je KUPAC
 	
 	public User() {
 		

@@ -1,0 +1,1 @@
+[{"name":"Trening1","workoutType":"personal","sportObject":{"id":"1","name":"Teretana nesto","objectType":"gym","isOpen":true,"location":{"id":"1","geoLenght":111.0,"geoWidth":101.0,"address":"Ulica 1, Novi Sad, 21000"},"avegareGrade":1.4},"workoutDuration":"45min","description":"description","trainerId":"6"}]

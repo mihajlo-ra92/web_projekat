@@ -38,7 +38,6 @@ public class UserDAO {
 	public UserDAO(String path) {
 		this.path = path;
 		
-		//BufferedReader in = null;
 		try {
 			//reading users
 			File usersFile = new File(path + "/resources/JSON/users.json");
@@ -106,14 +105,6 @@ public class UserDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		finally {
-//			if ( in != null ) {
-//				try {
-//					in.close();
-//				}
-//				catch (Exception e) { }
-//			}
-//		}
 	}
 	
 	public Boolean editUserRequest(String req) throws FileNotFoundException {
@@ -153,7 +144,7 @@ public class UserDAO {
 	public void setSportObjectToMenager(SportObject sportObject, Menager menager) throws FileNotFoundException {
 		for (Menager menagerIt : menagers.values()) {
 			if (menagerIt.getId().equals(menager.getId())) {
-				menagerIt.setSportObject(sportObject);
+				menagerIt.setSportObjectId(sportObject.getId());
 				menagers.replace(menagerIt.getId(), menagerIt);
 			}
 		}
@@ -320,7 +311,8 @@ public class UserDAO {
 	public Collection<Menager> getFreeMenagers(){
 		ArrayList<Menager> collection = new ArrayList<Menager>();
 		for (Menager menagerIt : menagers.values()) {
-			if (menagerIt.getSportObject() == null) {
+			if (menagerIt.getSportObjectId() == null ||
+					menagerIt.getSportObjectId() == "") {
 				collection.add(menagerIt);
 			}
 		}

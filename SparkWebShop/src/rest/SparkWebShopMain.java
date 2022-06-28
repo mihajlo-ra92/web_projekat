@@ -14,10 +14,12 @@ import beans.webshop.SportObjectDAO;
 import beans.webshop.Trainer;
 import beans.webshop.User;
 import beans.webshop.UserDAO;
+import beans.webshop.WorkoutDAO;
 import enums.Role;
 
 public class SparkWebShopMain {
 	private static SportObjectDAO sportObjectDAO = new SportObjectDAO();
+	private static WorkoutDAO workoutDAO = new WorkoutDAO();
 	private static UserDAO userDAO = new UserDAO();
 	private static Gson g = new Gson();
 
