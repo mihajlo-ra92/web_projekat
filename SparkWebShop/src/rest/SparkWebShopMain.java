@@ -75,25 +75,7 @@ public class SparkWebShopMain {
 			return g.toJson(userDAO.getFreeMenagers());
 		});
 		
-		post("/rest/proizvodi/getTrainingHistory", (req, res) -> {
-			res.type("application/json");
-			System.out.println("TRAINING HISTORY REQ: " + req.body());
-			User user= g.fromJson(req.body(), User.class);
-			System.out.println("SENT USER: " + user);
-			ArrayList<TrainingSession> retVal = new ArrayList<TrainingSession>();
-			for (TrainingSession tsIt : trainingHistoryDAO.values()) {
-				if (user.getId().equals(tsIt.getBuyerId())) {
-					System.out.println("FOUND TRAININGSESSION:" + tsIt.getWorkout());
-					retVal.add(tsIt);
-				}
-			}
-			if (retVal.isEmpty()) {	
-				return "EMPTY";
-			}
-			else {				
-				return g.toJson(retVal);
-			}
-		});
+		
 		
 		//USER POST REQUESTS:
 		post("/rest/proizvodi/log-in", (req, res) -> {
@@ -163,6 +145,32 @@ public class SparkWebShopMain {
 			//System.out.println("Edit is successful: " + isSuccessful);
 			return isSuccessful;
 		});
+		
+		post("/rest/proizvodi/getTrainingHistory", (req, res) -> {
+			res.type("application/json");
+			System.out.println("TRAINING HISTORY REQ: " + req.body());
+			User user= g.fromJson(req.body(), User.class);
+			System.out.println("SENT USER: " + user);
+			ArrayList<TrainingSession> retVal = new ArrayList<TrainingSession>();
+			for (TrainingSession tsIt : trainingHistoryDAO.values()) {
+				if (user.getId().equals(tsIt.getBuyerId())) {
+					System.out.println("FOUND TRAININGSESSION:" + tsIt.getWorkout());
+					retVal.add(tsIt);
+				}
+			}
+			if (retVal.isEmpty()) {	
+				return "EMPTY";
+			}
+			else {				
+				return g.toJson(retVal);
+			}
+		});
+		post("/rest/getUserById", (req, res) -> {
+			res.type("application/json");
+			System.out.println("REQ: " + req.body());
+			return g.toJson(userDAO.getUser(req.body()));
+		});
+		
 		
 		//SPORTOBJECT GET REQUESTS:
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {

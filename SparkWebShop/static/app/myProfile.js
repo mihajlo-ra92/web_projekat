@@ -49,7 +49,7 @@ Vue.component("my-profile", {
 	</div>	
 	
 	
-</div>	  
+</div>
 `
 	,
 	methods : {
@@ -99,16 +99,8 @@ Vue.component("my-profile", {
 		},
 		showTrainingHistory(){
 			console.log("Show training history selected!");
-			axios
-			.post('rest/proizvodi/getTrainingHistory', this.currentUser)
-      		.then(response => {
-				if (response.data == 'EMPTY'){
-					console.log('No loged training sessions!');
-				}
-				else {
-					console.log(response.data);
-				}
-			})
+			router.push('/training-history')
+			
 		}
 	},
 	mounted () {
