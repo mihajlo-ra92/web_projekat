@@ -1,7 +1,7 @@
 package beans.webshop;
 
 public class Trainer extends User {
-	private TrainingHistory trainingHistory;
+	private String trainingHistoryId;
 	public Trainer() {
 		// TODO Auto-generated constructor stub
 	}
