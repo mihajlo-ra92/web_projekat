@@ -151,5 +151,16 @@ public class SparkWebShopMain {
 			//System.out.println("Register sport object is successful: " + isSuccessful);
 			return isSuccessful;
 		});
+		
+		//MENAGER GET REQUEST:
+		get("/rest/MenagersSportObject", (req,res) -> {
+			res.type("application/json");
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			if (user == null) {
+				return "404";
+			}else {				
+				return g.toJson(userDAO.getMenagersSportObject(user.getUsername()));
+			}
+		});
 	}
 }

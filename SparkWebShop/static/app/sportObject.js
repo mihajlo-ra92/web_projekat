@@ -1,7 +1,7 @@
 Vue.component("sport-object", {
 	data: function(){
 		return{
-			curentSportObject: null,
+			SportObject : {},
 		}
 	},
 	
@@ -10,11 +10,24 @@ Vue.component("sport-object", {
 	<div>
 		This sport object:
 		<br>
-		<div v-if="curentSportObject != null">
-			<p>Name: {{this.curentSportObject.name}}</p>
-			<p>Object type: {{this.curentSportObject.objectType}}</p>
-			<p>Last name: {{this.curentSportObject.isOpen}}</p>
-			<p>Prosecna ocena: {{this.curentSportObject.avegareGrade}}</p>			
+		<div v-if="SportObject  != null">
+		<br>
+			<p>Name:{{this.SportObject.name}}</p>
+			<p>Object type:{{this.SportObject.objectType}}</p>
+			<p>Is open:{{this.SportObject.isOpen}}</p>
+			<p>Average grade:{{this.SportObject.avegareGrade}}</p>
+		
+			<table v-if="SportObject.content != null">
+				<tr bgcolor="lightgrey">
+					<th scope="col">Content</th>
+				</tr>
+				
+				<tr v-for="so in SportObject.content">
+					<td scope="row">{{so}}</td>
+				</tr>
+			</table>			
+			<input type="text">
+			<button v-on:click="inputField">Add content</button>
 		</div>
 	</div>	
 	
@@ -23,12 +36,16 @@ Vue.component("sport-object", {
 `,
 
 	methods:{
-		
+		inputField : function(){
+			console.log("Treba da se doda post za content");
+		}
 	}, 
 	mounted () {
 		console.log("Mounted sport object!");
-        axios
-			.get('rest/getSportObject')
-      		.then(response => (this.curentSportObject = response.data));
-	}
+			axios
+			.get('/rest/MenagersSportObject')
+			.then(response => (
+				this.SportObject  = response.data
+			))
+		},
 });
