@@ -2,25 +2,26 @@ package beans.webshop;
 
 
 public class Workout {
+	
 	private String name;
 	private String workoutType;
-	private SportObject sportObject;
+	private String sportObjectId;
 	private String workoutDuration; //in minutes
 	private String description;
-	private String trainerId;
+	private String trainer;//can be empty or null
 	//slika ??
 	public Workout() {
 		// TODO Auto-generated constructor stub
 	}
-	public Workout(String name, String workoutType, SportObject sportObject, String workoutDuration,
-			String description, String trainerId) {
+	public Workout(String name, String workoutType, String sportObjectId, String workoutDuration, String description,
+			String trainer) {
 		super();
 		this.name = name;
 		this.workoutType = workoutType;
-		this.sportObject = sportObject;
+		this.sportObjectId = sportObjectId;
 		this.workoutDuration = workoutDuration;
 		this.description = description;
-		this.trainerId = trainerId;
+		this.trainer = trainer;
 	}
 	public String getName() {
 		return name;
@@ -34,11 +35,11 @@ public class Workout {
 	public void setWorkoutType(String workoutType) {
 		this.workoutType = workoutType;
 	}
-	public SportObject getSportObject() {
-		return sportObject;
+	public String getSportObject() {
+		return sportObjectId;
 	}
-	public void setSportObject(SportObject sportObject) {
-		this.sportObject = sportObject;
+	public void setSportObject(String sportObjectId) {
+		this.sportObjectId = sportObjectId;
 	}
 	public String getWorkoutDuration() {
 		return workoutDuration;
@@ -52,16 +53,17 @@ public class Workout {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getTrainerId() {
-		return trainerId;
+	public String getTrainer() {
+		return trainer;
 	}
-	public void setTrainerId(String trainerId) {
-		this.trainerId = trainerId;
+	public void setTrainer(String trainer) {
+		this.trainer = trainer;
 	}
 	@Override
 	public String toString() {
-		return "Workout [name=" + name + ", workoutType=" + workoutType + ", sportObject=" + sportObject
-				+ ", workoutDuration=" + workoutDuration + ", description=" + description + "]";
+		return "Workout [name=" + name + ", workoutType=" + workoutType + ", sportObjectId=" + sportObjectId
+				+ ", workoutDuration=" + workoutDuration + ", description=" + description + ", trainer=" + trainer
+				+ "]";
 	}
 
 }
