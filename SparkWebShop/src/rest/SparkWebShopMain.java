@@ -153,7 +153,7 @@ public class SparkWebShopMain {
 			System.out.println("SENT USER: " + user);
 			ArrayList<TrainingSession> retVal = new ArrayList<TrainingSession>();
 			for (TrainingSession tsIt : trainingHistoryDAO.values()) {
-				if (user.getId().equals(tsIt.getBuyerId())) {
+				if (user.getUsername().equals(tsIt.getBuyer())) {
 					System.out.println("FOUND TRAININGSESSION:" + tsIt.getWorkout());
 					retVal.add(tsIt);
 				}

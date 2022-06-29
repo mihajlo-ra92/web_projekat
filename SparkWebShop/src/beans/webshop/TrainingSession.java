@@ -5,24 +5,24 @@ public class TrainingSession {
 	private String id;
 	private String dateTimeOfSignUp;
 	private String workoutName;
-	private String buyerId;
-	private String trainerId; //can be "" or null
+	private String buyer;
+	private String trainer; //can be "" or null
 	
 	public TrainingSession() {
 		// TODO Auto-generated constructor stub
 	}
-	public TrainingSession(String id, String dateTimeOfSignUp, String workoutName, String buyerId, String trainerId) {
+	public TrainingSession(String id, String dateTimeOfSignUp, String workoutName, String buyer, String trainer) {
 		super();
 		this.id = id;
 		this.dateTimeOfSignUp = dateTimeOfSignUp;
 		this.workoutName = workoutName;
-		this.buyerId = buyerId;
-		this.trainerId = trainerId;
+		this.buyer = buyer;
+		this.trainer = trainer;
 	}
 	@Override
 	public String toString() {
 		return "TrainingHistory [id=" + id + ", dateTimeOfSignUp=" + dateTimeOfSignUp + ", workoutName=" + workoutName
-				+ ", buyerId=" + buyerId + ", trainerId=" + trainerId + "]";
+				+ ", buyer=" + buyer + ", trainer=" + trainer + "]";
 	}
 	public String getId() {
 		return id;
@@ -48,11 +48,23 @@ public class TrainingSession {
 		this.workoutName = workoutName;
 	}
 
-	public String getBuyerId() {
-		return buyerId;
+	public String getWorkoutName() {
+		return workoutName;
+	}
+	public void setWorkoutName(String workoutName) {
+		this.workoutName = workoutName;
+	}
+	public String getTrainer() {
+		return trainer;
+	}
+	public void setTrainer(String trainer) {
+		this.trainer = trainer;
+	}
+	public String getBuyer() {
+		return buyer;
 	}
 
-	public void setBuyerId(String buyerId) {
-		this.buyerId = buyerId;
+	public void setBuyer(String buyer) {
+		this.buyer = buyer;
 	}
 }

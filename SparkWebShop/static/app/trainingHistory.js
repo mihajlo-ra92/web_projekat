@@ -21,8 +21,8 @@ Vue.component("training-history", {
 			<tr v-for="ts in trainingSessions">
 				<td scope="row">{{ts.dateTimeOfSignUp }}</td>
 				<td>{{ts.workoutName }}</td>
-				<td>{{ts.buyerId }}</td>
-				<td>{{ts.trainerId }}</td>
+				<td>{{ts.buyer }}</td>
+				<td>{{ts.trainer }}</td>
 			</tr>
 		</table>
 	</div>	
