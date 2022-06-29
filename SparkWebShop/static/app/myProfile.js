@@ -88,7 +88,6 @@ Vue.component("my-profile", {
 			console.log("Pushing router to list users!");
 			router.push('/list-users')
 		},
-		
 		listSportObjects(){
 			console.log("Pushing router to list sport objects!");
 			router.push('/list-sport-objects')
@@ -96,11 +95,21 @@ Vue.component("my-profile", {
 		showSportObject(){
 			console.log("Show sport object selected!");
 			console.log(this.currentUser);
+      axios
+			.get('/rest/MenagersSportObject')
+			.then(response => {
+				if(response.data == '404')
+				{
+				 console.log("Menager dont have sport object!");
+				}else
+				{					
+					router.push('/sport-object');
+				}
+			})
 		},
 		showTrainingHistory(){
 			console.log("Show training history selected!");
 			router.push('/training-history')
-			
 		}
 	},
 	mounted () {
@@ -112,7 +121,7 @@ Vue.component("my-profile", {
 					console.log('No loged in user!');
 				}
 				else {
-					this.currentUser = response.data
+					this.currentUser = response.data;
 				}
 			})
     }
