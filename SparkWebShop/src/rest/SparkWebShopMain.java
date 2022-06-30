@@ -14,6 +14,8 @@ import beans.webshop.Menager;
 import beans.webshop.SportObject;
 import beans.webshop.SportObjectDAO;
 import beans.webshop.Trainer;
+import beans.webshop.TrainingHistoryDAO;
+import beans.webshop.TrainingSession;
 import beans.webshop.User;
 import beans.webshop.UserDAO;
 import beans.webshop.Workout;
@@ -23,6 +25,7 @@ import enums.Role;
 public class SparkWebShopMain {
 	private static SportObjectDAO sportObjectDAO = new SportObjectDAO();
 	private static WorkoutDAO workoutDAO = new WorkoutDAO();
+	private static TrainingHistoryDAO trainingHistoryDAO = new TrainingHistoryDAO();
 	private static UserDAO userDAO = new UserDAO();
 	private static Gson g = new Gson();
 
@@ -72,6 +75,8 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			return g.toJson(userDAO.getFreeMenagers());
 		});
+		
+		
 		
 		//USER POST REQUESTS:
 		post("/rest/proizvodi/log-in", (req, res) -> {
@@ -141,6 +146,32 @@ public class SparkWebShopMain {
 			//System.out.println("Edit is successful: " + isSuccessful);
 			return isSuccessful;
 		});
+		
+		post("/rest/proizvodi/getTrainingHistory", (req, res) -> {
+			res.type("application/json");
+			System.out.println("TRAINING HISTORY REQ: " + req.body());
+			User user= g.fromJson(req.body(), User.class);
+			System.out.println("SENT USER: " + user);
+			ArrayList<TrainingSession> retVal = new ArrayList<TrainingSession>();
+			for (TrainingSession tsIt : trainingHistoryDAO.values()) {
+				if (user.getUsername().equals(tsIt.getBuyer())) {
+					System.out.println("FOUND TRAININGSESSION:" + tsIt.getWorkout());
+					retVal.add(tsIt);
+				}
+			}
+			if (retVal.isEmpty()) {	
+				return "EMPTY";
+			}
+			else {				
+				return g.toJson(retVal);
+			}
+		});
+		post("/rest/getUserById", (req, res) -> {
+			res.type("application/json");
+			System.out.println("REQ: " + req.body());
+			return g.toJson(userDAO.getUser(req.body()));
+		});
+		
 		
 		//SPORTOBJECT GET REQUESTS:
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {

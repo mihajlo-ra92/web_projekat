@@ -41,11 +41,15 @@ Vue.component("my-profile", {
 			Trainer options
 			</div>
 			
+			<div v-if="currentUser.role.includes('BUYER')">
+				<button type="button" v-on:click="showTrainingHistory()">Show training history</button>
+			</div>
+			
 		</div>
 	</div>	
 	
 	
-</div>	  
+</div>
 `
 	,
 	methods : {
@@ -90,19 +94,23 @@ Vue.component("my-profile", {
 		},
 		showSportObject(){
 			console.log("Show sport object selected!");
-			axios
-			.get('/rest/MenagersSportObject')
-			.then(response => {
-				if(response.data == '404')
-				{
-				 console.log("Menager dont have sport object!");
-				}else
-				{					
-					router.push('/sport-object');
-				}
-			})
-			
+			console.log(this.currentUser);
+	        axios
+				.get('/rest/MenagersSportObject')
+				.then(response => {
+					if(response.data == '404')
+					{
+					 console.log("Menager dont have sport object!");
+					}else
+					{					
+						router.push('/sport-object');
+					}
+				})
 		},
+		showTrainingHistory(){
+			console.log("Show training history selected!");
+			router.push('/training-history')
+		}
 	},
 	mounted () {
         console.log("Mounted MyProfile");

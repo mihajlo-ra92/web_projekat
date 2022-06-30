@@ -8,7 +8,7 @@ const CreateMenager = { template: '<create-menager></create-menager>'}
 const CreateTrainer = { template: '<create-trainer></create-trainer>'}
 const ListUsers = { template: '<list-users></list-users>'}
 const ListSportObjects= { template: '<list-sport-objects></list-sport-objects>'}
-const SportObject = { template : '<sport-object></sport-object>'};
+const TrainingHistory= { template: '<training-history></training-history>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -23,7 +23,7 @@ const router = new VueRouter({
 	    { path: '/create-trainer', component: CreateTrainer},
 	    { path: '/list-users', component: ListUsers},
 	    { path: '/list-sport-objects', component: ListSportObjects},
-	    { path: '/sport-object', component: SportObject}
+	    { path: '/training-history', component: TrainingHistory}
 	  ]
 });
 

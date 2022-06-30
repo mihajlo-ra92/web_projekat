@@ -34,9 +34,8 @@ public class WorkoutDAO {
 			for (Workout workIt : workoutsList) {
 				workouts.put(workIt.getName(), workIt);
 			}
-//			SportObjectDAO soDAO = new SportObjectDAO();
-//			SportObject so = soDAO.getSportObject("1");
-//			Workout w = new Workout("Trening1", "personal", so, "45min", "description", "6");
+			System.out.println(workouts);
+//			Workout w = new Workout("VrstaTreninga3", "swimming", "2", "45", "description3", "");
 //			addWorkout(w);
 			
 		} catch (Exception e) {
