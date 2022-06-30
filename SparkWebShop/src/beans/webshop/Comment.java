@@ -1,7 +1,7 @@
 package beans.webshop;
 
 public class Comment {
-	private Buyer buyer;
+	private String buyer;
 	private SportObject sportObject;
 	private String content;
 	private int grade; //from 1 to 5

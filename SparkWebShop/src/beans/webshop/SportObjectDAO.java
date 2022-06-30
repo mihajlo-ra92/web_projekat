@@ -35,7 +35,7 @@ public class SportObjectDAO {
 			//hashmap from arraylist
 			//treba da bude posebna f-ja
 			for (SportObject soIt : sportObjectsList) {
-				sportObjects.put(soIt.getId(), soIt);
+				sportObjects.put(soIt.getName(), soIt);
 			}
 			
 //			System.out.println("sport object hashmap test");
@@ -45,14 +45,12 @@ public class SportObjectDAO {
 			e.printStackTrace();
 		}
 	}
-	public Workout setContentToSportObject(String SOId,String req) throws FileNotFoundException {
-		Workout wo = g.fromJson(req, Workout.class);
-		//System.out.println(wo.toString());
-		wo.setSportObjectId(SOId);
-		SportObject Sport = sportObjects.get(SOId);
-		Sport.addContent(wo);
+	public Workout setContentToSportObject(String SOname,Workout workout) throws FileNotFoundException {
+		workout.setSportObject(SOname);
+		SportObject Sport = sportObjects.get(SOname);
+		Sport.addContent(workout);
 		toJSON(path + "/resources/JSON/sportObjects.json");
-		return wo;
+		return workout;
 	}
 	public Boolean addSportObjectsRequest(String req) throws FileNotFoundException {
 		SportObject so = g.fromJson(req, SportObject.class);
@@ -74,7 +72,7 @@ public class SportObjectDAO {
 		return (so1.getName().equals(so2.getName()));
 	}
 	public void addSportObject(SportObject sportObject) throws FileNotFoundException {
-		sportObjects.put(sportObject.getId(), sportObject);
+		sportObjects.put(sportObject.getName(), sportObject);
 		toJSON(path + "/resources/JSON/sportObjects.json");
 	}
 
@@ -109,13 +107,12 @@ public class SportObjectDAO {
 		return null;
 	}
 	
-	public void deleteContentofSportObject(String SOId,String req) {
-		Workout wo = g.fromJson(req, Workout.class);
-		System.out.println("ovaj treba da se brise: " + wo.toString());
-		for(Workout woIt : sportObjects.get(SOId).getContent()) {
-			System.out.println("da li je ovaj isti?  " + woIt.toString());
-			if(woIt.getName().equals(wo.getName())) {
-				sportObjects.get(SOId).deleteWorkoutInContent(wo);
+	public void deleteContentofSportObject(String SOname,Workout workout) {
+		//System.out.println("ovaj treba da se brise: " + wo.toString());
+		for(String woIt : sportObjects.get(SOname).getContent()) {
+			//System.out.println("da li je ovaj isti?  " + woIt.toString());
+			if(woIt.equals(workout.getId())) {
+				sportObjects.get(SOname).deleteWorkoutInContent(workout);
 			}
 		}
 	}

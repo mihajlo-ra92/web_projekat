@@ -1,19 +1,19 @@
 package beans.webshop;
 
 public class Menager extends User {
-	private String sportObjectId;
+	private String sportObject;
 	public Menager() {
 		// TODO Auto-generated constructor stub
 	}
-	public String getSportObjectId() {
-		return sportObjectId;
+	public String getSportObject() {
+		return sportObject;
 	}
-	public void setSportObjectId(String sportObjectId) {
-		this.sportObjectId = sportObjectId;
+	public void setSportObject(String sportObject) {
+		this.sportObject = sportObject;
 	}
 	@Override
 	public String toString() {
-		return "Menager [sportObjectId=" + sportObjectId + "]";
+		return "Menager [sportObject=" + sportObject + "]";
 	}
 	
 }

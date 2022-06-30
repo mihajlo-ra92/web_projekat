@@ -191,7 +191,9 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			System.out.println("names0: " + req.body());
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
-			Workout workout = sportObjectDAO.setContentToSportObject(userDAO.getMenagersSportObjectId(user.getUsername()), req.body());
+			Workout wo = g.fromJson(req.body(), Workout.class);
+			Workout workout = sportObjectDAO.setContentToSportObject(userDAO.getMenagersSportObject(user.getUsername()), wo);
+			workoutDAO.addWorkout(workout);
 			System.out.println(workout.toString());
 			return "ok";
 		});
@@ -203,7 +205,8 @@ public class SparkWebShopMain {
 			if (user == null) {
 				return "404";
 			}else {	
-				SportObject retVal = sportObjectDAO.getSportObject(userDAO.getMenagersSportObjectId(user.getUsername()));
+				SportObject retVal = sportObjectDAO.getSportObjectByName(userDAO.getMenagersSportObject(user.getUsername()));
+				System.out.println("SPORTOBJECT: " + g.toJson(retVal));
 				return g.toJson(retVal);
 			}
 		});
@@ -223,20 +226,21 @@ public class SparkWebShopMain {
 			System.out.println("nulti: " + NameWorkout);
 			System.out.println("prvi: " + reqTrainer);
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
-			for(Workout woIt : sportObjectDAO.getSportObject(userDAO.getMenagersSportObjectId(user.getUsername())).getContent()) {
-				if(NameWorkout.equals(woIt.getName())) {
-					woIt.setTrainerId(reqTrainer);
-					//samo ga logicki dodaje ali ga ne upisuje u file
-				}
-			}
+//			for(Workout woIt : sportObjectDAO.getSportObjectByName(userDAO.getMenagersSportObject(user.getUsername())).getContent()) {
+//				if(NameWorkout.equals(woIt.getName())) {
+//					woIt.setTrainer(reqTrainer);
+//					//samo ga logicki dodaje ali ga ne upisuje u file
+//				}
+//			}
 			return "OK";
 		});
 		
 		post("rest/deleteContent" , (req,res) ->{
 			res.type("application/json");
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
-			sportObjectDAO.deleteContentofSportObject(userDAO.getMenagersSportObjectId(user.getUsername()),req.body());
-			System.out.println(userDAO.getMenagersSportObjectId(user.getUsername()) + " I " + req.body());
+			Workout wo = g.fromJson(req.body(), Workout.class);
+			sportObjectDAO.deleteContentofSportObject(userDAO.getMenagersSportObject(user.getUsername()),wo);
+			System.out.println(userDAO.getMenagersSportObject(user.getUsername()) + " I " + req.body());
 			return "ok";
 		});
 	}

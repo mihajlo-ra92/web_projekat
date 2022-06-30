@@ -27,7 +27,7 @@ Vue.component("create-sport-object", {
 					birthDate: '',
 					gender: '',
 					role: 'MENAGER',
-					sportObject: null
+					sportObject: ''
 				},
 				canCreate: true,
 				selected: ''
@@ -110,6 +110,7 @@ Vue.component("create-sport-object", {
 			else {
 				this.sportObject.workHours = this.timeInput.timeStart
 				 + "-" + this.timeInput.timeEnd;
+				this.newMenager.sportObject = this.sportObject.name;
 				if (this.makingNewMenager){
 			    	//creating menager
 			    	axios

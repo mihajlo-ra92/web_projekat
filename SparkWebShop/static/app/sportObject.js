@@ -6,8 +6,8 @@ Vue.component("sport-object", {
 			contents: null,
 			selected: false,
 			selectedContent:{},
-			SportObject : {},
-     	      selectedObject: {},
+			SportObject : null,
+     	    selectedObject: {},
 			input: {
 				name:"",
 				workoutType:"",
@@ -99,7 +99,7 @@ Vue.component("sport-object", {
 		},
 		addTrainerToContent: function(trainer){
 			console.log("dodajemo trenera.");
-			const request =  this.selectedContent.name + '+' + trainer.id
+			const request =  this.selectedContent.name + '+' + trainer.username
 			axios
 			.post('rest/AddTrainerToContent', request)
 			.then(response =>(console.log(response.data)))
@@ -116,11 +116,13 @@ Vue.component("sport-object", {
 		addContent : function(){
 			isExist = false;
 			console.log("Treba da se doda post za content");
-			for(let i = 0; i < this.contents.length; i++){
-				if(this.input.name === this.contents[i].name){
-					isExist = true;
-				}
-			}	
+			if(this.content != null){
+				for(let i = 0; i < this.contents.length; i++){
+					if(this.input.name === this.contents[i].name){
+						isExist = true;
+					}
+				}	
+			}
 			if(isExist === false){				
 				axios
 				.post('rest/proizvodi/CreateContent', this.input)
@@ -156,8 +158,9 @@ Vue.component("sport-object", {
 			axios
 			.get('/rest/MenagersSportObject')
 			.then(response => {
-				this.SportObject  = response.data,
-				this.contents = this.SportObject.content});
+				this.SportObject  = response.data;
+				console.log(this.SportObject)});
+				this.contents = this.SportObject.content;
 			
 			axios
 			.get('rest/getCurrentUser')

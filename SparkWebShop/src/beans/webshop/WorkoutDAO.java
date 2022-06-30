@@ -32,9 +32,9 @@ public class WorkoutDAO {
 			
 			//treba da bude posebna f-ja
 			for (Workout workIt : workoutsList) {
-				workouts.put(workIt.getName(), workIt);
+				workouts.put(workIt.getId(), workIt);
 			}
-			System.out.println(workouts);
+//			System.out.println(workouts);
 //			Workout w = new Workout("VrstaTreninga3", "swimming", "2", "45", "description3", "");
 //			addWorkout(w);
 			
@@ -46,7 +46,8 @@ public class WorkoutDAO {
 	}
 	
 	public void addWorkout(Workout workout) throws FileNotFoundException {
-		workouts.put(workout.getName(), workout);
+		workout.setId(Integer.toString(workouts.size()+1));
+		workouts.put(workout.getId(), workout);
 		toJSON(path + "/resources/JSON/workouts.json");
 	}
 	private void toJSON(String filename) throws FileNotFoundException {

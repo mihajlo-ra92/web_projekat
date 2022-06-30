@@ -132,8 +132,8 @@ public class UserDAO {
 		
 		User user = g.fromJson(req, User.class);
 		
-		System.out.println("JSON PRINT of edit request user object:");
-		System.out.println(user.toString());
+//		System.out.println("JSON PRINT of edit request user object:");
+//		System.out.println(user.toString());
 		
 		for (User userIt : users.values()) {
 			if (usernamesAreSameEdit(userIt, user)) {
@@ -165,7 +165,7 @@ public class UserDAO {
 	public void setSportObjectToMenager(SportObject sportObject, Menager menager) throws FileNotFoundException {
 		for (Menager menagerIt : menagers.values()) {
 			if (menagerIt.getId().equals(menager.getId())) {
-				menagerIt.setSportObjectId(sportObject.getId());
+				menagerIt.setSportObject(sportObject.getName());
 				menagers.replace(menagerIt.getId(), menagerIt);
 			}
 		}
@@ -216,8 +216,8 @@ public class UserDAO {
 		String id = Integer.toString(users.size()+1);
 		bu.setId(id);
 		
-		System.out.println("JSON PRINT of add request buyer object:");
-		System.out.println(bu.toString());
+//		System.out.println("JSON PRINT of add request buyer object:");
+//		System.out.println(bu.toString());
 		
 		for (User userIt : users.values()) {
 			if (usernamesAreSame(userIt, bu)) {
@@ -239,17 +239,17 @@ public class UserDAO {
 		String id = Integer.toString(users.size()+1);
 		me.setId(id);
 		
-		System.out.println("JSON PRINT of add request menager object:");
-		System.out.println(me.toString());
+//		System.out.println("JSON PRINT of add request menager object:");
+//		System.out.println(me.toString());
 		
 		for (User userIt : users.values()) {
 			if (usernamesAreSame(userIt, me)) {
-				System.out.println("Username taken!");
+				//System.out.println("Username taken!");
 				return false;
 			}
 		}
 		User us = (User) me;
-		//System.out.println("BUYER CASTED TO USER:" + us);
+//		System.out.println("MENAGER CASTED TO USER:" + us);
 		addUser(us);
 		addMenager(me);
 		return true;
@@ -262,8 +262,8 @@ public class UserDAO {
 		String id = Integer.toString(users.size()+1);
 		tr.setId(id);
 		
-		System.out.println("JSON PRINT of add request trainer object:");
-		System.out.println(tr.toString());
+//		System.out.println("JSON PRINT of add request trainer object:");
+//		System.out.println(tr.toString());
 		
 		for (User userIt : users.values()) {
 			if (usernamesAreSame(userIt, tr)) {
@@ -284,7 +284,7 @@ public class UserDAO {
 	
 	public void addUser(User user) throws FileNotFoundException {
 		users.put(user.getId(), user);
-		System.out.println("PUTING USER: " + user);
+//		System.out.println("PUTING USER: " + user);
 		toJSON(path + "/resources/JSON/users.json", "USER");
 	}
 	
@@ -311,15 +311,15 @@ public class UserDAO {
 			out.printf(g.toJson(users.values()));
 			break;
 		case "BUYER":
-			System.out.println("buyers to json: " + buyers);
+//			System.out.println("buyers to json: " + buyers);
 			out.printf(g.toJson(buyers.values()));
 			break;
 		case "MENAGER":
-			System.out.println("menagers to json: " + menagers);
+//			System.out.println("menagers to json: " + menagers);
 			out.printf(g.toJson(menagers.values()));
 			break;
 		case "TRAINER":
-			System.out.println("trainers to json: " + trainers);
+//			System.out.println("trainers to json: " + trainers);
 			out.printf(g.toJson(trainers.values()));
 		default:
 			//
@@ -332,8 +332,8 @@ public class UserDAO {
 	public Collection<Menager> getFreeMenagers(){
 		ArrayList<Menager> collection = new ArrayList<Menager>();
 		for (Menager menagerIt : menagers.values()) {
-			if (menagerIt.getSportObjectId() == null ||
-					menagerIt.getSportObjectId() == "") {
+			if (menagerIt.getSportObject() == null ||
+					menagerIt.getSportObject() == "") {
 				collection.add(menagerIt);
 			}
 		}
@@ -380,10 +380,10 @@ public class UserDAO {
 		return null;
 	}
 	
-	public String getMenagersSportObjectId(String username) {
+	public String getMenagersSportObject(String username) {
 		for(Menager menagerIt : menagers.values()) {
 			if(menagerIt.getUsername().equals(username)){
-				return menagerIt.getSportObjectId();
+				return menagerIt.getSportObject();
 			}
 		}
 		return null;
