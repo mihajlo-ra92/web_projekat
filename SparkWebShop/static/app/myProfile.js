@@ -95,17 +95,17 @@ Vue.component("my-profile", {
 		showSportObject(){
 			console.log("Show sport object selected!");
 			console.log(this.currentUser);
-      axios
-			.get('/rest/MenagersSportObject')
-			.then(response => {
-				if(response.data == '404')
-				{
-				 console.log("Menager dont have sport object!");
-				}else
-				{					
-					router.push('/sport-object');
-				}
-			})
+	        axios
+				.get('/rest/MenagersSportObject')
+				.then(response => {
+					if(response.data == '404')
+					{
+					 console.log("Menager dont have sport object!");
+					}else
+					{					
+						router.push('/sport-object');
+					}
+				})
 		},
 		showTrainingHistory(){
 			console.log("Show training history selected!");

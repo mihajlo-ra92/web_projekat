@@ -359,10 +359,10 @@ public class UserDAO {
 		return null;
 	}
 	
-	public SportObject getMenagersSportObject(String username) {
+	public String getMenagersSportObject(String username) {
 		for(Menager menagerIt : menagers.values()) {
 			if(menagerIt.getUsername().equals(username)){
-				return menagerIt.getSportObject();
+				return menagerIt.getSportObjectId();
 			}
 		}
 		return null;

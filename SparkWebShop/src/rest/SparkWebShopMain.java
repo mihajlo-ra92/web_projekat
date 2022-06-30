@@ -193,7 +193,8 @@ public class SparkWebShopMain {
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
 			if (user == null) {
 				return "404";
-			}else {				
+			}else {		
+				
 				return g.toJson(userDAO.getMenagersSportObject(user.getUsername()));
 			}
 		});
