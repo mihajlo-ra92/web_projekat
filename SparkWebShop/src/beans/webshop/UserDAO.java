@@ -3,6 +3,7 @@ package beans.webshop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +20,11 @@ public class UserDAO {
 	private HashMap<String, User> users = new HashMap<String, User>();
 	private HashMap<String, Buyer> buyers = new HashMap<String, Buyer>();
 	private HashMap<String, Menager> menagers= new HashMap<String, Menager>();
+	
+	
+	
+	
+
 	private HashMap<String, Trainer> trainers= new HashMap<String, Trainer>();
 	
 	private String path;
@@ -106,6 +112,21 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<User> getTrainers() throws IOException {
+		File usersFile = new File(path + "/resources/JSON/users.json");
+		System.out.println(usersFile.getCanonicalPath());
+		JsonReader usersReader = new JsonReader(new FileReader(usersFile));
+		ArrayList<User> usersList = g.fromJson(usersReader, USERS_TYPE);
+		ArrayList<User> trainerList = new ArrayList<User>();
+		for(User usIt : usersList ) {
+			if(usIt.getRole().equals(Role.TRAINER)) {
+				trainerList.add(usIt);
+			}
+		}
+		return trainerList;
+	}
+
 	
 	public Boolean editUserRequest(String req) throws FileNotFoundException {
 		
@@ -359,7 +380,7 @@ public class UserDAO {
 		return null;
 	}
 	
-	public String getMenagersSportObject(String username) {
+	public String getMenagersSportObjectId(String username) {
 		for(Menager menagerIt : menagers.values()) {
 			if(menagerIt.getUsername().equals(username)){
 				return menagerIt.getSportObjectId();

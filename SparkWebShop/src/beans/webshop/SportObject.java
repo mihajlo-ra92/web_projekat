@@ -6,7 +6,7 @@ public class SportObject {
 	private String id;
 	private String name;
 	private String objectType;//mozda bude enum
-	private ArrayList<String> content;
+	private ArrayList<Workout> content;
 	private boolean isOpen;
 	private Location location;
 	//private String logo;
@@ -25,7 +25,16 @@ public class SportObject {
 		this.location = location;
 		this.avegareGrade = averageGrade;
 	}
-	
+	public void deleteWorkoutInContent(Workout wo) {
+		System.out.println("Brisemo ga!");
+		ArrayList<Workout> woList = new ArrayList<Workout>();
+		for(Workout woIt : content) {
+			if(woIt.getName().equals(wo.getName()) == false) {
+				woList.add(woIt);
+			}
+		}
+		setContent(woList);
+	}
 	public String getId() {
 		return id;
 	}
@@ -44,11 +53,21 @@ public class SportObject {
 	public void setObjectType(String objectType) {
 		this.objectType = objectType;
 	}
-	public ArrayList<String> getContent() {
+	public ArrayList<Workout> getContent() {
 		return content;
 	}
-	public void setContent(ArrayList<String> content) {
+	
+	public void setContent(ArrayList<Workout> content) {
 		this.content = content;
+	}
+	public void addContent(Workout wo) {
+		if(this.content != null) {
+		this.content.add(wo);
+		}else {
+			ArrayList<Workout> proba = new ArrayList<Workout>();
+			proba.add(wo);
+			this.content = proba;
+		}
 	}
 	public boolean isOpen() {
 		return isOpen;

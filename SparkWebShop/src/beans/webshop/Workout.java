@@ -13,12 +13,19 @@ public class Workout {
 	public Workout() {
 		// TODO Auto-generated constructor stub
 	}
+	public Workout(String name, String workoutType, String workoutDuration, String description) {
+		super();
+		this.name = name;
+		this.workoutType = workoutType;
+		this.workoutDuration = workoutDuration;
+		this.description = description;
+	}
 	public Workout(String name, String workoutType, String sportObjectId, String workoutDuration, String description,
 			String trainer) {
 		super();
 		this.name = name;
 		this.workoutType = workoutType;
-		this.sportObjectId = sportObjectId;
+		this.sportObjectId = sportObjectId
 		this.workoutDuration = workoutDuration;
 		this.description = description;
 		this.trainer = trainer;
@@ -35,11 +42,11 @@ public class Workout {
 	public void setWorkoutType(String workoutType) {
 		this.workoutType = workoutType;
 	}
-	public String getSportObject() {
+	public String getSportObjectId() {
 		return sportObjectId;
 	}
-	public void setSportObject(String sportObjectId) {
-		this.sportObjectId = sportObjectId;
+	public void setSportObjectId(String sportObject) {
+		this.sportObjectId = sportObject;
 	}
 	public String getWorkoutDuration() {
 		return workoutDuration;
@@ -65,5 +72,4 @@ public class Workout {
 				+ ", workoutDuration=" + workoutDuration + ", description=" + description + ", trainer=" + trainer
 				+ "]";
 	}
-
 }
