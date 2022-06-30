@@ -5,6 +5,8 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 import java.io.File;
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 
 import beans.webshop.Buyer;
@@ -14,6 +16,7 @@ import beans.webshop.SportObjectDAO;
 import beans.webshop.Trainer;
 import beans.webshop.User;
 import beans.webshop.UserDAO;
+import beans.webshop.Workout;
 import beans.webshop.WorkoutDAO;
 import enums.Role;
 
@@ -153,6 +156,14 @@ public class SparkWebShopMain {
 			//System.out.println("Register sport object is successful: " + isSuccessful);
 			return isSuccessful;
 		});
+		post("rest/proizvodi/CreateContent",(req,res) -> {
+			res.type("application/json");
+			System.out.println("names0: " + req.body());
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			Workout workout = sportObjectDAO.setContentToSportObject(userDAO.getMenagersSportObjectId(user.getUsername()), req.body());
+			System.out.println(workout.toString());
+			return "ok";
+		});
 		
 		//MENAGER GET REQUEST:
 		get("/rest/MenagersSportObject", (req,res) -> {
@@ -160,9 +171,42 @@ public class SparkWebShopMain {
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
 			if (user == null) {
 				return "404";
-			}else {				
-				return g.toJson(userDAO.getMenagersSportObject(user.getUsername()));
+			}else {	
+				SportObject retVal = sportObjectDAO.getSportObject(userDAO.getMenagersSportObjectId(user.getUsername()));
+				return g.toJson(retVal);
 			}
+		});
+		
+		//TRAINER GET REQUEST:
+		get("rest/getAllTrainers",(req,res) ->{
+			res.type("application/json");
+			return g.toJson(userDAO.getTrainers());
+		});
+		
+		//CONTENT POST REQUEST:
+		post("rest/AddTrainerToContent", (req,res) ->{
+			res.type("application/json");
+			String [] names = req.body().split("\\+");
+			String NameWorkout = names[0];
+			String reqTrainer = names[1];
+			System.out.println("nulti: " + NameWorkout);
+			System.out.println("prvi: " + reqTrainer);
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			for(Workout woIt : sportObjectDAO.getSportObject(userDAO.getMenagersSportObjectId(user.getUsername())).getContent()) {
+				if(NameWorkout.equals(woIt.getName())) {
+					woIt.setTrainerId(reqTrainer);
+					//samo ga logicki dodaje ali ga ne upisuje u file
+				}
+			}
+			return "OK";
+		});
+		
+		post("rest/deleteContent" , (req,res) ->{
+			res.type("application/json");
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			sportObjectDAO.deleteContentofSportObject(userDAO.getMenagersSportObjectId(user.getUsername()),req.body());
+			System.out.println(userDAO.getMenagersSportObjectId(user.getUsername()) + " I " + req.body());
+			return "ok";
 		});
 	}
 }

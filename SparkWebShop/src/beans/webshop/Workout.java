@@ -4,7 +4,7 @@ package beans.webshop;
 public class Workout {
 	private String name;
 	private String workoutType;
-	private SportObject sportObject;
+	private String sportObjectId;
 	private String workoutDuration; //in minutes
 	private String description;
 	private String trainerId;
@@ -12,12 +12,19 @@ public class Workout {
 	public Workout() {
 		// TODO Auto-generated constructor stub
 	}
-	public Workout(String name, String workoutType, SportObject sportObject, String workoutDuration,
+	public Workout(String name, String workoutType, String workoutDuration, String description) {
+		super();
+		this.name = name;
+		this.workoutType = workoutType;
+		this.workoutDuration = workoutDuration;
+		this.description = description;
+	}
+	public Workout(String name, String workoutType, String sportObject, String workoutDuration,
 			String description, String trainerId) {
 		super();
 		this.name = name;
 		this.workoutType = workoutType;
-		this.sportObject = sportObject;
+		this.sportObjectId = sportObject;
 		this.workoutDuration = workoutDuration;
 		this.description = description;
 		this.trainerId = trainerId;
@@ -34,11 +41,11 @@ public class Workout {
 	public void setWorkoutType(String workoutType) {
 		this.workoutType = workoutType;
 	}
-	public SportObject getSportObject() {
-		return sportObject;
+	public String getSportObjectId() {
+		return sportObjectId;
 	}
-	public void setSportObject(SportObject sportObject) {
-		this.sportObject = sportObject;
+	public void setSportObjectId(String sportObject) {
+		this.sportObjectId = sportObject;
 	}
 	public String getWorkoutDuration() {
 		return workoutDuration;
@@ -60,7 +67,7 @@ public class Workout {
 	}
 	@Override
 	public String toString() {
-		return "Workout [name=" + name + ", workoutType=" + workoutType + ", sportObject=" + sportObject
+		return "Workout [name=" + name + ", workoutType=" + workoutType + ", sportObjectId=" + sportObjectId
 				+ ", workoutDuration=" + workoutDuration + ", description=" + description + "]";
 	}
 

@@ -31,6 +31,7 @@ public class SportObjectDAO {
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<SportObject> sportObjectsList = g.fromJson(reader, SPORTOBJECTS_TYPE);
 			
+			
 			//hashmap from arraylist
 			//treba da bude posebna f-ja
 			for (SportObject soIt : sportObjectsList) {
@@ -44,7 +45,15 @@ public class SportObjectDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	public Workout setContentToSportObject(String SOId,String req) throws FileNotFoundException {
+		Workout wo = g.fromJson(req, Workout.class);
+		//System.out.println(wo.toString());
+		wo.setSportObjectId(SOId);
+		SportObject Sport = sportObjects.get(SOId);
+		Sport.addContent(wo);
+		toJSON(path + "/resources/JSON/sportObjects.json");
+		return wo;
+	}
 	public Boolean addSportObjectsRequest(String req) throws FileNotFoundException {
 		SportObject so = g.fromJson(req, SportObject.class);
 		String id = Integer.toString(sportObjects.size()+1);
@@ -98,5 +107,16 @@ public class SportObjectDAO {
 			}
 		}
 		return null;
+	}
+	
+	public void deleteContentofSportObject(String SOId,String req) {
+		Workout wo = g.fromJson(req, Workout.class);
+		System.out.println("ovaj treba da se brise: " + wo.toString());
+		for(Workout woIt : sportObjects.get(SOId).getContent()) {
+			System.out.println("da li je ovaj isti?  " + woIt.toString());
+			if(woIt.getName().equals(wo.getName())) {
+				sportObjects.get(SOId).deleteWorkoutInContent(wo);
+			}
+		}
 	}
 }

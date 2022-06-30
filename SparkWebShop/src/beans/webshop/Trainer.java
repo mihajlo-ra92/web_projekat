@@ -5,5 +5,4 @@ public class Trainer extends User {
 	public Trainer() {
 		// TODO Auto-generated constructor stub
 	}
-
 }

@@ -71,6 +71,21 @@ Vue.component("sport-objects", {
 		<label>Adress:</label>
 			<label>{{this.selectedObject.location.address}}</label>
 			<br>
+		<table v-if="selectedObject.content != null">
+				<tr bgcolor="lightgrey">
+					<th scope="col">Content name  </th>
+					<th scope="col">Content type  </th>
+					<th scope="col">Duration  </th>
+					<th scope="col">Description  </th>
+				</tr>
+				
+				<tr v-for="so in selectedObject.content">
+					<td scope="row">{{so.name}}</td>
+					<td scope="row">{{so.workoutType}}</td>
+					<td scope="row">{{so.workoutDuration}}</td>
+					<td scope="row">{{so.description}}</td>
+				</tr>
+			</table>
 			<br>
 		<button type="button" v-on:click="unselect()">Back</button>
 	</div>		  
@@ -84,7 +99,7 @@ Vue.component("sport-objects", {
 			this.selected = true;
 			//router.push('/sport-object');
 		},
-		unselect : function(){
+		unselect : function() {
 			console.log("vrati na tabelu!");
 			this.selected = false;
 			
