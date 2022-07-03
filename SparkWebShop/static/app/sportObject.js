@@ -3,16 +3,22 @@ Vue.component("sport-object", {
 		return{
 			currentUser: null,
 			trainers :null,
-			contents: null,
+			contents: {},
 			selected: false,
-			selectedContent:{},
+			selectedContent:{
+				name:'',
+				type:'',
+				description:'',
+				duration:''
+			},
 			SportObject : null,
      	    selectedObject: {},
 			input: {
 				name:"",
 				workoutType:"",
 				description:"",
-				workoutDuration:""				
+				workoutDuration:"",
+							
 			}
 		}
 	},
@@ -29,21 +35,20 @@ Vue.component("sport-object", {
 			<p>Is open:{{this.SportObject.isOpen}}</p>
 			<p>Average grade:{{this.SportObject.avegareGrade}}</p>
 		
-			<table v-if="SportObject.content != null">
+			<table v-if="SportObject != null" >
 				<tr bgcolor="lightgrey">
-					<th scope="col">Content name  </th>
-					<th scope="col">Content type  </th>
-					<th scope="col">duration  </th>
-					<th scope="col">description  </th>
+					<th scope="col">Content name     </th>
+					<th scope="col">Type of content     </th>
+					<th scope="col">Duration   </th>
+					<th scope="col">Description  </th>
 					<th scope="col">Trainer  </th>
 				</tr>
-				
 				<tr v-for="so in contents" v-on:click="selectObject(so)">
-					<td scope="row">{{so.name}}</td>
-					<td scope="row">{{so.workoutType}}</td>
-					<td scope="row">{{so.workoutDuration}}</td>
-					<td scope="row">{{so.description}}</td>
-					<td scope="row">{{so.trainerId}}</td>
+					<td>{{so.name}}</td>
+					<td>{{so.workoutType}}</td>
+					<td>{{so.workoutDuration}}</td>
+					<td>{{so.description}}</td>
+					<td>{{so.trainer}}</td>
 				</tr>
 			</table>	
 			Add content:
@@ -52,9 +57,9 @@ Vue.component("sport-object", {
 			<br>
 			<input type="text" v-model="input.workoutType" placeholder="Type of content">
 			<br>
-			<input type="text" placeholder="Description" v-model="input.description">
-			<br>
 			<input type="text" placeholder="Duration" v-model="input.workoutDuration">
+			<br>
+			<input type="text" placeholder="Description" v-model="input.description">
 			<br>
 			<button v-on:click="addContent">Add content</button>
 		</div>
@@ -62,6 +67,17 @@ Vue.component("sport-object", {
 	
 	
 	<div v-if="selected != false">
+		
+		<input type="text" name="name" v-model="selectedContent.name"></input>
+		<br>
+		<input type="text" name="type" v-model="selectedContent.workoutType"></input>
+		<br>
+		<input type="text" name="duration" v-model="selectedContent.workoutDuration"></input>
+		<br>
+		<input type="text" name="description" v-model="selectedContent.description"></input>		
+		<br>
+		<label>Odaberite trenera:</label>
+		<br>
 		<table class="table table-bordered table--lg team-roster-table table-hover"">
 		<tr bgcolor="lightgrey">
 				<th scope="col">Name</th>
@@ -73,6 +89,9 @@ Vue.component("sport-object", {
 		<td>{{tr.lastName}}</td>
 		</tr>
 		</table>
+		<br>
+		<button type="button" v-on:click="edit()">Edit</button>
+		<br>
 		<button type="button" v-on:click="unselect()">Back</button>
 		<button type="button" v-on:click="deleteContent()">Delete</button>
 	</div>
@@ -81,42 +100,50 @@ Vue.component("sport-object", {
 `,
 
 	methods:{
-		deleteContent: function(){
+		edit: function(){
+			console.log("edit!");
 			axios
-			.post('rest/deleteContent',this.selectedContent)
-			.then(response => console.log(response.data));
+			.post('rest/editContent',this.selectedContent)
+			.then();
 			
-			axios
-			.get('/rest/MenagersSportObject')
-			.then(response => {
-				this.SportObject  = response.data,
-				this.contents = this.SportObject.content});
+			axios 
+			.get('/rest/contnentsForMenagersObject')
+			.then(response => {	this.contents = response.data;
+			console.log(this.contents)});
 			this.selected = false;
 		},
-		getTrainerById : function(trainerId){
-			console.log(trainerId);
-			return trainerId;
-		},
-		addTrainerToContent: function(trainer){
-			console.log("dodajemo trenera.");
-			const request =  this.selectedContent.name + '+' + trainer.username
+		deleteContent: function(){
 			axios
-			.post('rest/AddTrainerToContent', request)
+			.post('rest/deleteContent',this.selectedContent.name)
 			.then(response =>(console.log(response.data)))
 			.catch((error) => console.log(error));
 			
 			axios
-			.get('/rest/MenagersSportObject')
+			.get('/rest/contnentsForMenagersObject')
 			.then(response => {
-				this.SportObject  = response.data,
-				this.contents = this.SportObject.content});
+				this.contents  = response.data});
+			this.selected = false;
+		},
+		addTrainerToContent: function(trainer){
+			console.log("dodajemo trenera.");
+			const request =  this.selectedContent.name + '+' + trainer.username
+			
+			axios
+			.post('rest/AddTrainerToContent', request)
+			.then(response =>(console.log(response.data)))
+			.catch((error) => console.log(error));
+				
+			axios 
+			.get('/rest/contnentsForMenagersObject')
+			.then(response => {	this.contents = response.data;});
+			console.log(this.contents);
 				
 			this.selected = false;
 		},
 		addContent : function(){
 			isExist = false;
 			console.log("Treba da se doda post za content");
-			if(this.content != null){
+			if(this.contents != null){
 				for(let i = 0; i < this.contents.length; i++){
 					if(this.input.name === this.contents[i].name){
 						isExist = true;
@@ -126,14 +153,13 @@ Vue.component("sport-object", {
 			if(isExist === false){				
 				axios
 				.post('rest/proizvodi/CreateContent', this.input)
-				.then(response => console.log("odradjen post"))
+				.then(response => this.contents = response.data)
 				.catch((error) => console.log(error));
 				
 				axios
-			.get('/rest/MenagersSportObject')
-			.then(response => {
-				this.SportObject  = response.data,
-				this.contents = this.SportObject.content});
+				.get('/rest/contnentsForMenagersObject')
+				.then(response => {
+				this.contents  = response.data;});
 				
 			}else{
 				console.log("Vec postoji!");
@@ -150,6 +176,11 @@ Vue.component("sport-object", {
 		unselect : function() {
 			console.log("vrati na tabelu!");
 			this.selected = false;
+		
+		axios 
+			.get('/rest/contnentsForMenagersObject')
+			.then(response => {	this.contents = response.data;
+			console.log(this.contents)});
 			
 		}
 	}, 
@@ -160,7 +191,13 @@ Vue.component("sport-object", {
 			.then(response => {
 				this.SportObject  = response.data;
 				console.log(this.SportObject)});
-				this.contents = this.SportObject.content;
+			
+			axios 
+			.get('/rest/contnentsForMenagersObject')
+			.then(response => {	this.contents = response.data;
+			console.log(this.contents);
+			
+			});
 			
 			axios
 			.get('rest/getCurrentUser')

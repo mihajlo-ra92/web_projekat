@@ -5,7 +5,9 @@ Vue.component("sport-objects", {
 		      sportObjects: null,
 		      selectedObject: {},
 		      selected: false,
-		      search: ''
+		      search: '',
+		      workouts:null,
+		      filteredWorkouts:{}
 		    }
 	},
 	computed: {
@@ -71,7 +73,7 @@ Vue.component("sport-objects", {
 		<label>Adress:</label>
 			<label>{{this.selectedObject.location.address}}</label>
 			<br>
-		<table v-if="selectedObject.content != null">
+		<table v-if="filteredWorkouts != null">
 				<tr bgcolor="lightgrey">
 					<th scope="col">Content name  </th>
 					<th scope="col">Content type  </th>
@@ -79,7 +81,7 @@ Vue.component("sport-objects", {
 					<th scope="col">Description  </th>
 				</tr>
 				
-				<tr v-for="so in selectedObject.content">
+				<tr v-for="so in workouts" v-if="so.sportObject === selectedObject.name">
 					<td scope="row">{{so.name}}</td>
 					<td scope="row">{{so.workoutType}}</td>
 					<td scope="row">{{so.workoutDuration}}</td>
@@ -97,7 +99,12 @@ Vue.component("sport-objects", {
 			console.log("Usli smo u select.");
 			this.selectedObject = sportObject;
 			this.selected = true;
-			//router.push('/sport-object');
+		//	for(let i=0; i < this.workouts.length;i++ ){
+		//		if(this.workouts[i].sportObject === this.selectedObject.name){					
+		//		this.filteredWorkouts.push(this.workouts[i]);
+		//		}
+		//	}
+			
 		},
 		unselect : function() {
 			console.log("vrati na tabelu!");
@@ -110,5 +117,9 @@ Vue.component("sport-objects", {
         axios
           .get('rest/proizvodi/getJustSportObjects')
           .then(response => (this.sportObjects = response.data))
+         
+        axios
+        .get('rest/proizvodi/getAllcontents')
+        .then(response => this.workouts = response.data);
     },
 });	  

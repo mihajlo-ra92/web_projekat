@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
@@ -45,6 +46,24 @@ public class WorkoutDAO {
 		
 	}
 	
+	public void setTrainerToWorkout(ArrayList<Workout> wo, String NameWorkout,String reqTrainer) throws FileNotFoundException {
+		for(Workout woIt : wo) {
+			if(woIt.getName().equals(NameWorkout)) {
+				woIt.setTrainer(reqTrainer);
+				break;
+			}
+		}
+		toJSON(path + "/resources/JSON/workouts.json");
+	}
+	
+	public void DeleteContentByNameAndSportObject(String SOName, String WorkoutName) throws FileNotFoundException {
+		for(Workout woIt : workouts.values()) {
+			if(woIt.getName().equals(WorkoutName) && woIt.getSportObject().equals(SOName)) {
+				workouts.remove(woIt.getId());
+			}
+		}
+		toJSON(path + "/resources/JSON/workouts.json");
+	}
 	public void addWorkout(Workout workout) throws FileNotFoundException {
 		workout.setId(Integer.toString(workouts.size()+1));
 		workouts.put(workout.getId(), workout);
@@ -55,5 +74,28 @@ public class WorkoutDAO {
 		out.printf(g.toJson(workouts.values()));
 		out.close();
 	}
-
+	public void editWorkout(Workout wo) throws FileNotFoundException {
+		for(Workout woIt : workouts.values()) {
+			if(woIt.getId().equals(wo.getId())) {
+				woIt.setDescription(wo.getDescription());
+				woIt.setName(wo.getName());
+				woIt.setWorkoutDuration(wo.getWorkoutDuration());
+				woIt.setWorkoutType(wo.getWorkoutType());
+			}
+		}
+		toJSON(path + "/resources/JSON/workouts.json");
+	}
+	
+	public ArrayList<Workout> getBySportObject(String SOName){
+		ArrayList<Workout> returnList = new ArrayList<Workout>();
+		for(Workout woIt : workouts.values()) {
+			if (woIt.getSportObject().equals(SOName)) {
+				returnList.add(woIt);
+			}
+		}
+		return returnList;
+	}
+	public Collection<Workout> getValues(){
+		return workouts.values();
+	}
 }
