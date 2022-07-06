@@ -10,6 +10,8 @@ const ListUsers = { template: '<list-users></list-users>'}
 const ListSportObjects= { template: '<list-sport-objects></list-sport-objects>'}
 const TrainingHistory= { template: '<training-history></training-history>'}
 const SportObject= { template: '<sport-object></sport-object>'}
+const TrainersTrainings = { template: '<trainers-trainings></trainers-trainings>'}
+const MenagersTrainings = { template: '<menagers-trainings></menagers-trainings>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -25,7 +27,9 @@ const router = new VueRouter({
 	    { path: '/list-users', component: ListUsers},
 	    { path: '/list-sport-objects', component: ListSportObjects},
 	    { path: '/training-history', component: TrainingHistory},
-	    { path: '/sport-object', component: SportObject}
+	    { path: '/sport-object', component: SportObject},
+	    { path: '/trainers-trainings', component: TrainersTrainings},
+	    { path: '/menagers-trainings', component: MenagersTrainings}
 	  ]
 });
 

@@ -43,9 +43,89 @@ public class TrainingHistoryDAO {
 	}
 	public void addTrainingHistoty(TrainingSession trainingSession) throws FileNotFoundException {
 		trainingHistory.put(trainingSession.getId(), trainingSession);
-		toJSON(path + "/resources/JSON/trainingHistory.json");
-		
+		toJSON(path + "/resources/JSON/trainingHistory.json");	
 	}
+	
+	public ArrayList<TrainingSession> getTrSessionsGroupFromTrainer(String trUsername){
+		ArrayList<TrainingSession> trainersTrSess = new ArrayList<TrainingSession>();
+		ArrayList<TrainingSession> retVal= new ArrayList<TrainingSession>();
+		//punjenje trenera
+		for(TrainingSession trIt : trainingHistory.values()) {
+			if(trIt.getTrainer().equals(trUsername) ) {
+				trainersTrSess.add(trIt);
+			}
+		}
+		//punjenje group treninga
+		for(TrainingSession trIt : trainersTrSess) {
+			int counter = 0;
+			for(TrainingSession trIt1 : trainersTrSess) {
+				if(!trIt.getId().equals(trIt1.getId()) &&
+					trIt.getDateTimeOfSignUp().equals(trIt1.getDateTimeOfSignUp()) &&
+					trIt.getWorkout().equals(trIt1.getWorkout())) {
+					counter++;
+				}
+			}
+			if(counter > 0) {
+				retVal.add(trIt);
+			}
+		}
+		//izbacivanje duplih
+		if(retVal.size() != 0) {
+			for(TrainingSession trIt : retVal) {
+				for(TrainingSession trIt1 : retVal) {
+					if(trIt.getDateTimeOfSignUp().equals(trIt1.getDateTimeOfSignUp())) {
+						retVal.remove(trIt1);
+					}
+				}
+			}
+		return retVal;
+		}else {
+			return null;
+		}
+	}
+	
+	public ArrayList<TrainingSession> getTrainingsbySportObjectName(String SOName){
+		ArrayList<TrainingSession> retVal= new ArrayList<TrainingSession>();
+		for(TrainingSession trIt : trainingHistory.values()) {
+			if(trIt.getSportObject().equals(SOName)) {				
+				retVal.add(trIt);
+			}
+		}
+		if(retVal.size() == 0) {
+			return null;
+		}else {			
+			return retVal;
+		}
+	}
+	
+	public void deleteTrainingById(String req) {
+		TrainingSession tr = g.fromJson(req, TrainingSession.class);
+		System.out.println(tr);
+		trainingHistory.remove(tr.getId());			
+	}
+	
+	public ArrayList<TrainingSession> getTrSessionsPersonalFromTrainer(String trUsername) {
+		ArrayList<TrainingSession> trainersTrSess = new ArrayList<TrainingSession>();
+		ArrayList<TrainingSession> retVal= new ArrayList<TrainingSession>();
+		for(TrainingSession trIt : trainingHistory.values()) {
+			if(trIt.getTrainer().equals(trUsername) ) {
+				trainersTrSess.add(trIt);
+			}
+		}
+		for(TrainingSession trIt : trainersTrSess) {
+			int counter = 0;
+			for(TrainingSession trIt1 : trainersTrSess) {
+				if(!trIt.getId().equals(trIt1.getId()) && trIt.getDateTimeOfSignUp().equals(trIt1.getDateTimeOfSignUp())) {
+					counter++;
+				}
+			}
+			if(counter == 0) {
+				retVal.add(trIt);
+			}
+		}
+		return retVal;
+	}
+	
 	private void toJSON(String filename) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(filename);
 		out.printf(g.toJson(trainingHistory.values()));

@@ -98,13 +98,7 @@ Vue.component("sport-objects", {
 		selectObject : function(sportObject){
 			console.log("Usli smo u select.");
 			this.selectedObject = sportObject;
-			this.selected = true;
-		//	for(let i=0; i < this.workouts.length;i++ ){
-		//		if(this.workouts[i].sportObject === this.selectedObject.name){					
-		//		this.filteredWorkouts.push(this.workouts[i]);
-		//		}
-		//	}
-			
+			this.selected = true;			
 		},
 		unselect : function() {
 			console.log("vrati na tabelu!");

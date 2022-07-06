@@ -104,7 +104,8 @@ Vue.component("sport-object", {
 			console.log("edit!");
 			axios
 			.post('rest/editContent',this.selectedContent)
-			.then();
+			.then(response =>(console.log(response.data)))
+			.catch((error) => console.log(error));
 			
 			axios 
 			.get('/rest/contnentsForMenagersObject')

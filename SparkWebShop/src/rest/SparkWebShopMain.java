@@ -6,6 +6,7 @@ import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import com.google.gson.Gson;
 
@@ -266,6 +267,42 @@ public class SparkWebShopMain {
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
 			SportObject sportObject = sportObjectDAO.getSportObjectByName(userDAO.getMenagersSportObject(user.getUsername()));
 			workoutDAO.DeleteContentByNameAndSportObject(sportObject.getName(),req.body());
+			return "ok";
+		});
+		
+		//TRAINING SESSION GET REQUEST:
+		get("rest/TrainingsInSportObject" , (req,res) ->{
+			res.type("application/json");
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			SportObject sportObject = sportObjectDAO.getSportObjectByName(userDAO.getMenagersSportObject(user.getUsername()));
+			ArrayList<TrainingSession> retVal = trainingHistoryDAO.getTrainingsbySportObjectName(sportObject.getName());
+			if(retVal == null) {
+				return "403";
+			}else {
+				return g.toJson(retVal);
+			}
+		});
+		
+		get("rest/traingSessionsForTrainerPersonal", (req,res) ->{
+			res.type("application/json");
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			return g.toJson(trainingHistoryDAO.getTrSessionsPersonalFromTrainer(user.getUsername()));
+		});
+		
+		get("rest/traingSessionsForTrainerGroup", (req,res) ->{
+			res.type("application/json");
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			System.out.println(trainingHistoryDAO.getTrSessionsGroupFromTrainer(user.getUsername()));
+			if(g.toJson(trainingHistoryDAO.getTrSessionsGroupFromTrainer(user.getUsername())) != null) {				
+				return g.toJson(trainingHistoryDAO.getTrSessionsGroupFromTrainer(user.getUsername()));
+			}else {
+				return "404";
+			}
+		});
+		//TRAINING SESSION POST REQUEST:
+		post("rest/deleteTraining", (req,res) ->{
+			res.type("application/json");
+			trainingHistoryDAO.deleteTrainingById(req.body());
 			return "ok";
 		});
 	}
