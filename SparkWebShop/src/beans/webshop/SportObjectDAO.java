@@ -48,7 +48,7 @@ public class SportObjectDAO {
 	public Workout setContentToSportObject(String SOname,Workout workout) throws FileNotFoundException {
 		workout.setSportObject(SOname);
 		SportObject Sport = sportObjects.get(SOname);
-		Sport.addContent(workout);
+	//	Sport.addContent(workout);
 		toJSON(path + "/resources/JSON/sportObjects.json");
 		return workout;
 	}
@@ -107,13 +107,13 @@ public class SportObjectDAO {
 		return null;
 	}
 	
-	public void deleteContentofSportObject(String SOname,Workout workout) {
-		//System.out.println("ovaj treba da se brise: " + wo.toString());
-		for(String woIt : sportObjects.get(SOname).getContent()) {
-			//System.out.println("da li je ovaj isti?  " + woIt.toString());
-			if(woIt.equals(workout.getId())) {
-				sportObjects.get(SOname).deleteWorkoutInContent(workout);
-			}
-		}
-	}
+//	public void deleteContentofSportObject(String SOname,Workout workout) {
+//		//System.out.println("ovaj treba da se brise: " + wo.toString());
+//		for(String woIt : sportObjects.get(SOname).getContent()) {
+//			//System.out.println("da li je ovaj isti?  " + woIt.toString());
+//			if(woIt.equals(workout.getId())) {
+//				sportObjects.get(SOname).deleteWorkoutInContent(workout);
+//			}
+//		}
+//	}
 }

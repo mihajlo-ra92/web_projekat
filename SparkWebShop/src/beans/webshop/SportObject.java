@@ -6,7 +6,6 @@ public class SportObject {
 	private String id;
 	private String name;
 	private String objectType;//mozda bude enum
-	private ArrayList<String> content;
 	private boolean isOpen;
 	private Location location;
 	//private String logo;
@@ -25,16 +24,7 @@ public class SportObject {
 		this.location = location;
 		this.avegareGrade = averageGrade;
 	}
-	public void deleteWorkoutInContent(Workout wo) {
-		System.out.println("Brisemo ga!");
-		ArrayList<String> woList = new ArrayList<String>();
-		for(String woIt : content) {
-			if(woIt.equals(wo.getName()) == false) {
-				woList.add(woIt);
-			}
-		}
-		setContent(woList);
-	}
+	
 	public String getId() {
 		return id;
 	}
@@ -52,22 +42,6 @@ public class SportObject {
 	}
 	public void setObjectType(String objectType) {
 		this.objectType = objectType;
-	}
-	public ArrayList<String> getContent() {
-		return content;
-	}
-	
-	public void setContent(ArrayList<String> content) {
-		this.content = content;
-	}
-	public void addContent(Workout wo) {
-		if(this.content != null) {
-		this.content.add(wo.getId());
-		}else {
-			ArrayList<String> proba = new ArrayList<String>();
-			proba.add(wo.getId());
-			this.content = proba;
-		}
 	}
 	public boolean isOpen() {
 		return isOpen;
@@ -95,7 +69,7 @@ public class SportObject {
 	}
 	@Override
 	public String toString() {
-		return "SportObject [id=" + id + ", name=" + name + ", objectType=" + objectType + ", content=" + content
+		return "SportObject [id=" + id + ", name=" + name + ", objectType=" + objectType
 				+ ", isOpen=" + isOpen + ", location=" + location + ", avegareGrade=" + avegareGrade + ", workHours="
 				+ workHours + "]";
 	}

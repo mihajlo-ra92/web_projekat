@@ -35,10 +35,12 @@ Vue.component("my-profile", {
 			
 			<div v-if="currentUser.role.includes('MENAGER')">			
 				<button type="button" v-if="currentUser.role.includes('MENAGER')" v-on:click="showSportObject()">Show my sport object</button>
+				<br>
+				<button type="button" v-on:click="showTreningsMenagersObject()">Show trainings in my sport object</button>
 			</div>
 			
 			<div v-if="currentUser.role.includes('TRAINER')">
-			Trainer options
+			<button v-on:click="showMyTrainingsTrainer">View my trinings</button>
 			</div>
 			
 			<div v-if="currentUser.role.includes('BUYER')">
@@ -53,6 +55,13 @@ Vue.component("my-profile", {
 `
 	,
 	methods : {
+		showTreningsMenagersObject:function(){
+			console.log("Menadzer gleda treninge u svom objektu!");
+			router.push('/menagers-trainings');
+		},
+		showMyTrainingsTrainer: function(){
+			router.push('/trainers-trainings');
+		},
 		startEdit(){
 			console.log("Pushing router to edit profile!");
 			router.push('/edit-profile')
