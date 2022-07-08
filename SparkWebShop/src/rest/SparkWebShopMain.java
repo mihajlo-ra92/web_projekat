@@ -319,5 +319,12 @@ public class SparkWebShopMain {
 			
 			return isSuccessfull;
 		});
+		
+		//MEMBERSHIP GET REQUESTS:
+		get("rest/check-membership", (req,res) ->{
+			res.type("application/json");
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			return membershipDAO.checkMembership(user);
+		});
 	}
 }

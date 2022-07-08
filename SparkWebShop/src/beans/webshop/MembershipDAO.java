@@ -82,5 +82,13 @@ public class MembershipDAO {
 		out.printf(g.toJson(memberships.values()));
 		out.close();
 	}
+	public Boolean checkMembership(User user) {
+		for(Membership mem : memberships.values()) {
+			if (mem.getBuyer().equals(user.getUsername())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

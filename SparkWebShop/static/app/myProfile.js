@@ -47,6 +47,9 @@ Vue.component("my-profile", {
 				<button type="button" v-on:click="showTrainingHistory()">Show training history</button>
 				<br>
 				<button type="button" v-on:click="showMembershipOptions()">Show membership options</button>
+				<br>
+				<button type="button" v-on:click="startSession()">Start training session</button>
+				<br>
 			</div>
 			
 		</div>
@@ -125,6 +128,21 @@ Vue.component("my-profile", {
 		showMembershipOptions(){
 			console.log("Show membership options selected!");
 			router.push('/show-membership-options')
+		},
+		startSession(){
+			console.log("Start session selected!");
+			console.log(this.currentUser);
+	        axios
+				.get('/rest/check-membership')
+				.then(response => {
+					if(response.data == false)
+					{
+					 toast("Membership not valid!");
+					}else
+					{					
+						router.push('/start-session');
+					}
+				})
 		}
 	},
 	mounted () {
