@@ -1,0 +1,1 @@
+[{"id":"1","membershipType":"DAILY","dateOfPayment":"2022-05-30","startDate":"2022-05-30","endDate":"2022-05-30","price":500,"isActive":true,"numberOfWorkouts":2,"buyer":"mihajlo00"},{"id":"2","membershipType":"MONTHLY","dateOfPayment":"2022/07/08","startDate":"2022/07/08","endDate":"2022/07/08","price":2500,"isActive":true,"numberOfWorkouts":3,"buyer":"nikola00"}]

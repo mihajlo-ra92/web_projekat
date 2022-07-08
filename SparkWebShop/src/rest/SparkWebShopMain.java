@@ -11,6 +11,7 @@ import java.util.Collection;
 import com.google.gson.Gson;
 
 import beans.webshop.Buyer;
+import beans.webshop.MembershipDAO;
 import beans.webshop.Menager;
 import beans.webshop.SportObject;
 import beans.webshop.SportObjectDAO;
@@ -26,6 +27,7 @@ import enums.Role;
 public class SparkWebShopMain {
 	private static SportObjectDAO sportObjectDAO = new SportObjectDAO();
 	private static WorkoutDAO workoutDAO = new WorkoutDAO();
+	private static MembershipDAO membershipDAO = new MembershipDAO();
 	private static TrainingHistoryDAO trainingHistoryDAO = new TrainingHistoryDAO();
 	private static UserDAO userDAO = new UserDAO();
 	private static Gson g = new Gson();
@@ -304,6 +306,18 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			trainingHistoryDAO.deleteTrainingById(req.body());
 			return "ok";
+		});
+		
+		//MEMBERSHIP POST REQUESTS:
+		post("/rest/activate", (req, res) -> {
+			res.type("application/json");
+			System.out.println("REQ BODY:::");
+			System.out.println(req.body());
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			
+			Boolean isSuccessfull = membershipDAO.addMembershipRequest(req.body() + ";" + user.getUsername());
+			
+			return isSuccessfull;
 		});
 	}
 }

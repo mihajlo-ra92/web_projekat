@@ -45,6 +45,8 @@ Vue.component("my-profile", {
 			
 			<div v-if="currentUser.role.includes('BUYER')">
 				<button type="button" v-on:click="showTrainingHistory()">Show training history</button>
+				<br>
+				<button type="button" v-on:click="showMembershipOptions()">Show membership options</button>
 			</div>
 			
 		</div>
@@ -119,6 +121,10 @@ Vue.component("my-profile", {
 		showTrainingHistory(){
 			console.log("Show training history selected!");
 			router.push('/training-history')
+		},
+		showMembershipOptions(){
+			console.log("Show membership options selected!");
+			router.push('/show-membership-options')
 		}
 	},
 	mounted () {
