@@ -56,7 +56,7 @@ Vue.component("sport-objects", {
 	<div v-if="selected != false">
 		This sport object:
 		<br>
-		<img src="#/resources/images/gym_background.jpg">
+		<img src="dumbbell.png" alt="Gym picture">
 		<br>
 		<label>Name:</label>
 			<label>{{this.selectedObject.name}}</label>

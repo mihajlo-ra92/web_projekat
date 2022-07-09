@@ -14,6 +14,7 @@ const TrainersTrainings = { template: '<trainers-trainings></trainers-trainings>
 const MenagersTrainings = { template: '<menagers-trainings></menagers-trainings>'}
 const ShowMembershipOptions = { template: '<show-membership-options></show-membership-options>'}
 const StartSession = { template: '<start-session></start-session>'}
+const WriteReview = { template: '<write-review></write-review>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -33,7 +34,8 @@ const router = new VueRouter({
 	    { path: '/trainers-trainings', component: TrainersTrainings},
 	    { path: '/menagers-trainings', component: MenagersTrainings},
 	    { path: '/show-membership-options', component: ShowMembershipOptions},
-	    { path: '/start-session', component: StartSession}
+	    { path: '/start-session', component: StartSession},
+	    { path: '/write-review', component: WriteReview}
 	  ]
 });
 

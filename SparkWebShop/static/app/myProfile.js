@@ -50,6 +50,8 @@ Vue.component("my-profile", {
 				<br>
 				<button type="button" v-on:click="startSession()">Start training session</button>
 				<br>
+				<button type="button" v-on:click="writeReview()">Write review</button>
+				<br>
 			</div>
 			
 		</div>
@@ -71,7 +73,6 @@ Vue.component("my-profile", {
 			console.log("Pushing router to edit profile!");
 			router.push('/edit-profile')
 		},
-		
 		logOut(){
 			console.log("Log out clicked");
 			axios
@@ -82,22 +83,18 @@ Vue.component("my-profile", {
 	    	.catch((error) => console.log(error));
 			router.push('/');
 		},
-		
 		createSportObject(){
 			console.log("Pushing router to create sport object!");
 			router.push('/create-sport-object')
 		},
-		
 		createMenager(){
 			console.log("Pushing router to create menager!");
 			router.push('/create-menager')
 		},
-		
 		createTrainer(){
 			console.log("Pushing router to create trainer!");
 			router.push('/create-trainer')
 		},
-		
 		listUsers(){
 			console.log("Pushing router to list users!");
 			router.push('/list-users')
@@ -143,6 +140,10 @@ Vue.component("my-profile", {
 						router.push('/start-session');
 					}
 				})
+		},
+		writeReview(){
+			console.log('Write review selected.');
+			router.push('/write-review');
 		}
 	},
 	mounted () {
