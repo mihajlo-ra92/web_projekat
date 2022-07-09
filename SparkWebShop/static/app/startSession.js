@@ -5,6 +5,7 @@ Vue.component("start-session", {
 				sportObjects: null,
 				workouts: null,
 				selectedObject: null,
+				selectedWorkout: null,
 				selected: false
 		    }
 	},
@@ -43,13 +44,15 @@ Vue.component("start-session", {
 							<th scope="col">Content type  </th>
 							<th scope="col">Duration  </th>
 							<th scope="col">Description  </th>
+							<th scope="col">Trainer  </th>
 						</tr>
 						
-						<tr v-for="so in workouts" v-if="so.sportObject === selectedObject.name">
-							<td scope="row">{{so.name}}</td>
-							<td scope="row">{{so.workoutType}}</td>
-							<td scope="row">{{so.workoutDuration}}</td>
-							<td scope="row">{{so.description}}</td>
+						<tr v-for="wo in workouts" v-if="wo.sportObject === selectedObject.name" v-on:click="selectWorkout(wo)">
+							<td scope="row">{{wo.name}}</td>
+							<td scope="row">{{wo.workoutType}}</td>
+							<td scope="row">{{wo.workoutDuration}}</td>
+							<td scope="row">{{wo.description}}</td>
+							<td scope="row">{{wo.trainer}}</td>
 						</tr>
 					</table>
 						<br>
@@ -66,24 +69,19 @@ Vue.component("start-session", {
 	,
 	methods : {
 		selectObject : function(sportObject){
-			console.log("Usli smo u select.");
+			console.log("Usli smo u select sportObject.");
 			this.selectedObject = sportObject;
 			this.selected = true;			
 		},
-		startSession(){
-			console.log("Start session selected!");
-			console.log(this.currentUser);
-	        axios
-				.get('/rest/check-membership')
-				.then(response => {
-					if(response.data == false)
-					{
-					 toast("Membership not valid!");
-					}else
-					{					
-						router.push('/start-session');
-					}
-				})
+		selectWorkout: function(workout){
+			console.log("Usli smo u select workout.");
+			this.selectedWorkout = workout;
+			axios
+		    .post('rest/startTraining', this.selectedWorkout)
+		    .then(response => {
+				toast("Workout logged");
+			})
+	    	.catch((error) => console.log(error));
 		},
 		unselect : function() {
 			console.log("vrati na tabelu!");

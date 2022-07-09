@@ -308,6 +308,15 @@ public class SparkWebShopMain {
 			return "ok";
 		});
 		
+		post("rest/startTraining", (req,res) ->{
+			res.type("application/json");
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			System.out.println("REQ BODY: " + req.body());
+			Workout workout = g.fromJson(req.body(), Workout.class);
+			trainingHistoryDAO.addTrainingSessionRequest(workout, user.getUsername());
+			return "ok";
+		});
+		
 		//MEMBERSHIP POST REQUESTS:
 		post("/rest/activate", (req, res) -> {
 			res.type("application/json");

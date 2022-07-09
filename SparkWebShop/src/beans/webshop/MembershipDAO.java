@@ -48,7 +48,7 @@ public class MembershipDAO {
 		System.out.println(body);
 		String [] split = body.split(";");
 		String id = Integer.toString(memberships.size()+1);
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
 		LocalDateTime now = LocalDateTime.now();  
 		System.out.println("CURRENT DATE: " + dtf.format(now)); 
 		try {
