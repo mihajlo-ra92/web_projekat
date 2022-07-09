@@ -11,6 +11,8 @@ import java.util.Collection;
 import com.google.gson.Gson;
 
 import beans.webshop.Buyer;
+import beans.webshop.Comment;
+import beans.webshop.CommentDAO;
 import beans.webshop.MembershipDAO;
 import beans.webshop.Menager;
 import beans.webshop.SportObject;
@@ -29,6 +31,7 @@ public class SparkWebShopMain {
 	private static WorkoutDAO workoutDAO = new WorkoutDAO();
 	private static MembershipDAO membershipDAO = new MembershipDAO();
 	private static TrainingHistoryDAO trainingHistoryDAO = new TrainingHistoryDAO();
+	private static CommentDAO commentDAO = new CommentDAO();
 	private static UserDAO userDAO = new UserDAO();
 	private static Gson g = new Gson();
 
@@ -341,6 +344,29 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
 			return membershipDAO.checkMembership(user);
+		});
+		//COMMENT POST REQUESTS:
+		post("/rest/submit-comment", (req, res) -> {
+			res.type("application/json");
+			System.out.println("REQ BODY:::");
+			System.out.println(req.body());
+			Comment comment = g.fromJson(req.body(), Comment.class);
+			
+			return commentDAO.submitComment(comment);
+		});
+		post("/rest/update-comment", (req, res) -> {
+			res.type("application/json");
+			System.out.println("REQ BODY:::");
+			System.out.println(req.body());
+			Comment comment = g.fromJson(req.body(), Comment.class);
+			commentDAO.updateComment(comment);
+			return "OK";
+		});
+		//COMMENT GET REQUESTS:
+		get("rest/get-unapproved-comments", (req,res) ->{
+			res.type("application/json");
+			ArrayList<Comment> comments = commentDAO.getWaiting();
+			return g.toJson(comments);
 		});
 	}
 }

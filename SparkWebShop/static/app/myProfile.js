@@ -31,6 +31,9 @@ Vue.component("my-profile", {
 				<br>
 				<button type="button" v-on:click="listUsers()">List users</button>
 				<button type="button" v-on:click="listSportObjects()">List sport objects</button>
+				<br>
+				<button type="button" v-on:click="approveComments()">Approve comments</button>
+				
 			</div>
 			
 			<div v-if="currentUser.role.includes('MENAGER')">			
@@ -102,6 +105,10 @@ Vue.component("my-profile", {
 		listSportObjects(){
 			console.log("Pushing router to list sport objects!");
 			router.push('/list-sport-objects')
+		},
+		approveComments(){
+			console.log("Pushing router to approve comments!");
+			router.push('/approve-comments')
 		},
 		showSportObject(){
 			console.log("Show sport object selected!");

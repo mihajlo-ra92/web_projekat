@@ -4,7 +4,14 @@ Vue.component("write-review", {
 				currentUser: null,
 				visitedObjects: null,
 				selected: false,
-				selectedObject: null
+				selectedObject: null,
+				comment: {
+					buyer: '',
+					sportObject: '',
+					content: '',
+					grade: 0,
+					status: 'WAITING'
+				}
 		    }
 	},
 	
@@ -33,6 +40,18 @@ Vue.component("write-review", {
 					</tr>
 				</table>
 				<br>
+				<div v-if="selected" >
+					<textarea name="comment" v-model="comment.content" placeholder="Write comment" cols="35" rows="7" />
+					<br>
+					<br>
+					<p>Select grade:</p>
+					<input type="radio" name="grade" value="1" v-model="comment.grade">1
+					<input type="radio" name="grade" value="2" v-model="comment.grade">2
+					<input type="radio" name="grade" value="3" v-model="comment.grade">3
+					<input type="radio" name="grade" value="4" v-model="comment.grade">4
+					<input type="radio" name="grade" value="5" v-model="comment.grade">5
+					<br>
+				</div>
 				<button type="button" v-on:click="submitReview()">Submit review</button>
 				<br>
 				<button type="button" v-on:click="cancel()">Cancel</button>
@@ -59,7 +78,16 @@ Vue.component("write-review", {
 			this.selected = false;
 		},
 		submitReview(){
-			console.log("Submit review clicked.");
+			this.comment.buyer = this.currentUser.username;
+			this.comment.sportObject = this.selectedObject.name
+			console.log(this.comment);
+			this.selected = false;
+			axios
+			    .post('/rest/submit-comment', this.comment)
+			    .then(response => {
+					toast(response.data);
+				})
+		    	.catch((error) => console.log(error));
 		}
 	},
 	mounted () {
