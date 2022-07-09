@@ -12,6 +12,8 @@ const TrainingHistory= { template: '<training-history></training-history>'}
 const SportObject= { template: '<sport-object></sport-object>'}
 const TrainersTrainings = { template: '<trainers-trainings></trainers-trainings>'}
 const MenagersTrainings = { template: '<menagers-trainings></menagers-trainings>'}
+const ShowMembershipOptions = { template: '<show-membership-options></show-membership-options>'}
+const StartSession = { template: '<start-session></start-session>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -29,7 +31,9 @@ const router = new VueRouter({
 	    { path: '/training-history', component: TrainingHistory},
 	    { path: '/sport-object', component: SportObject},
 	    { path: '/trainers-trainings', component: TrainersTrainings},
-	    { path: '/menagers-trainings', component: MenagersTrainings}
+	    { path: '/menagers-trainings', component: MenagersTrainings},
+	    { path: '/show-membership-options', component: ShowMembershipOptions},
+	    { path: '/start-session', component: StartSession}
 	  ]
 });
 

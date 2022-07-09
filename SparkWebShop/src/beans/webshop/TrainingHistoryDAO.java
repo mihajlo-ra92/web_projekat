@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,6 +39,19 @@ public class TrainingHistoryDAO {
 //			addTrainingHistoty(ts1);
 //			TrainingSession ts2 = new TrainingSession("2", "2022-04-28", "VrstaTreninga1", "3", "6");
 //			addTrainingHistoty(ts2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void addTrainingSessionRequest(Workout workout, String username) {
+		String id = Integer.toString(trainingHistory.size()+1);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+		LocalDateTime now = LocalDateTime.now(); 
+		TrainingSession trainingSession = new TrainingSession(id, workout.getSportObject(),
+				dtf.format(now), workout.getName(), username, workout.getTrainer()
+				);
+		try {			
+			addTrainingHistoty(trainingSession);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

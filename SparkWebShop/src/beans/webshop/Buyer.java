@@ -3,7 +3,7 @@ package beans.webshop;
 import java.util.ArrayList;
 
 public class Buyer extends User {
-	private Membership membership;
+	//private Membership membership;
 	private ArrayList<String> visitedSportObjectIds;
 	private int points;
 	private BuyerType buyerType;
