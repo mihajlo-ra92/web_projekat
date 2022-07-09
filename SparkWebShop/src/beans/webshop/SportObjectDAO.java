@@ -83,6 +83,14 @@ public class SportObjectDAO {
 		out.close();
 	}
 	
+	public Collection<SportObject> getObjectsByNames(ArrayList<String> names){
+		ArrayList<SportObject> retList = new ArrayList<SportObject>();
+		for (String nameIt : names) {
+			retList.add(sportObjects.get(nameIt));
+		}
+		return retList;
+	}
+	
 	/** Vraca kolekciju proizvoda. */
 	public Collection<SportObject> values() {
 		return sportObjects.values();

@@ -75,7 +75,7 @@ Vue.component("write-review", {
 				}
 			});
 		axios
-          .get('rest/proizvodi/getJustSportObjects')
+          .get('rest/proizvodi/getVisitedSportObjects')
           .then(response => (this.visitedObjects = response.data))
     }
 });

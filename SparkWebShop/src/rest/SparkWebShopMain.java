@@ -181,6 +181,13 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			return g.toJson(sportObjectDAO.values());
 		});
+		
+		get("/rest/proizvodi/getVisitedSportObjects", (req, res) -> {
+			res.type("application/json");
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			ArrayList<String> visitedNames = trainingHistoryDAO.getVisitedNames(user.getUsername());
+			return g.toJson(sportObjectDAO.getObjectsByNames(visitedNames));
+		});
     
 		//SPORTOBJECT POST REQUESTS:
 		post("/rest/register-sport-object", (req, res) -> {
