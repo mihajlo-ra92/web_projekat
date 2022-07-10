@@ -5,6 +5,7 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -34,11 +35,11 @@ public class SparkWebShopMain {
 	private static CommentDAO commentDAO = new CommentDAO();
 	private static UserDAO userDAO = new UserDAO();
 	private static Gson g = new Gson();
+	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 
 	public static void main(String[] args) throws Exception {
 		port(8080);
-		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
 		get("/test", (req, res) -> {
@@ -181,6 +182,7 @@ public class SparkWebShopMain {
 		
 		//SPORTOBJECT GET REQUESTS:
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {
+			updateObjectsGrades();
 			res.type("application/json");
 			return g.toJson(sportObjectDAO.values());
 		});
@@ -373,5 +375,27 @@ public class SparkWebShopMain {
 			ArrayList<Comment> comments = commentDAO.getWaiting();
 			return g.toJson(comments);
 		});
+		
+		
+	}
+	//FUNCTIONS
+	public static void updateObjectsGrades() {
+		Double objectPoints;
+		Integer objectGrades;
+		for (SportObject objectIt : sportObjectDAO.values()) {
+			objectPoints = 0.0;
+			objectGrades = 0;
+			for (Comment commIt : commentDAO.getApprovedForObject(objectIt.getName())){
+				objectPoints += commIt.getGrade();
+				objectGrades += 1;
+			}
+			if (objectGrades == 0) {
+				
+				objectIt.setAvegareGrade(0);
+			}
+			else {
+				objectIt.setAvegareGrade(Double.parseDouble(df.format(objectPoints/objectGrades)));
+			}
+		}
 	}
 }
