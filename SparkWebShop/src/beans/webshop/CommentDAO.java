@@ -68,5 +68,16 @@ public class CommentDAO {
 		}
 		return retList;
 	}
+	public ArrayList<Comment> getApprovedForObject(String objectName){
+		ArrayList<Comment> retList = new ArrayList<Comment>();
+		for(Comment comIt : comments.values()) {
+			if(comIt.getStatus().equals("APPROVED")) {
+				if(comIt.getSportObject().equals(objectName)) {					
+					retList.add(comIt);
+				}
+			}
+		}
+		return retList;
+	}
 
 }

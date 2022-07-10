@@ -354,6 +354,11 @@ public class SparkWebShopMain {
 			
 			return commentDAO.submitComment(comment);
 		});
+		post("/rest/comments-for-object", (req, res) -> {
+			res.type("application/json");
+			//System.out.println(req.body());
+			return g.toJson(commentDAO.getApprovedForObject(req.body()));
+		});
 		post("/rest/update-comment", (req, res) -> {
 			res.type("application/json");
 			System.out.println("REQ BODY:::");
