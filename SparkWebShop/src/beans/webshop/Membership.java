@@ -14,8 +14,9 @@ public class Membership {
 	
 	private int price;
 	private boolean isActive;
-	private int numberOfWorkouts; //how much workouts are allowed per day, can be inf
+	private int numberOfWorkouts; //how much workouts are allowed, can be inf
 	private String buyer;
+	private int numberOfUsedWorkouts;
 	public Membership() {
 		// TODO Auto-generated constructor stub
 	}
@@ -32,6 +33,15 @@ public class Membership {
 		this.isActive = isActive;
 		this.numberOfWorkouts = numberOfWorkouts;
 		this.buyer = buyer;
+		this.numberOfUsedWorkouts = 0;
+	}
+
+	public int getNumberOfUsedWorkouts() {
+		return numberOfUsedWorkouts;
+	}
+
+	public void setNumberOfUsedWorkouts(int numberOfUsedWorkouts) {
+		this.numberOfUsedWorkouts = numberOfUsedWorkouts;
 	}
 
 	public String getId() {

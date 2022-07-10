@@ -87,11 +87,9 @@ public class SportObjectDAO {
 		out.printf(g.toJson(sportObjects.values()));
 		out.close();
 	}
-	private void updateIsOpen() throws ParseException {
+	public void updateIsOpen() throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
 		String timeStamp = dateFormat.format(Calendar.getInstance().getTime());
-		Date currentTime = dateFormat.parse(timeStamp);
-		System.out.println("Current time: " + currentTime);
 		for (SportObject objectIt : sportObjects.values()) {
 			String [] hours = objectIt.getWorkHours().split("-");
 			System.out.println(objectIt.getName() + " start: " + hours[0] + ", end: " + hours[1]);

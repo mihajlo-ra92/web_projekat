@@ -183,12 +183,15 @@ public class SparkWebShopMain {
 		//SPORTOBJECT GET REQUESTS:
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {
 			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
 			res.type("application/json");
 			return g.toJson(sportObjectDAO.values());
 		});
 		
 		get("/rest/proizvodi/getVisitedSportObjects", (req, res) -> {
 			res.type("application/json");
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
 			ArrayList<String> visitedNames = trainingHistoryDAO.getVisitedNames(user.getUsername());
 			return g.toJson(sportObjectDAO.getObjectsByNames(visitedNames));
@@ -199,6 +202,8 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			//System.out.println(req.body());
 			Boolean isSuccessful = sportObjectDAO.addSportObjectsRequest(req.body());
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
 			//System.out.println("Register sport object is successful: " + isSuccessful);
 			return isSuccessful;
 		});
@@ -325,8 +330,11 @@ public class SparkWebShopMain {
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
 			System.out.println("REQ BODY: " + req.body());
 			Workout workout = g.fromJson(req.body(), Workout.class);
-			trainingHistoryDAO.addTrainingSessionRequest(workout, user.getUsername());
-			return "ok";
+			if (membershipDAO.checkMembership(user)) {
+				trainingHistoryDAO.addTrainingSessionRequest(workout, user.getUsername());
+				return "Workout logged.";
+			}
+			return "No membership active!";
 		});
 		
 		//MEMBERSHIP POST REQUESTS:
