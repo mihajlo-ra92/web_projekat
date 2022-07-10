@@ -4,8 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
@@ -37,7 +42,7 @@ public class SportObjectDAO {
 			for (SportObject soIt : sportObjectsList) {
 				sportObjects.put(soIt.getName(), soIt);
 			}
-			
+			updateIsOpen();
 //			System.out.println("sport object hashmap test");
 //			System.out.println(sportObjects.toString());
 //			System.out.println("sport object hashmap test");
@@ -81,6 +86,27 @@ public class SportObjectDAO {
 		//System.out.println(filename);
 		out.printf(g.toJson(sportObjects.values()));
 		out.close();
+	}
+	private void updateIsOpen() throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		String timeStamp = dateFormat.format(Calendar.getInstance().getTime());
+		Date currentTime = dateFormat.parse(timeStamp);
+		System.out.println("Current time: " + currentTime);
+		for (SportObject objectIt : sportObjects.values()) {
+			String [] hours = objectIt.getWorkHours().split("-");
+			System.out.println(objectIt.getName() + " start: " + hours[0] + ", end: " + hours[1]);
+			if (dateFormat.parse(timeStamp).after(dateFormat.parse(hours[0])) &&
+					dateFormat.parse(hours[1]).after(dateFormat.parse(timeStamp))) {
+				objectIt.setOpen(true);
+			}
+			else {
+				objectIt.setOpen(false);
+			}
+		}
+//		String strTime = "20:15:40";
+//        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+//        Date d = (Date) dateFormat.parse(strTime);
+//        System.out.println("Resultant Date and Time = " + d);
 	}
 	
 	public Collection<SportObject> getObjectsByNames(ArrayList<String> names){
