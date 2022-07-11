@@ -5,12 +5,18 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import com.google.gson.Gson;
 
 import beans.webshop.Buyer;
+import beans.webshop.BuyerType;
+import beans.webshop.Comment;
+import beans.webshop.CommentDAO;
+import beans.webshop.Membership;
 import beans.webshop.MembershipDAO;
 import beans.webshop.Menager;
 import beans.webshop.SportObject;
@@ -29,13 +35,14 @@ public class SparkWebShopMain {
 	private static WorkoutDAO workoutDAO = new WorkoutDAO();
 	private static MembershipDAO membershipDAO = new MembershipDAO();
 	private static TrainingHistoryDAO trainingHistoryDAO = new TrainingHistoryDAO();
+	private static CommentDAO commentDAO = new CommentDAO();
 	private static UserDAO userDAO = new UserDAO();
 	private static Gson g = new Gson();
+	private static final DecimalFormat df = new DecimalFormat("0.00");
 
 
 	public static void main(String[] args) throws Exception {
 		port(8080);
-		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath()); 
 		
 		get("/test", (req, res) -> {
@@ -84,6 +91,7 @@ public class SparkWebShopMain {
 		//USER POST REQUESTS:
 		post("/rest/proizvodi/log-in", (req, res) -> {
 			res.type("application/json");
+			calculatePoints();
 			//System.out.println("REQ BODY:::");
 			//System.out.println(req.body());
 			User testUs = userDAO.getUser(req.session().attribute("logednUserId"));
@@ -178,8 +186,19 @@ public class SparkWebShopMain {
 		
 		//SPORTOBJECT GET REQUESTS:
 		get("/rest/proizvodi/getJustSportObjects", (req, res) -> {
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
 			res.type("application/json");
 			return g.toJson(sportObjectDAO.values());
+		});
+		
+		get("/rest/proizvodi/getVisitedSportObjects", (req, res) -> {
+			res.type("application/json");
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
+			User user = userDAO.getUser(req.session().attribute("logednUserId"));
+			ArrayList<String> visitedNames = trainingHistoryDAO.getVisitedNames(user.getUsername());
+			return g.toJson(sportObjectDAO.getObjectsByNames(visitedNames));
 		});
     
 		//SPORTOBJECT POST REQUESTS:
@@ -187,6 +206,8 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			//System.out.println(req.body());
 			Boolean isSuccessful = sportObjectDAO.addSportObjectsRequest(req.body());
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
 			//System.out.println("Register sport object is successful: " + isSuccessful);
 			return isSuccessful;
 		});
@@ -313,8 +334,14 @@ public class SparkWebShopMain {
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
 			System.out.println("REQ BODY: " + req.body());
 			Workout workout = g.fromJson(req.body(), Workout.class);
-			trainingHistoryDAO.addTrainingSessionRequest(workout, user.getUsername());
-			return "ok";
+			if (membershipDAO.checkMembership(user)) {
+				if (membershipDAO.logWorkout(user)) {
+					trainingHistoryDAO.addTrainingSessionRequest(workout, user.getUsername());
+					
+					return "Workout logged.";
+				}				
+			}
+			return "Workout can't be logged!";
 		});
 		
 		//MEMBERSHIP POST REQUESTS:
@@ -335,5 +362,90 @@ public class SparkWebShopMain {
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
 			return membershipDAO.checkMembership(user);
 		});
+		//COMMENT POST REQUESTS:
+		post("/rest/submit-comment", (req, res) -> {
+			res.type("application/json");
+			System.out.println("REQ BODY:::");
+			System.out.println(req.body());
+			Comment comment = g.fromJson(req.body(), Comment.class);
+			
+			return commentDAO.submitComment(comment);
+		});
+		post("/rest/comments-for-object", (req, res) -> {
+			res.type("application/json");
+			//System.out.println(req.body());
+			return g.toJson(commentDAO.getApprovedForObject(req.body()));
+		});
+		post("/rest/update-comment", (req, res) -> {
+			res.type("application/json");
+			System.out.println("REQ BODY:::");
+			System.out.println(req.body());
+			Comment comment = g.fromJson(req.body(), Comment.class);
+			commentDAO.updateComment(comment);
+			return "OK";
+		});
+		//COMMENT GET REQUESTS:
+		get("rest/get-unapproved-comments", (req,res) ->{
+			res.type("application/json");
+			ArrayList<Comment> comments = commentDAO.getWaiting();
+			return g.toJson(comments);
+		});
+		
+		
+	}
+	//FUNCTIONS
+	public static void updateObjectsGrades() {
+		Double objectPoints;
+		Integer objectGrades;
+		for (SportObject objectIt : sportObjectDAO.values()) {
+			objectPoints = 0.0;
+			objectGrades = 0;
+			for (Comment commIt : commentDAO.getApprovedForObject(objectIt.getName())){
+				objectPoints += commIt.getGrade();
+				objectGrades += 1;
+			}
+			if (objectGrades == 0) {
+				
+				objectIt.setAvegareGrade(0);
+			}
+			else {
+				objectIt.setAvegareGrade(Double.parseDouble(df.format(objectPoints/objectGrades)));
+			}
+		}
+	}
+	public static void calculatePoints() {
+		for (Buyer buyerIt : userDAO.buyers()) {
+			Membership mem = membershipDAO.getMembership(buyerIt.getUsername());
+			if (mem != null) {
+				Double points = (double) mem.getPrice() / 1000 * mem.getNumberOfUsedWorkouts();
+				Double minusPoints = 0.0;
+				if (mem.getNumberOfUsedWorkouts() == 0) {
+					minusPoints = (double) mem.getPrice() / 1000 * 133 * 4;
+				}
+				else if (mem.getNumberOfWorkouts() / mem.getNumberOfUsedWorkouts() > 3) {
+					minusPoints = (double) mem.getPrice() / 1000 * 133 * 4;
+				}
+				buyerIt.setPoints(points - minusPoints);
+				if (buyerIt.getPoints() < 1) {
+					BuyerType bronzeType = new BuyerType("Bronze", 1.0, 0.0);
+					buyerIt.setBuyerType(bronzeType);
+				}
+				else if (buyerIt.getPoints() < 10) {
+					BuyerType silverType = new BuyerType("Silver", 0.95, 10.0);
+					buyerIt.setBuyerType(silverType);
+				}
+				else if (buyerIt.getPoints() < 20) {
+					BuyerType goldType = new BuyerType("Gold", 0.85, 20.0);
+					buyerIt.setBuyerType(goldType);
+				}
+				try {
+					userDAO.toJSON("." + "/resources/JSON/buyers.json", "BUYER");
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(buyerIt.getUsername() + ": " + buyerIt.getPoints());
+			}
+		}
 	}
 }

@@ -18,8 +18,6 @@ Vue.component("edit-profile", {
 	<div>
 		Edit profile:
 		<br>
-		<input type="text" name="username" v-model="user.username" placeholder="Username" />
-		<br>
 		<input type="text" name="password" v-model="user.password" placeholder="Password" />
 		<br>
 		<input type="text" name="firstName" v-model="user.firstName" placeholder="First name" />

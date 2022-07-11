@@ -79,7 +79,7 @@ Vue.component("start-session", {
 			axios
 		    .post('rest/startTraining', this.selectedWorkout)
 		    .then(response => {
-				toast("Workout logged");
+				toast(response.data);
 			})
 	    	.catch((error) => console.log(error));
 		},

@@ -98,6 +98,17 @@ public class TrainingHistoryDAO {
 			return null;
 		}
 	}
+	public ArrayList<String> getVisitedNames(String username){
+		ArrayList<String> names = new ArrayList<String>();
+		for(TrainingSession tsIt : trainingHistory.values()) {
+			if (tsIt.getBuyer().equals(username)) {
+				if (!names.contains(tsIt.getSportObject())) {
+					names.add(tsIt.getSportObject());
+				}
+			}
+		}
+		return names;
+	}
 	
 	public ArrayList<TrainingSession> getTrainingsbySportObjectName(String SOName){
 		ArrayList<TrainingSession> retVal= new ArrayList<TrainingSession>();
