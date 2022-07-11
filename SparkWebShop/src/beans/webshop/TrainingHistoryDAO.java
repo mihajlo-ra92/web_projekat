@@ -31,10 +31,13 @@ public class TrainingHistoryDAO {
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<TrainingSession> trainingSessionList = g.fromJson(reader, TRAININGHISTORYS_TYPE);
-			for (TrainingSession sessionIt : trainingSessionList) {
-				trainingHistory.put(sessionIt.getId(), sessionIt);
+			if (trainingSessionList != null) {
+				for (TrainingSession sessionIt : trainingSessionList) {
+					trainingHistory.put(sessionIt.getId(), sessionIt);
+				}
+//				System.out.println(trainingHistory);
 			}
-			System.out.println(trainingHistory);
+			
 //			TrainingSession ts1 = new TrainingSession("1", "2022-05-30", "VrstaTreninga2", "2", "");
 //			addTrainingHistoty(ts1);
 //			TrainingSession ts2 = new TrainingSession("2", "2022-04-28", "VrstaTreninga1", "3", "6");

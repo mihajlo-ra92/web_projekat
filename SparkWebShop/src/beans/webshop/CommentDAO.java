@@ -29,11 +29,13 @@ public class CommentDAO {
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<Comment> commentsList = g.fromJson(reader, COMMENTS_TYPE);
-			
-			for (Comment commIt : commentsList) {
-				comments.put(commIt.getId(), commIt);
+			if (commentsList != null) {
+				for (Comment commIt : commentsList) {
+					comments.put(commIt.getId(), commIt);
+				}
+//				System.out.println("COMMENTS: " + comments);
 			}
-			System.out.println("COMMENTS: " + comments);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

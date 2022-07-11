@@ -36,11 +36,14 @@ public class MembershipDAO {
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<Membership> membershipList = g.fromJson(reader, MEMBERSHIPS_TYPE);
-			for (Membership membershipIt : membershipList) {
-				memberships.put(membershipIt.getId(), membershipIt);
+			if (membershipList != null) {
+				for (Membership membershipIt : membershipList) {
+					memberships.put(membershipIt.getId(), membershipIt);
+				}
+				updateActive();
+//				System.out.println(memberships);
 			}
-			updateActive();
-			System.out.println(memberships);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
