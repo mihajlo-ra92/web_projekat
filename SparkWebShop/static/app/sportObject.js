@@ -164,6 +164,7 @@ Vue.component("sport-object", {
 				
 			}else{
 				console.log("Vec postoji!");
+				toast("Content exist!");
 			}
 		},
 		selectObject : function(content){
