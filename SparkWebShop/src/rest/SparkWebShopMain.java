@@ -5,6 +5,7 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -335,6 +336,7 @@ public class SparkWebShopMain {
 			if (membershipDAO.checkMembership(user)) {
 				if (membershipDAO.logWorkout(user)) {
 					trainingHistoryDAO.addTrainingSessionRequest(workout, user.getUsername());
+					
 					return "Workout logged.";
 				}				
 			}
@@ -423,6 +425,12 @@ public class SparkWebShopMain {
 					minusPoints = (double) mem.getPrice() / 1000 * 133 * 4;
 				}
 				buyerIt.setPoints(points - minusPoints);
+				try {
+					userDAO.toJSON("." + "/resources/JSON/buyers.json", "BUYER");
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				System.out.println(buyerIt.getUsername() + ": " + buyerIt.getPoints());
 			}
 		}
