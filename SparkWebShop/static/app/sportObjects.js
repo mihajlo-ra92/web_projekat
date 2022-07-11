@@ -181,18 +181,21 @@ Vue.component("sport-objects", {
           .get('rest/proizvodi/getJustSportObjects')
           .then(response => {this.sportObjects = response.data;
           					this.allSportObjects = response.data;
-          				//	sortedList = response.data;
-          				//	for(let i = 0; i < this.sportObjects.length ; i++){
-						//		for(let j = 0; j < this.sportObjects.length ; j++){									
-						//			if(this.sportObjects["name"][i]< this.sportObjects["name"][i]){
-						//				sortedList[j] = this.sportObject[i]; 
-						//			}
-						//		}
-						//	}
-							this.sportObjects = sortedList;
+          					sortedList = response.data;
+          					for(let i = 0; i < this.sportObjects.length ; i++){
+								SOi = this.sportObjects[i]; 
+								for(let j = 0; j < this.sportObjects.length ; j++){	
+									SOj = this.sportObjects[j]; 
+									if(SOi.name < SOj.name){
+										sortedList[i] = this.sportObjects[j]; 
+									}
+																	
+								}
+							}
+						this.sportObjects = sortedList;
           })
                  
-         	
+  
         axios
         .get('rest/proizvodi/getAllcontents')
         .then(response => this.workouts = response.data);
