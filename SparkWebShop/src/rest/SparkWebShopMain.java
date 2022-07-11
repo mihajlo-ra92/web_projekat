@@ -13,6 +13,7 @@ import java.util.Collection;
 import com.google.gson.Gson;
 
 import beans.webshop.Buyer;
+import beans.webshop.BuyerType;
 import beans.webshop.Comment;
 import beans.webshop.CommentDAO;
 import beans.webshop.Membership;
@@ -425,6 +426,18 @@ public class SparkWebShopMain {
 					minusPoints = (double) mem.getPrice() / 1000 * 133 * 4;
 				}
 				buyerIt.setPoints(points - minusPoints);
+				if (buyerIt.getPoints() < 1) {
+					BuyerType bronzeType = new BuyerType("Bronze", 1.0, 0.0);
+					buyerIt.setBuyerType(bronzeType);
+				}
+				else if (buyerIt.getPoints() < 10) {
+					BuyerType silverType = new BuyerType("Silver", 0.95, 10.0);
+					buyerIt.setBuyerType(silverType);
+				}
+				else if (buyerIt.getPoints() < 20) {
+					BuyerType goldType = new BuyerType("Gold", 0.85, 20.0);
+					buyerIt.setBuyerType(goldType);
+				}
 				try {
 					userDAO.toJSON("." + "/resources/JSON/buyers.json", "BUYER");
 				} catch (FileNotFoundException e) {
