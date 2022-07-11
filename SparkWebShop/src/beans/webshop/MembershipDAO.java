@@ -118,5 +118,28 @@ public class MembershipDAO {
 		}
 		return false;
 	}
+	public Membership getMembership(String username) {
+		for(Membership mem : memberships.values()) {
+			if (mem.getBuyer().equals(username)) {
+				if (mem.isActive()) {
+					return mem;
+				}
+			}
+		}
+		return null;
+	}
+	public Boolean logWorkout(User user) throws FileNotFoundException {
+		for(Membership mem : memberships.values()) {
+			if (mem.getBuyer().equals(user.getUsername()) &&
+				mem.isActive()) {
+				if (mem.getNumberOfUsedWorkouts() < mem.getNumberOfWorkouts()) {
+					mem.incrementNumberOfUsedWorkouts();
+					toJSON(path + "/resources/JSON/memberships.json");
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

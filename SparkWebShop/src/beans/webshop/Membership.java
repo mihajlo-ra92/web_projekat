@@ -43,6 +43,9 @@ public class Membership {
 	public void setNumberOfUsedWorkouts(int numberOfUsedWorkouts) {
 		this.numberOfUsedWorkouts = numberOfUsedWorkouts;
 	}
+	public void incrementNumberOfUsedWorkouts() {
+		this.numberOfUsedWorkouts += 1;
+	}
 
 	public String getId() {
 		return id;

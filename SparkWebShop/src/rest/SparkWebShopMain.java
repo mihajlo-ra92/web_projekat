@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import beans.webshop.Buyer;
 import beans.webshop.Comment;
 import beans.webshop.CommentDAO;
+import beans.webshop.Membership;
 import beans.webshop.MembershipDAO;
 import beans.webshop.Menager;
 import beans.webshop.SportObject;
@@ -88,6 +89,7 @@ public class SparkWebShopMain {
 		//USER POST REQUESTS:
 		post("/rest/proizvodi/log-in", (req, res) -> {
 			res.type("application/json");
+			calculatePoints();
 			//System.out.println("REQ BODY:::");
 			//System.out.println(req.body());
 			User testUs = userDAO.getUser(req.session().attribute("logednUserId"));
@@ -331,10 +333,12 @@ public class SparkWebShopMain {
 			System.out.println("REQ BODY: " + req.body());
 			Workout workout = g.fromJson(req.body(), Workout.class);
 			if (membershipDAO.checkMembership(user)) {
-				trainingHistoryDAO.addTrainingSessionRequest(workout, user.getUsername());
-				return "Workout logged.";
+				if (membershipDAO.logWorkout(user)) {
+					trainingHistoryDAO.addTrainingSessionRequest(workout, user.getUsername());
+					return "Workout logged.";
+				}				
 			}
-			return "No membership active!";
+			return "Workout can't be logged!";
 		});
 		
 		//MEMBERSHIP POST REQUESTS:
@@ -403,6 +407,23 @@ public class SparkWebShopMain {
 			}
 			else {
 				objectIt.setAvegareGrade(Double.parseDouble(df.format(objectPoints/objectGrades)));
+			}
+		}
+	}
+	public static void calculatePoints() {
+		for (Buyer buyerIt : userDAO.buyers()) {
+			Membership mem = membershipDAO.getMembership(buyerIt.getUsername());
+			if (mem != null) {
+				Double points = (double) mem.getPrice() / 1000 * mem.getNumberOfUsedWorkouts();
+				Double minusPoints = 0.0;
+				if (mem.getNumberOfUsedWorkouts() == 0) {
+					minusPoints = (double) mem.getPrice() / 1000 * 133 * 4;
+				}
+				else if (mem.getNumberOfWorkouts() / mem.getNumberOfUsedWorkouts() > 3) {
+					minusPoints = (double) mem.getPrice() / 1000 * 133 * 4;
+				}
+				buyerIt.setPoints(points - minusPoints);
+				System.out.println(buyerIt.getUsername() + ": " + buyerIt.getPoints());
 			}
 		}
 	}

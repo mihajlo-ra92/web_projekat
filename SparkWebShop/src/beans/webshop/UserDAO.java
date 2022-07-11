@@ -126,6 +126,9 @@ public class UserDAO {
 		}
 		return trainerList;
 	}
+	public Collection<Buyer> buyers(){
+		return buyers.values();
+	}
 
 	
 	public Boolean editUserRequest(String req) throws FileNotFoundException {
