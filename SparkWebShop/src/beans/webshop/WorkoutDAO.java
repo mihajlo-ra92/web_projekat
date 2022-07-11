@@ -32,9 +32,12 @@ public class WorkoutDAO {
 			ArrayList<Workout> workoutsList = g.fromJson(reader, WORKOUTS_TYPE);
 			
 			//treba da bude posebna f-ja
-			for (Workout workIt : workoutsList) {
-				workouts.put(workIt.getId(), workIt);
+			if (workoutsList != null) {
+				for (Workout workIt : workoutsList) {
+					workouts.put(workIt.getId(), workIt);
+				}
 			}
+			
 //			System.out.println(workouts);
 //			Workout w = new Workout("VrstaTreninga3", "swimming", "2", "45", "description3", "");
 //			addWorkout(w);
@@ -44,6 +47,16 @@ public class WorkoutDAO {
 		}
 		
 		
+	}
+	
+	private String getNewId() {
+		int largest = -1;
+		for (Workout workIt: workouts.values()) {
+			if (Integer.parseInt(workIt.getId()) > largest) {
+				largest = Integer.parseInt(workIt.getId());
+			}
+		}
+		return Integer.toString(largest + 1);
 	}
 	
 	public void setTrainerToWorkout(ArrayList<Workout> wo, String NameWorkout,String reqTrainer) throws FileNotFoundException {
@@ -65,7 +78,7 @@ public class WorkoutDAO {
 		toJSON(path + "/resources/JSON/workouts.json");
 	}
 	public void addWorkout(Workout workout) throws FileNotFoundException {
-		workout.setId(Integer.toString(workouts.size()+1));
+		workout.setId(getNewId());
 		workouts.put(workout.getId(), workout);
 		toJSON(path + "/resources/JSON/workouts.json");
 	}
