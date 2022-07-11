@@ -13,15 +13,13 @@ Vue.component("training-history", {
 		<table class="table table-bordered table--lg team-roster-table table-hover"">
 			<tr bgcolor="lightgrey">
 				<th scope="col">Date</th>
-				<th scope="col">Workout type</th>
-				<th scope="col">Buyer</th>
+				<th scope="col">Workout name</th>
 				<th scope="col">Trainer</th>
 			</tr>
 				
 			<tr v-for="ts in trainingSessions">
 				<td scope="row">{{ts.dateTimeOfSignUp }}</td>
 				<td>{{ts.workoutName }}</td>
-				<td>{{ts.buyer }}</td>
 				<td>{{ts.trainer }}</td>
 			</tr>
 		</table>

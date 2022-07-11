@@ -128,8 +128,8 @@ public class SparkWebShopMain {
 			System.out.println("names0: " + names[0]);
 			System.out.println("names1: " + names[1]);
 			//SportObject sportObject = sportObjectDAO.getSportObjectByName(names[0]);
-			Menager menager = userDAO.getMenagerByUsername(names[1]);
-			userDAO.setSportObjectToMenager(names[0], menager);
+			//Menager menager = userDAO.getMenagerByUsername(names[1]);
+			userDAO.setSportObjectToMenager(names[0], names[1]);
 			
 			return "OK";
 		});

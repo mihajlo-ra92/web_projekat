@@ -43,7 +43,7 @@ Vue.component("my-profile", {
 			</div>
 			
 			<div v-if="currentUser.role.includes('TRAINER')">
-			<button v-on:click="showMyTrainingsTrainer">View my trinings</button>
+			<button v-on:click="showMyTrainingsTrainer">View my trainings</button>
 			</div>
 			
 			<div v-if="currentUser.role.includes('BUYER')">

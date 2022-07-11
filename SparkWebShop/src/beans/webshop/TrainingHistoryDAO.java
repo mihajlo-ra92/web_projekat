@@ -46,8 +46,19 @@ public class TrainingHistoryDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	private String getNewId() {
+		int largest = -1;
+		for (TrainingSession trainIt : trainingHistory.values()) {
+			if (Integer.parseInt(trainIt.getId()) > largest) {
+				largest = Integer.parseInt(trainIt.getId());
+			}
+		}
+		return Integer.toString(largest + 1);
+	}
+	
 	public void addTrainingSessionRequest(Workout workout, String username) {
-		String id = Integer.toString(trainingHistory.size()+1);
+		String id = getNewId();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
 		LocalDateTime now = LocalDateTime.now(); 
 		TrainingSession trainingSession = new TrainingSession(id, workout.getSportObject(),

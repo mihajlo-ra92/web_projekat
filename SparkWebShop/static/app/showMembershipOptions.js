@@ -44,21 +44,21 @@ Vue.component("show-membership-options", {
 				 <h3>Daily membership</h3>
 				 <p>Price: 500rds</p>
 				 <br>
-				 <p>Number of workouts per day: 2</p>
+				 <p>Number of workouts: 1</p>
 				</div>
 				
 				<div v-if="selected === 'MONTHLY'">
 				 <h3>Monthly membership</h3>
 				 <p>Price: 2500rds</p>
 				 <br>
-				 <p>Number of workouts per day: 3</p>
+				 <p>Number of workouts: 31</p>
 				</div>
 				
 				<div v-if="selected === 'YEARLY'">
 				 <h3>Yearly membership</h3>
 				 <p>Price: 10000rds</p>
 				 <br>
-				 <p>Number of workouts per day: 5</p>
+				 <p>Number of workouts: 365</p>
 				</div>
 				
 				<br>
