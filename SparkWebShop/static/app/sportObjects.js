@@ -11,7 +11,10 @@ Vue.component("sport-objects", {
 		      searchAddress:'',
 		    	selectedType : "",
 		 	  	selectedActivity : "",
-		      workouts:null
+		      workouts:null,
+		      filteredWorkouts:{},
+		      selectedObjectComments: null
+
 		    }
 	},
 	computed: {
@@ -78,7 +81,7 @@ Vue.component("sport-objects", {
 	<div v-if="selected != false">
 		This sport object:
 		<br>
-		<img src="#/resources/images/gym_background.jpg">
+		<img src="dumbbell.png" alt="Gym picture">
 		<br>
 		<label>Name:</label>
 			<label>{{this.selectedObject.name}}</label>
@@ -110,6 +113,16 @@ Vue.component("sport-objects", {
 					<td scope="row">{{so.description}}</td>
 				</tr>
 			</table>
+		
+		<div v-if="selectedObjectComments != null">
+			<br>
+			<div v-for="com in selectedObjectComments" class="p-3 mb-2 bg-primary text-white">
+				<h5>{{com.buyer}}</h5>
+				<p>{{com.content}}<p>
+				<p class="text-dark">Grade: {{com.grade}}</p>
+			</div>
+		
+		</div>
 			<br>
 		<button type="button" v-on:click="unselect()">Back</button>
 	</div>		  
@@ -167,7 +180,14 @@ Vue.component("sport-objects", {
 		selectObject : function(sportObject){
 			console.log("Usli smo u select.");
 			this.selectedObject = sportObject;
-			this.selected = true;			
+			this.selected = true;
+			axios
+			    .post('/rest/comments-for-object', sportObject.name)
+			    .then(response => {
+					this.selectedObjectComments = response.data;
+					console.log(this.selectedObjectComments);
+				})
+		    	.catch((error) => console.log(error));
 		},
 		unselect : function() {
 			console.log("vrati na tabelu!");

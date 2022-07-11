@@ -31,6 +31,9 @@ Vue.component("my-profile", {
 				<br>
 				<button type="button" v-on:click="listUsers()">List users</button>
 				<button type="button" v-on:click="listSportObjects()">List sport objects</button>
+				<br>
+				<button type="button" v-on:click="approveComments()">Approve comments</button>
+				
 			</div>
 			
 			<div v-if="currentUser.role.includes('MENAGER')">			
@@ -45,6 +48,13 @@ Vue.component("my-profile", {
 			
 			<div v-if="currentUser.role.includes('BUYER')">
 				<button type="button" v-on:click="showTrainingHistory()">Show training history</button>
+				<br>
+				<button type="button" v-on:click="showMembershipOptions()">Show membership options</button>
+				<br>
+				<button type="button" v-on:click="startSession()">Start training session</button>
+				<br>
+				<button type="button" v-on:click="writeReview()">Write review</button>
+				<br>
 			</div>
 			
 		</div>
@@ -66,7 +76,6 @@ Vue.component("my-profile", {
 			console.log("Pushing router to edit profile!");
 			router.push('/edit-profile')
 		},
-		
 		logOut(){
 			console.log("Log out clicked");
 			axios
@@ -77,22 +86,18 @@ Vue.component("my-profile", {
 	    	.catch((error) => console.log(error));
 			router.push('/');
 		},
-		
 		createSportObject(){
 			console.log("Pushing router to create sport object!");
 			router.push('/create-sport-object')
 		},
-		
 		createMenager(){
 			console.log("Pushing router to create menager!");
 			router.push('/create-menager')
 		},
-		
 		createTrainer(){
 			console.log("Pushing router to create trainer!");
 			router.push('/create-trainer')
 		},
-		
 		listUsers(){
 			console.log("Pushing router to list users!");
 			router.push('/list-users')
@@ -100,6 +105,10 @@ Vue.component("my-profile", {
 		listSportObjects(){
 			console.log("Pushing router to list sport objects!");
 			router.push('/list-sport-objects')
+		},
+		approveComments(){
+			console.log("Pushing router to approve comments!");
+			router.push('/approve-comments')
 		},
 		showSportObject(){
 			console.log("Show sport object selected!");
@@ -119,6 +128,29 @@ Vue.component("my-profile", {
 		showTrainingHistory(){
 			console.log("Show training history selected!");
 			router.push('/training-history')
+		},
+		showMembershipOptions(){
+			console.log("Show membership options selected!");
+			router.push('/show-membership-options')
+		},
+		startSession(){
+			console.log("Start session selected!");
+			console.log(this.currentUser);
+	        axios
+				.get('/rest/check-membership')
+				.then(response => {
+					if(response.data == false)
+					{
+					 toast("Membership not valid!");
+					}else
+					{					
+						router.push('/start-session');
+					}
+				})
+		},
+		writeReview(){
+			console.log('Write review selected.');
+			router.push('/write-review');
 		}
 	},
 	mounted () {

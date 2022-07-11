@@ -126,6 +126,9 @@ public class UserDAO {
 		}
 		return trainerList;
 	}
+	public Collection<Buyer> buyers(){
+		return buyers.values();
+	}
 
 	
 	public Boolean editUserRequest(String req) throws FileNotFoundException {
@@ -303,7 +306,7 @@ public class UserDAO {
 		toJSON(path + "/resources/JSON/trainers.json", "TRAINER");
 	}
 	
-	private void toJSON(String filename, String command) throws FileNotFoundException {
+	public void toJSON(String filename, String command) throws FileNotFoundException {
 		PrintWriter out = new PrintWriter(filename);
 		switch(command) {
 		case "USER":
