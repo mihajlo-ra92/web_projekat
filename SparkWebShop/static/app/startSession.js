@@ -27,7 +27,8 @@ Vue.component("start-session", {
 						<th scope="col">Grade</th>
 					</tr>
 						
-					<tr v-for="so in sportObjects" v-on:click="selectObject(so)">
+					<tr v-for="so in sportObjects" v-if="so.isOpen" v-on:click="selectObject(so)">
+						
 						<td scope="row">{{so.name }}</td>
 						<td>{{so.objectType }}</td>
 						<td v-if="so.isOpen">Open</td>
