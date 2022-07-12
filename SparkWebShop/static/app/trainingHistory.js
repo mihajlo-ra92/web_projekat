@@ -78,7 +78,6 @@ Vue.component("training-history", {
 			axios
 			.get('rest/getJustPools')
 			.then(response => {pools = response.data;
-			
 							retValInside = [];
 							for(let j = 0 ; j < this.allTrainingSessions.length ; j++){								
 								for(let i = 0 ; i < pools.length ; i++){
