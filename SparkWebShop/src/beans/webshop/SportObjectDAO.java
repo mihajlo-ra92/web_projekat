@@ -152,6 +152,35 @@ public class SportObjectDAO {
 		}
 		return null;
 	}
+	public ArrayList<SportObject> getGyms() {
+		ArrayList<SportObject> retVal = new ArrayList<SportObject>();
+		for(SportObject soIt : sportObjects.values()) {
+			if(soIt.getObjectType().equals("gym")) {
+				retVal.add(soIt);
+			}
+		}
+		return retVal;
+	}
+	
+	public ArrayList<SportObject> getPools() {
+		ArrayList<SportObject> retVal = new ArrayList<SportObject>();
+		for(SportObject soIt : sportObjects.values()) {
+			if(soIt.getObjectType().equals("pool")) {
+				retVal.add(soIt);
+			}
+		}
+		return retVal;
+	}
+	
+	public ArrayList<SportObject> getDanceStudios() {
+		ArrayList<SportObject> retVal = new ArrayList<SportObject>();
+		for(SportObject soIt : sportObjects.values()) {
+			if(soIt.getObjectType().equals("dance studio")) {
+				retVal.add(soIt);
+			}
+		}
+		return retVal;
+	}
 	
 //	public void deleteContentofSportObject(String SOname,Workout workout) {
 //		//System.out.println("ovaj treba da se brise: " + wo.toString());

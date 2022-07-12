@@ -201,7 +201,6 @@ Vue.component("sport-objects", {
           .get('rest/proizvodi/getJustSportObjects')
           .then(response => {this.sportObjects = response.data;
           					this.allSportObjects = response.data;
-          		
           })
                  
   

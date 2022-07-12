@@ -192,6 +192,27 @@ public class SparkWebShopMain {
 			return g.toJson(sportObjectDAO.values());
 		});
 		
+		get("rest/getJustGyms", (req,res) ->{
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
+			res.type("application/json");
+			return g.toJson(sportObjectDAO.getGyms());
+		});
+		
+		get("rest/getJustPools", (req,res) ->{
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
+			res.type("application/json");
+			return g.toJson(sportObjectDAO.getPools());
+		});
+		
+		get("rest/getDanceStudios", (req,res) ->{
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
+			res.type("application/json");
+			return g.toJson(sportObjectDAO.getDanceStudios());
+		});
+		
 		get("/rest/proizvodi/getVisitedSportObjects", (req, res) -> {
 			res.type("application/json");
 			updateObjectsGrades();
