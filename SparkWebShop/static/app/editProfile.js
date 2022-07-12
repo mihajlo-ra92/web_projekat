@@ -45,18 +45,25 @@ Vue.component("edit-profile", {
 	methods : {
 		submit: function(){
 			console.log("Submit!");
-			axios
-				.post('rest/edit-profile', this.user)
-				.then(response => {
-					if (response.data === false){
-					toast("Failed, username is taken!");
-					}
-					else {
-						toast("Succesfully edited user!");
-					}
-				})
-				.catch((error) => console.log(error));
-			router.push('/my-profile');
+			if (this.user.username === "" || this.user.password === ""
+			|| this.user.firstName === "" || this.user.lastName === ""
+			|| this.user.birthDate === "" || this.user.gender === ""){
+				toast("Please fill all fields");
+			}
+			else {
+				axios
+					.post('rest/edit-profile', this.user)
+					.then(response => {
+						if (response.data === false){
+						toast("Failed, username is taken!");
+						}
+						else {
+							toast("Succesfully edited user!");
+						}
+					})
+					.catch((error) => console.log(error));
+				router.push('/');
+			}
 		}
 	},
 	mounted () {

@@ -46,7 +46,7 @@ Vue.component("sport-object", {
 				<tr v-for="so in contents" v-on:click="selectObject(so)">
 					<td>{{so.name}}</td>
 					<td>{{so.workoutType}}</td>
-					<td>{{so.workoutDuration}}</td>
+					<td>{{so.workoutDuration}} min</td>
 					<td>{{so.description}}</td>
 					<td>{{so.trainer}}</td>
 				</tr>
@@ -55,9 +55,13 @@ Vue.component("sport-object", {
 			<br>		
 			<input type="text" placeholder="Name" v-model="input.name">
 			<br>
-			<input type="text" v-model="input.workoutType" placeholder="Type of content">
+			<input type="radio" name="workoutType" value="Personal" v-model="input.workoutType">Personal
 			<br>
-			<input type="text" placeholder="Duration" v-model="input.workoutDuration">
+			<input type="radio" name="workoutType" value="Group" v-model="input.workoutType">Group
+			<br>
+			<input type="radio" name="workoutType" value="Solo" v-model="input.workoutType">Solo
+			<br>
+			<input type="number" placeholder="Duration" v-model="input.workoutDuration">
 			<br>
 			<input type="text" placeholder="Description" v-model="input.description">
 			<br>
@@ -143,7 +147,6 @@ Vue.component("sport-object", {
 		},
 		addContent : function(){
 			isExist = false;
-			console.log("Treba da se doda post za content");
 			if(this.contents != null){
 				for(let i = 0; i < this.contents.length; i++){
 					if(this.input.name === this.contents[i].name){
@@ -151,16 +154,22 @@ Vue.component("sport-object", {
 					}
 				}	
 			}
-			if(isExist === false){				
-				axios
-				.post('rest/proizvodi/CreateContent', this.input)
-				.then(response => this.contents = response.data)
-				.catch((error) => console.log(error));
-				
-				axios
-				.get('/rest/contnentsForMenagersObject')
-				.then(response => {
-				this.contents  = response.data;});
+			if(isExist === false){	
+				if (this.input.name === "" || this.input.workoutType === ""
+				|| this.input.workoutDuration === ""){
+					toast("All fields except for description must be filled!")
+				}
+				else {
+					axios
+						.post('rest/proizvodi/CreateContent', this.input)
+						.then(response => this.contents = response.data)
+						.catch((error) => console.log(error));
+					
+					axios
+						.get('/rest/contnentsForMenagersObject')
+						.then(response => {
+					this.contents  = response.data;});
+				}
 				
 			}else{
 				console.log("Vec postoji!");

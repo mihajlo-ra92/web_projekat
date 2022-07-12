@@ -255,7 +255,7 @@ public class UserDAO {
 		return true;
 	}
 	
-	public Boolean addMenagerRequest(String req) throws FileNotFoundException {
+	public String addMenagerRequest(String req) throws FileNotFoundException {
 		
 		Menager me= g.fromJson(req, Menager.class);
 		//User us = g.fromJson(req, User.class);
@@ -264,21 +264,27 @@ public class UserDAO {
 		
 //		System.out.println("JSON PRINT of add request menager object:");
 //		System.out.println(me.toString());
-		
+		if (me.getUsername().equals("") || me.getBirthDate().equals("")
+				|| me.getFirstName().equals("") || me.getLastName().equals("")
+				|| me.getPassword().equals("")) {
+			//NE SME SE MENJATI
+			return "No field can be empty!";//NE SME SE MENJATI
+		}
 		for (User userIt : users.values()) {
 			if (usernamesAreSame(userIt, me)) {
-				//System.out.println("Username taken!");
-				return false;
+				//NE SME SE MENJATI
+				return "Username is taken!";//NE SME SE MENJATI
 			}
 		}
 		User us = (User) me;
 //		System.out.println("MENAGER CASTED TO USER:" + us);
 		addUser(us);
 		addMenager(me);
-		return true;
+		//NE SME SE MENJATI
+		return "Menager registered!";//NE SME SE MENJATI
 	}
 
-	public Boolean addTrainerRequest(String req) throws FileNotFoundException {
+	public String addTrainerRequest(String req) throws FileNotFoundException {
 		
 		Trainer tr= g.fromJson(req, Trainer.class);
 		//User us = g.fromJson(req, User.class);
@@ -288,17 +294,24 @@ public class UserDAO {
 //		System.out.println("JSON PRINT of add request trainer object:");
 //		System.out.println(tr.toString());
 		
+		if (tr.getBirthDate().equals("") || tr.getFirstName().equals("")
+				|| tr.getLastName().equals("") || tr.getPassword().equals("")
+				|| tr.getUsername().equals("")) {
+			//NE SME SE MENJATI
+			return "No field can be empty!";//NE SME SE MENJATI
+		}
 		for (User userIt : users.values()) {
 			if (usernamesAreSame(userIt, tr)) {
-				System.out.println("Username taken!");
-				return false;
+				//NE SME SE MENJATI
+				return "Username is taken!";//NE SME SE MENJATI
 			}
 		}
 		User us = (User) tr;
 		//System.out.println("BUYER CASTED TO USER:" + us);
 		addUser(us);
 		addTrainer(tr);
-		return true;
+		//NE SME SE MENJATI
+		return "Trainer registered!";//NE SME SE MENJATI
 	}
 	
 	private Boolean usernamesAreSame(User us1, User us2) {

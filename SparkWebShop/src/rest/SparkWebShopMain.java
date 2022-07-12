@@ -137,17 +137,13 @@ public class SparkWebShopMain {
 		post("/rest/register-menager", (req, res) -> {
 			res.type("application/json");
 			//System.out.println(req.body());
-			Boolean isSuccessful = userDAO.addMenagerRequest(req.body());
-			//System.out.println("Register is successful: " + isSuccessful);
-			return isSuccessful;
+			return userDAO.addMenagerRequest(req.body());
 		});
 		
 		post("/rest/register-trainer", (req, res) -> {
 			res.type("application/json");
 			//System.out.println(req.body());
-			Boolean isSuccessful = userDAO.addTrainerRequest(req.body());
-			//System.out.println("Register is successful: " + isSuccessful);
-			return isSuccessful;
+			return userDAO.addTrainerRequest(req.body());
 		});
 		
 		post("/rest/edit-profile", (req, res) -> {
@@ -330,18 +326,19 @@ public class SparkWebShopMain {
 		get("rest/traingSessionsForTrainerPersonal", (req,res) ->{
 			res.type("application/json");
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
-			return g.toJson(trainingHistoryDAO.getTrSessionsPersonalFromTrainer(user.getUsername()));
+			//get personal workouts for trainer
+			ArrayList<Workout> personalWorkouts = workoutDAO.getPersonalWorkoutsForTrainer(user.getUsername());
+			//return sessions of these workouts
+			return g.toJson(trainingHistoryDAO.getTrSessionsForWorkouts(personalWorkouts));
 		});
 		
 		get("rest/traingSessionsForTrainerGroup", (req,res) ->{
 			res.type("application/json");
 			User user = userDAO.getUser(req.session().attribute("logednUserId"));
-			System.out.println(trainingHistoryDAO.getTrSessionsGroupFromTrainer(user.getUsername()));
-			if(g.toJson(trainingHistoryDAO.getTrSessionsGroupFromTrainer(user.getUsername())) != null) {				
-				return g.toJson(trainingHistoryDAO.getTrSessionsGroupFromTrainer(user.getUsername()));
-			}else {
-				return "404";
-			}
+			//get group workouts for trainer
+			ArrayList<Workout> groupWorkouts = workoutDAO.getGroupWorkoutsForTrainer(user.getUsername());
+			//return sessions of these workouts
+			return g.toJson(trainingHistoryDAO.getTrSessionsForWorkouts(groupWorkouts));
 		});
 		//TRAINING SESSION POST REQUEST:
 		post("rest/deleteTraining", (req,res) ->{
@@ -396,6 +393,11 @@ public class SparkWebShopMain {
 			res.type("application/json");
 			//System.out.println(req.body());
 			return g.toJson(commentDAO.getApprovedForObject(req.body()));
+		});
+		post("/rest/unapproved-comments-for-object", (req, res) -> {
+			res.type("application/json");
+			//System.out.println(req.body());
+			return g.toJson(commentDAO.getUnapprovedForObject(req.body()));
 		});
 		post("/rest/update-comment", (req, res) -> {
 			res.type("application/json");

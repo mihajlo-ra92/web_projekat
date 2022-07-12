@@ -113,4 +113,30 @@ public class WorkoutDAO {
 	public Collection<Workout> getValues(){
 		return workouts.values();
 	}
+	public ArrayList<Workout> getPersonalWorkoutsForTrainer(String username){
+		ArrayList<Workout> retVal = new ArrayList<Workout>();
+		for (Workout woIt : workouts.values()) {
+			if (woIt.getWorkoutType().equals("Personal")) {
+				if (woIt.getTrainer() != null) {
+					if (woIt.getTrainer().equals(username)) {
+						retVal.add(woIt);
+					}
+				}
+			}
+		}
+		return retVal;
+	}
+	public ArrayList<Workout> getGroupWorkoutsForTrainer(String username){
+		ArrayList<Workout> retVal = new ArrayList<Workout>();
+		for (Workout woIt : workouts.values()) {
+			if (woIt.getWorkoutType().equals("Group")) {
+				if (woIt.getTrainer() != null) {
+					if (woIt.getTrainer().equals(username)) {
+						retVal.add(woIt);
+					}
+				}
+			}
+		}
+		return retVal;
+	}
 }

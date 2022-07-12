@@ -51,16 +51,12 @@ Vue.component("create-trainer", {
 			}
 			else {
 				axios
-			    .post('/rest/register-trainer', this.user)
-			    .then(response => {
-					if (response.data === false){
-						toast("Failed, username is taken!");
-					}
-					else {
-						toast("Succesfully registered user!");
-					}
-				})
-		    	.catch((error) => console.log(error));
+				    .post('/rest/register-trainer', this.user)
+				    .then(response => {
+						toast(response.data);
+					})
+			    	.catch((error) => console.log(error));
+	    		router.push('/my-profile');
 			}
 		}
 	},

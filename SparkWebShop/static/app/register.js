@@ -47,17 +47,25 @@ Vue.component("register", {
 	methods : {
 		register : function (){
 		console.log("Register!!!");
-		axios
-		    .post('/rest/register', this.user)
-		    .then(response => {
-				if (response.data === false){
-					toast("Failed, username is taken!");
-				}
-				else {
-					toast("Succesfully registered user!");
-				}
-			})
-	    	.catch((error) => console.log(error));
+		if (this.user.username === "" || this.user.password === "" 
+		|| this.user.firstName === "" || this.user.lastName === ""
+		|| this.user.birthDate === "" || this.user.gender === ""){
+			toast("No fields can be left empty!");
+		}
+		else {			
+			axios
+			    .post('/rest/register', this.user)
+			    .then(response => {
+					if (response.data === false){
+						toast("Failed, username is taken!");
+					}
+					else {
+						toast("Succesfully registered user!");
+					}
+				})
+		    	.catch((error) => console.log(error));
+				router.push('/');
+		}
 		}
 	},
 	mounted () {
