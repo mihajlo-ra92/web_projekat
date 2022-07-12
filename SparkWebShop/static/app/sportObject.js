@@ -147,7 +147,6 @@ Vue.component("sport-object", {
 		},
 		addContent : function(){
 			isExist = false;
-			console.log("Treba da se doda post za content");
 			if(this.contents != null){
 				for(let i = 0; i < this.contents.length; i++){
 					if(this.input.name === this.contents[i].name){
@@ -155,16 +154,22 @@ Vue.component("sport-object", {
 					}
 				}	
 			}
-			if(isExist === false){				
-				axios
-				.post('rest/proizvodi/CreateContent', this.input)
-				.then(response => this.contents = response.data)
-				.catch((error) => console.log(error));
-				
-				axios
-				.get('/rest/contnentsForMenagersObject')
-				.then(response => {
-				this.contents  = response.data;});
+			if(isExist === false){	
+				if (this.input.name === "" || this.input.workoutType === ""
+				|| this.input.workoutDuration === ""){
+					toast("All fields except for description must be filled!")
+				}
+				else {
+					axios
+						.post('rest/proizvodi/CreateContent', this.input)
+						.then(response => this.contents = response.data)
+						.catch((error) => console.log(error));
+					
+					axios
+						.get('/rest/contnentsForMenagersObject')
+						.then(response => {
+					this.contents  = response.data;});
+				}
 				
 			}else{
 				console.log("Vec postoji!");

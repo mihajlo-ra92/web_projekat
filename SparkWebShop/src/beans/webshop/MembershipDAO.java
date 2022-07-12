@@ -77,17 +77,17 @@ public class MembershipDAO {
 			switch(split[0]) {
 			  case "DAILY":
 				  Membership memDay = new Membership(id, MembershipType.DAILY, dtf.format(now),
-			    		dtf.format(now), dtf.format(tomorrow), 500, true, 2, split[1]);
+			    		dtf.format(now), dtf.format(tomorrow), 500, true, 1, split[1]);
 			      addMembership(memDay);
 			  break;
 			  case "MONTHLY":
 				  Membership memMonth = new Membership(id, MembershipType.MONTHLY, dtf.format(now),
-					  dtf.format(now), dtf.format(oneMonth), 2500, true, 3, split[1]);
+					  dtf.format(now), dtf.format(oneMonth), 2500, true, 31, split[1]);
 			      addMembership(memMonth);
 			  break;
 			  case "YEARLY":
 				  Membership memYear= new Membership(id, MembershipType.YEARLY, dtf.format(now),
-					  dtf.format(now), dtf.format(oneYear), 10000, true, 5, split[1]);
+					  dtf.format(now), dtf.format(oneYear), 10000, true, 365, split[1]);
 			      addMembership(memYear);
 			  break;
 			  default:

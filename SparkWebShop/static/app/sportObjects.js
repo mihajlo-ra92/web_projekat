@@ -2,6 +2,7 @@
 Vue.component("sport-objects", {
 	data: function () {
 		    return {
+			currentUser: null,
 			allSportObjects : null,
 		      sportObjects: null,
 		      selectedObject: {},
@@ -13,7 +14,8 @@ Vue.component("sport-objects", {
 		 	  	selectedActivity : "",
 		      workouts:null,
 		      filteredWorkouts:{},
-		      selectedObjectComments: null
+		      selectedObjectComments: null,
+		      selectedObjectUnapprovedComments: null
 
 		    }
 	},
@@ -122,9 +124,20 @@ Vue.component("sport-objects", {
 				<p class="text-dark">Grade: {{com.grade}}</p>
 			</div>
 		
+		<div v-if="selectedObjectUnapprovedComments != null && (currentUser.role.includes('MENAGER') || currentUser.role.includes('TRAINER'))">
+			<p>Unapproved comments</p>
+			<div v-for="unCom in selectedObjectUnapprovedComments" class="p-3 mb-2 bg-primary text-white">
+				<h5>{{unCom.buyer}}</h5>
+				<p>{{unCom.content}}<p>
+				<p class="text-dark">Grade: {{unCom.grade}}</p>
+				<p class="text-dark">Status: {{unCom.status}}</p>
+			</div>
 		</div>
-			<br>
+		<br>
 		<button type="button" v-on:click="unselect()">Back</button>
+		</div>
+		
+		<br>
 	</div>		  
 </div>
 `	  
@@ -188,6 +201,13 @@ Vue.component("sport-objects", {
 					console.log(this.selectedObjectComments);
 				})
 		    	.catch((error) => console.log(error));
+		    axios
+			    .post('/rest/unapproved-comments-for-object', sportObject.name)
+			    .then(response => {
+					this.selectedObjectUnapprovedComments = response.data;
+					console.log(this.selectedObjectUnapprovedComments);
+				})
+		    	.catch((error) => console.log(error));
 		},
 		unselect : function() {
 			console.log("vrati na tabelu!");
@@ -203,10 +223,19 @@ Vue.component("sport-objects", {
           					this.allSportObjects = response.data;
           		
           })
-                 
-  
         axios
-        .get('rest/proizvodi/getAllcontents')
-        .then(response => this.workouts = response.data);
+	        .get('rest/proizvodi/getAllcontents')
+	        .then(response => this.workouts = response.data);
+        axios
+			.get('rest/getCurrentUser')
+      		.then(response => {
+				if (response.data == '404'){
+					console.log('No loged in user!');
+				}
+				else {
+					this.currentUser = response.data;
+					console.log(this.currentUser);
+				}
+		})
     },
 });	  

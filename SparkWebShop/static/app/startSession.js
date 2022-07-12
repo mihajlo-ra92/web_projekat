@@ -82,6 +82,7 @@ Vue.component("start-session", {
 				toast(response.data);
 			})
 	    	.catch((error) => console.log(error));
+			router.push('/my-profile');
 		},
 		unselect : function() {
 			console.log("vrati na tabelu!");

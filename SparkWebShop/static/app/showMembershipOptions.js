@@ -96,16 +96,17 @@ Vue.component("show-membership-options", {
 		activate(){
 			console.log("Activate selected!");
 			axios
-		    .post('/rest/activate', this.selected)
-		    .then(response => {
-				if (response.data === false){
-					toast("Failed!");
-				}
-				else {
-					toast("Succesfull!");
-				}
-			})
-	    	.catch((error) => console.log(error));
+			    .post('/rest/activate', this.selected)
+			    .then(response => {
+					if (response.data === false){
+						toast("Failed!");
+					}
+					else {
+						toast("Succesfull!");
+					}
+				})
+		    	.catch((error) => console.log(error));
+			router.push('/my-profile');
 		}
 	},
 	mounted () {
