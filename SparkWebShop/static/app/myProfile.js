@@ -30,7 +30,6 @@ Vue.component("my-profile", {
 				<button type="button" v-on:click="createTrainer()">Create trainer</button>
 				<br>
 				<button type="button" v-on:click="listUsers()">List users</button>
-				<button type="button" v-on:click="listSportObjects()">List sport objects</button>
 				<br>
 				<button type="button" v-on:click="approveComments()">Approve comments</button>
 				
@@ -101,10 +100,6 @@ Vue.component("my-profile", {
 		listUsers(){
 			console.log("Pushing router to list users!");
 			router.push('/list-users')
-		},
-		listSportObjects(){
-			console.log("Pushing router to list sport objects!");
-			router.push('/list-sport-objects')
 		},
 		approveComments(){
 			console.log("Pushing router to approve comments!");
