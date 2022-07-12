@@ -61,7 +61,7 @@ Vue.component("approve-comments", {
 			axios
 			    .post('/rest/update-comment', this.selectedComment)
 			    .then(response => {
-					toast("APPROVED");
+					toast("Comment approved");
 				})
 		    	.catch((error) => console.log(error));
 		    router.push('/my-profile')
@@ -72,7 +72,7 @@ Vue.component("approve-comments", {
 			axios
 			    .post('/rest/update-comment', this.selectedComment)
 			    .then(response => {
-					toast("DENYED");
+					toast("Comment denied");
 				})
 		    	.catch((error) => console.log(error));
 		    router.push('/my-profile');

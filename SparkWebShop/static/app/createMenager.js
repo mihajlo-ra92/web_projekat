@@ -49,18 +49,14 @@ Vue.component("create-menager", {
 			if (this.currentUser.role != 'ADMIN'){
 				toast("You are not loged in as admin!")
 			}
-			else {
+			else{
 				axios
 			    .post('/rest/register-menager', this.user)
 			    .then(response => {
-					if (response.data === false){
-						toast("Failed, username is taken!");
-					}
-					else {
-						toast("Succesfully registered menager!");
-					}
+					toast(response.data);
 				})
 		    	.catch((error) => console.log(error));
+		    	router.push('/my-profile')
 			}
 		}
 	},

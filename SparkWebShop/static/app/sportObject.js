@@ -46,7 +46,7 @@ Vue.component("sport-object", {
 				<tr v-for="so in contents" v-on:click="selectObject(so)">
 					<td>{{so.name}}</td>
 					<td>{{so.workoutType}}</td>
-					<td>{{so.workoutDuration}}</td>
+					<td>{{so.workoutDuration}} min</td>
 					<td>{{so.description}}</td>
 					<td>{{so.trainer}}</td>
 				</tr>
@@ -55,9 +55,13 @@ Vue.component("sport-object", {
 			<br>		
 			<input type="text" placeholder="Name" v-model="input.name">
 			<br>
-			<input type="text" v-model="input.workoutType" placeholder="Type of content">
+			<input type="radio" name="workoutType" value="Personal" v-model="input.workoutType">Personal
 			<br>
-			<input type="text" placeholder="Duration" v-model="input.workoutDuration">
+			<input type="radio" name="workoutType" value="Group" v-model="input.workoutType">Group
+			<br>
+			<input type="radio" name="workoutType" value="Solo" v-model="input.workoutType">Solo
+			<br>
+			<input type="number" placeholder="Duration" v-model="input.workoutDuration">
 			<br>
 			<input type="text" placeholder="Description" v-model="input.description">
 			<br>

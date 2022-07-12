@@ -18,9 +18,9 @@ Vue.component("menagers-trainings", {
 			<th scope="col">Workout   </th>
 			</tr>
 			<tr v-for="tr in trainings">
-			<td>{{tr.dateTimeOfSignUp}}</td>
-			<td>{{tr.buyer}}</td>
 			<td>{{tr.trainer}}</td>
+			<td>{{tr.buyer}}</td>
+			<td>{{tr.dateTimeOfSignUp}}</td>
 			<td>{{tr.workoutName}}</td>
 			</tr>
 		</table>

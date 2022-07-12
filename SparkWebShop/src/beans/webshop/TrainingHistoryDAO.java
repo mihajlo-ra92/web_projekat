@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -80,8 +81,10 @@ public class TrainingHistoryDAO {
 		ArrayList<TrainingSession> retVal= new ArrayList<TrainingSession>();
 		//punjenje trenera
 		for(TrainingSession trIt : trainingHistory.values()) {
-			if(trIt.getTrainer().equals(trUsername) ) {
-				trainersTrSess.add(trIt);
+			if(trIt.getTrainer() != null) {
+				if(trIt.getTrainer().equals(trUsername) ) {
+					trainersTrSess.add(trIt);
+				}
 			}
 		}
 		//punjenje group treninga
@@ -141,15 +144,19 @@ public class TrainingHistoryDAO {
 	public void deleteTrainingById(String req) {
 		TrainingSession tr = g.fromJson(req, TrainingSession.class);
 		System.out.println(tr);
-		trainingHistory.remove(tr.getId());			
+		if (tr != null) {			
+			trainingHistory.remove(tr.getId());			
+		}
 	}
 	
 	public ArrayList<TrainingSession> getTrSessionsPersonalFromTrainer(String trUsername) {
 		ArrayList<TrainingSession> trainersTrSess = new ArrayList<TrainingSession>();
 		ArrayList<TrainingSession> retVal= new ArrayList<TrainingSession>();
 		for(TrainingSession trIt : trainingHistory.values()) {
-			if(trIt.getTrainer().equals(trUsername) ) {
-				trainersTrSess.add(trIt);
+			if(trIt.getTrainer() != null) {				
+				if(trIt.getTrainer().equals(trUsername) ) {
+					trainersTrSess.add(trIt);
+				}
 			}
 		}
 		for(TrainingSession trIt : trainersTrSess) {
@@ -161,6 +168,18 @@ public class TrainingHistoryDAO {
 			}
 			if(counter == 0) {
 				retVal.add(trIt);
+			}
+		}
+		return retVal;
+	}
+	
+	public ArrayList<TrainingSession> getTrSessionsForWorkouts(Collection<Workout> workouts){
+		ArrayList<TrainingSession> retVal = new ArrayList<TrainingSession>();
+		for (Workout woIt : workouts) {
+			for (TrainingSession tsIt : trainingHistory.values()) {
+				if (woIt.getName().equals(tsIt.getWorkoutName())) {
+					retVal.add(tsIt);
+				}
 			}
 		}
 		return retVal;

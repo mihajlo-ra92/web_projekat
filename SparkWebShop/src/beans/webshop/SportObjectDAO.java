@@ -76,9 +76,12 @@ public class SportObjectDAO {
 		String id = getNewId();
 		so.setId(id);
 		
-		System.out.println("JSON PRINT add request sport object:");
-		System.out.println(so.toString());
+//		System.out.println("JSON PRINT add request sport object:");
+//		System.out.println(so.toString());
 		
+		if (so.getName().equals("")) {
+			return false;
+		}
 		for (SportObject objectIt : sportObjects.values()) {
 			if (objectNamesAreSame(objectIt, so)) {
 				return false;

@@ -48,9 +48,9 @@ Vue.component("create-sport-object", {
 		<input type="radio" name="objectType" value="dance studio" v-model="sportObject.objectType">Dance studio
 		<br>
 		
-		<input type="text" name="location_geoLenght" v-model="sportObject.location.geoLenght" placeholder="Location geoLenght" />
+		<input type="number" name="location_geoLenght" v-model="sportObject.location.geoLenght" placeholder="Location geoLenght" />
 		<br>
-		<input type="text" name="location_geoWidth" v-model="sportObject.location.geoWidth" placeholder="Location geoWidth" />
+		<input type="number" name="location_geoWidth" v-model="sportObject.location.geoWidth" placeholder="Location geoWidth" />
 		<br>
 		<input type="text" name="location_address" v-model="sportObject.location.address" placeholder="Location address" />
 		<br>
@@ -111,17 +111,28 @@ Vue.component("create-sport-object", {
 				this.sportObject.workHours = this.timeInput.timeStart
 				 + "-" + this.timeInput.timeEnd;
 				this.newMenager.sportObject = this.sportObject.name;
-				if (this.makingNewMenager){
+				if(this.sportObject.name === "" || this.sportObject.objectType === ""
+				|| this.sportObject.location.geoLenght === "" || this.sportObject.location.geoWidth === ""
+				|| this.sportObject.location.address === "" || this.timeInput.timeStart === ""
+				|| this.timeInput.timeEnd === ""){
+					this.canCreate = false;
+				}
+				if (this.makingNewMenager && this.canCreate){
 			    	//creating menager
 			    	axios
 				    .post('/rest/register-menager', this.newMenager)
 				    .then(response => {
-						if (response.data === false){
-							toast("Failed, username is taken!");
+						if (response.data === "No field can be empty!"){
+							toast(response.data);
+							this.canCreate = false;
+						}
+						else if (response.data === "Username is taken!"){
+							toast(response.data);
 							this.canCreate = false;
 						}
 						else {
 							toast("Succesfully registered menager!");
+							this.canCreate = true;
 						}
 					})
 			    	.catch((error) => console.log(error));
@@ -130,17 +141,18 @@ Vue.component("create-sport-object", {
 		    	if (this.canCreate){
 					//creating new sportobject
 					axios
-				    .post('/rest/register-sport-object', this.sportObject)
-				    .then(response => {
-						if (response.data === false){
-							toast("Failed, sport object name is taken!");
-							this.canCreate = false;
-						}
-						else {
-							toast("Succesfully registered sport object!");
-						}
-					})
-			    	.catch((error) => console.log(error));
+					    .post('/rest/register-sport-object', this.sportObject)
+					    .then(response => {
+							if (response.data === false){
+								toast("Failed, sport object name is taken!");
+								this.canCreate = false;
+							}
+							else {
+								toast("Succesfully registered sport object!");
+								this.canCreate = true;
+							}
+						})
+				    	.catch((error) => console.log(error));
 				}
 				
 		    	
@@ -148,11 +160,13 @@ Vue.component("create-sport-object", {
 					//setting sportobject to new menager
 					const request = this.sportObject.name + '+' + this.newMenager.username;
 					axios
-					.post('/rest/set-object-to-menager', request)
-					.then(response => {
-						console.log('Set object to new menager post req')
-					})
-			    	.catch((error) => console.log(error));
+						.post('/rest/set-object-to-menager', request)
+						.then(response => {
+							console.log('Set object to new menager post req')
+						})
+				    	.catch((error) => console.log(error));
+		    		router.push('/my-profile')
+			    	
 				}
 				
 				if (!this.makingNewMenager && this.canCreate){
@@ -161,11 +175,12 @@ Vue.component("create-sport-object", {
 					console.log('Requset concatenated:');
 					console.log(request);
 					axios
-					.post('/rest/set-object-to-menager', request)
-					.then(response => {
-						console.log('Set object to new menager post req')
-					})
-			    	.catch((error) => console.log(error));
+						.post('/rest/set-object-to-menager', request)
+						.then(response => {
+							console.log('Set object to new menager post req')
+						})
+				    	.catch((error) => console.log(error));
+		    		router.push('/my-profile')
 				}
 		    	
 			}

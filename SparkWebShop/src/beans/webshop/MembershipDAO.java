@@ -113,11 +113,11 @@ public class MembershipDAO {
 			if (dateFormat.parse(timeStamp).after(dateFormat.parse(start)) &&
 					dateFormat.parse(end).after(dateFormat.parse(timeStamp))) {
 				mem.setActive(true);
-				System.out.println("MEM ID: " + mem.getId() + "is active");
+				//System.out.println("MEM ID: " + mem.getId() + "is active");
 			}
 			else {
 				mem.setActive(false);
-				System.out.println("MEM ID: " + mem.getId() + "is NOT active");
+				//System.out.println("MEM ID: " + mem.getId() + "is NOT active");
 			}
 		}
 		toJSON(path + "/resources/JSON/memberships.json");
