@@ -165,10 +165,10 @@ public class UserDAO {
 				!(us1.getId().equals(us2.getId())));
 	}
 		
-	public void setSportObjectToMenager(SportObject sportObject, Menager menager) throws FileNotFoundException {
+	public void setSportObjectToMenager(String objectName, String menagerName) throws FileNotFoundException {
 		for (Menager menagerIt : menagers.values()) {
-			if (menagerIt.getId().equals(menager.getId())) {
-				menagerIt.setSportObject(sportObject.getName());
+			if (menagerIt.getUsername().equals(menagerName)) {
+				menagerIt.setSportObject(objectName);
 				menagers.replace(menagerIt.getId(), menagerIt);
 			}
 		}

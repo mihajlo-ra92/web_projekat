@@ -201,18 +201,6 @@ Vue.component("sport-objects", {
           .get('rest/proizvodi/getJustSportObjects')
           .then(response => {this.sportObjects = response.data;
           					this.allSportObjects = response.data;
-          					sortedList = response.data;
-          					for(let i = 0; i < this.sportObjects.length ; i++){
-								SOi = this.sportObjects[i]; 
-								for(let j = 0; j < this.sportObjects.length ; j++){	
-									SOj = this.sportObjects[j]; 
-									if(SOi.name < SOj.name){
-										sortedList[i] = this.sportObjects[j]; 
-									}
-																	
-								}
-							}
-						this.sportObjects = sortedList;
           })
                  
   

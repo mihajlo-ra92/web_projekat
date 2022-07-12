@@ -127,9 +127,9 @@ public class SparkWebShopMain {
 			String [] names = req.body().split("\\+");
 			System.out.println("names0: " + names[0]);
 			System.out.println("names1: " + names[1]);
-			SportObject sportObject = sportObjectDAO.getSportObjectByName(names[0]);
-			Menager menager = userDAO.getMenagerByUsername(names[1]);
-			userDAO.setSportObjectToMenager(sportObject, menager);
+			//SportObject sportObject = sportObjectDAO.getSportObjectByName(names[0]);
+			//Menager menager = userDAO.getMenagerByUsername(names[1]);
+			userDAO.setSportObjectToMenager(names[0], names[1]);
 			
 			return "OK";
 		});
@@ -190,6 +190,27 @@ public class SparkWebShopMain {
 			sportObjectDAO.updateIsOpen();
 			res.type("application/json");
 			return g.toJson(sportObjectDAO.values());
+		});
+		
+		get("rest/getJustGyms", (req,res) ->{
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
+			res.type("application/json");
+			return g.toJson(sportObjectDAO.getGyms());
+		});
+		
+		get("rest/getJustPools", (req,res) ->{
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
+			res.type("application/json");
+			return g.toJson(sportObjectDAO.getPools());
+		});
+		
+		get("rest/getDanceStudios", (req,res) ->{
+			updateObjectsGrades();
+			sportObjectDAO.updateIsOpen();
+			res.type("application/json");
+			return g.toJson(sportObjectDAO.getDanceStudios());
 		});
 		
 		get("/rest/proizvodi/getVisitedSportObjects", (req, res) -> {
