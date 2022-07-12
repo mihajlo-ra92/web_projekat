@@ -83,7 +83,9 @@ Vue.component("sport-objects", {
 	<div v-if="selected != false">
 		This sport object:
 		<br>
-		<img src="dumbbell.png" alt="Gym picture">
+		<img v-if="selectedObject.objectType === 'gym'" src="dumbbell.png" alt="Gym picture">
+		<img v-if="selectedObject.objectType === 'pool'" src="pool.png" alt="Pool picture">
+		<img v-if="selectedObject.objectType === 'dance studio'" src="dance.png" alt="Dance picture">
 		<br>
 		<label>Name:</label>
 			<label>{{this.selectedObject.name}}</label>
@@ -123,14 +125,16 @@ Vue.component("sport-objects", {
 				<p>{{com.content}}<p>
 				<p class="text-dark">Grade: {{com.grade}}</p>
 			</div>
+		<div v-if="currentUser != null">
 		
-		<div v-if="selectedObjectUnapprovedComments != null && (currentUser.role.includes('MENAGER') || currentUser.role.includes('TRAINER'))">
-			<p>Unapproved comments</p>
-			<div v-for="unCom in selectedObjectUnapprovedComments" class="p-3 mb-2 bg-primary text-white">
-				<h5>{{unCom.buyer}}</h5>
-				<p>{{unCom.content}}<p>
-				<p class="text-dark">Grade: {{unCom.grade}}</p>
-				<p class="text-dark">Status: {{unCom.status}}</p>
+			<div v-if="selectedObjectUnapprovedComments != null && (currentUser.role.includes('MENAGER') || currentUser.role.includes('TRAINER'))">
+				<p>Unapproved comments</p>
+				<div v-for="unCom in selectedObjectUnapprovedComments" class="p-3 mb-2 bg-primary text-white">
+					<h5>{{unCom.buyer}}</h5>
+					<p>{{unCom.content}}<p>
+					<p class="text-dark">Grade: {{unCom.grade}}</p>
+					<p class="text-dark">Status: {{unCom.status}}</p>
+				</div>
 			</div>
 		</div>
 		<br>
