@@ -3,7 +3,11 @@ Vue.component("list-users", {
 		    return {
 				currentUser: null,
 				users: null,
-				search: ''
+				searchName: '',
+				searchSurname : '',
+				searchUsername : '',
+				allUsers : null,
+				selectedType :''
 		    }
 	},
 	computed: {
@@ -22,9 +26,21 @@ Vue.component("list-users", {
 	template: ` 
 <div class="h-100 d-flex align-items-center justify-content-center">
 	<div>
-		List users:
 		<br>
-		<input type="text" v-model="search" placeholder="Search objects"/>
+		<input type="text" v-model="searchUsername" placeholder="Search user by username"/>
+		<input type="text" v-model="searchName" placeholder="Search user by name"/>
+		<input type="text" v-model="searchSurname" placeholder="Search user by surname"/>
+		<select name="UserType" @change="onChange($event)" v-model="selectedType">
+			<option value="">All users</option>
+			<option value="BUYER">Buyer</option>
+			<option value="TRAINER">Trainer</option>
+			<option value="MENAGER">Menager</option>
+			<option value="ADMIN">Admin</option>
+		</select>
+		<br>
+		<button v-on:click="search">Search</button>
+		<br>
+		List users:
 		<br>
 			<table border="1">
 			<tr bgcolor="lightgrey">
@@ -34,15 +50,19 @@ Vue.component("list-users", {
 				<th>LastName</th>
 				<th>BirthDate</th>
 				<th>Gender</th>
+				<th>Role  </th>
 			</tr>
 				
-			<tr v-for="user in filteredUsers">
+			<tr v-for="user in users">
 				<td>{{user.username}}</td>
 				<td>{{user.password }}</td>
 				<td>{{user.firstName }}</td>
 				<td>{{user.lastName }}</td>
 				<td>{{user.birthDate }}</td>
 				<td>{{user.gender }}</td>
+				<td>{{user.role }}</td>
+				
+				
 			</tr>
 		</table>
 		
@@ -53,14 +73,27 @@ Vue.component("list-users", {
 `
 	,
 	methods : {
-		startEdit(){
-			console.log("Pushing router to edit profile!");
-			router.push('/edit-profile')
-		},
-		
-		startEdit(){
-			console.log("Pushing router to create sport object!");
-			router.push('/edit-profile')
+			onChange(event) {
+		//	console.log(event.target.value, this.selectedType);	
+				
+		},	
+		search : function(){
+			retVal = [];
+			for(let i = 0 ; i < this.allUsers.length; i++){
+				if(this.allUsers[i].firstName.
+				toLowerCase().includes(this.searchName.toLowerCase()) &&
+				this.allUsers[i].lastName.
+				toLowerCase().includes(this.searchSurname.toLowerCase()) &&
+				this.allUsers[i].username.
+				toLowerCase().includes(this.searchUsername.toLowerCase()) &&
+				this.allUsers[i].role.
+				toLowerCase().includes(this.selectedType.toLowerCase()))
+				{
+					retVal.push(this.allUsers[i]);
+				}
+			}
+			
+			this.users = retVal;
 		}
 	},
 	mounted () {
@@ -72,6 +105,8 @@ Vue.component("list-users", {
       	
       	axios	
       		.get('rest/proizvodi/getJustUsers')
-          .then(response => (this.users = response.data))
+          .then(response => {this.users = response.data;
+          					this.allUsers = response.data;
+          })
     }
 });
