@@ -74,35 +74,46 @@ public class UserDAO {
 //			System.out.println("trainers list test");
 			
 			//fill users hashmap from arraylist
-			for (User userIt : usersList) {
-				users.put(userIt.getId(), userIt);
+			if (usersList != null ) {
+				for (User userIt : usersList) {
+					users.put(userIt.getId(), userIt);
+				}
 			}
+			
 			
 //			System.out.println("users hashmap test");
 //			System.out.println(users.toString());
 //			System.out.println("users hashmap test");
 			
 			//fill buyers hashmap from arraylist
-			for (Buyer buyerIt : buyersList) {
-				buyers.put(buyerIt.getId(), buyerIt);
+			if (buyersList != null ) {
+				for (Buyer buyerIt : buyersList) {
+					buyers.put(buyerIt.getId(), buyerIt);
+				}
 			}
+			
 			
 //			System.out.println("buyers hashmap test");
 //			System.out.println(buyers.toString());
 //			System.out.println("buyers hashmap test");
 			
 			//fill menagers hashmap from arraylist
-			for (Menager menagerIt : menagersList) {
-				menagers.put(menagerIt.getId(), menagerIt);
+			if (menagersList != null) {
+				for (Menager menagerIt : menagersList) {
+					menagers.put(menagerIt.getId(), menagerIt);
+				}
 			}
+			
 			
 //			System.out.println("menagers hashmap test");
 //			System.out.println(menagers.toString());
 //			System.out.println("menagers hashmap test");
 			
 			//fill users hashmap from arraylist
-			for (Trainer trainerIt : trainersList) {
-				trainers.put(trainerIt.getId(), trainerIt);
+			if (trainersList != null) {
+				for (Trainer trainerIt : trainersList) {
+					trainers.put(trainerIt.getId(), trainerIt);
+				}
 			}
 			
 //			System.out.println("trainers hashmap test");
@@ -130,6 +141,15 @@ public class UserDAO {
 		return buyers.values();
 	}
 
+	private String getNewId() {
+		int largest = -1;
+		for (User userIt : users.values()) {
+			if (Integer.parseInt(userIt.getId()) > largest) {
+				largest = Integer.parseInt(userIt.getId());
+			}
+		}
+		return Integer.toString(largest + 1);
+	}
 	
 	public Boolean editUserRequest(String req) throws FileNotFoundException {
 		
@@ -216,7 +236,7 @@ public class UserDAO {
 		
 		Buyer bu = g.fromJson(req, Buyer.class);
 		//User us = g.fromJson(req, User.class);
-		String id = Integer.toString(users.size()+1);
+		String id = getNewId();
 		bu.setId(id);
 		
 //		System.out.println("JSON PRINT of add request buyer object:");
@@ -239,7 +259,7 @@ public class UserDAO {
 		
 		Menager me= g.fromJson(req, Menager.class);
 		//User us = g.fromJson(req, User.class);
-		String id = Integer.toString(users.size()+1);
+		String id = getNewId();
 		me.setId(id);
 		
 //		System.out.println("JSON PRINT of add request menager object:");
@@ -262,7 +282,7 @@ public class UserDAO {
 		
 		Trainer tr= g.fromJson(req, Trainer.class);
 		//User us = g.fromJson(req, User.class);
-		String id = Integer.toString(users.size()+1);
+		String id = getNewId();
 		tr.setId(id);
 		
 //		System.out.println("JSON PRINT of add request trainer object:");

@@ -29,25 +29,38 @@ public class CommentDAO {
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<Comment> commentsList = g.fromJson(reader, COMMENTS_TYPE);
-			
-			for (Comment commIt : commentsList) {
-				comments.put(commIt.getId(), commIt);
+			if (commentsList != null) {
+				for (Comment commIt : commentsList) {
+					comments.put(commIt.getId(), commIt);
+				}
+//				System.out.println("COMMENTS: " + comments);
 			}
-			System.out.println("COMMENTS: " + comments);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private String getNewId() {
+		int largest = -1;
+		for (Comment commentIt : comments.values()) {
+			if (Integer.parseInt(commentIt.getId()) > largest) {
+				largest = Integer.parseInt(commentIt.getId());
+			}
+		}
+		return Integer.toString(largest + 1);
+	}
+	
 	public String submitComment(Comment comment) throws FileNotFoundException {
 		if (comment.getGrade() == 0) {
 			return "Grade must be selected!";
 		}
-		String id = Integer.toString(comments.size() + 1);
+		String id = getNewId();
 		comment.setId(id);
 		comments.put(id, comment);
 		toJSON(path + "/resources/JSON/comments.json");
 		
-		return "Your comment has been selected for review";
+		return "Your comment has been sent for review";
 	}
 	public void updateComment(Comment comment) throws FileNotFoundException {
 		comments.put(comment.getId(), comment);

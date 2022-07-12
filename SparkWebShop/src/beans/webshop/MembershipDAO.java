@@ -36,15 +36,29 @@ public class MembershipDAO {
 			System.out.println(file.getCanonicalPath());
 			JsonReader reader = new JsonReader(new FileReader(file));
 			ArrayList<Membership> membershipList = g.fromJson(reader, MEMBERSHIPS_TYPE);
-			for (Membership membershipIt : membershipList) {
-				memberships.put(membershipIt.getId(), membershipIt);
+			if (membershipList != null) {
+				for (Membership membershipIt : membershipList) {
+					memberships.put(membershipIt.getId(), membershipIt);
+				}
+				updateActive();
+//				System.out.println(memberships);
 			}
-			updateActive();
-			System.out.println(memberships);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private String getNewId() {
+		int largest = -1;
+		for (Membership membershipIt : memberships.values()) {
+			if (Integer.parseInt(membershipIt.getId()) > largest) {
+				largest = Integer.parseInt(membershipIt.getId());
+			}
+		}
+		return Integer.toString(largest + 1);
+	}
+	
 	public void addMembership(Membership membership) throws FileNotFoundException {
 		memberships.put(membership.getId(), membership);
 		toJSON(path + "/resources/JSON/memberships.json");
@@ -52,7 +66,7 @@ public class MembershipDAO {
 	public Boolean addMembershipRequest(String body) {
 		System.out.println(body);
 		String [] split = body.split(";");
-		String id = Integer.toString(memberships.size()+1);
+		String id = getNewId();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);

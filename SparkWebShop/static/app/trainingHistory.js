@@ -29,7 +29,7 @@ Vue.component("training-history", {
 		<table class="table table-bordered table--lg team-roster-table table-hover"">
 			<tr bgcolor="lightgrey">
 				<th scope="col">Date </th>
-				<th scope="col">Workout type </th>
+				<th scope="col">Workout name </th>
 				<th scope="col">Sport object  </th>
 				<th scope="col">Trainer  </th>
 			</tr>

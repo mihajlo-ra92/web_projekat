@@ -39,10 +39,13 @@ public class SportObjectDAO {
 			
 			//hashmap from arraylist
 			//treba da bude posebna f-ja
-			for (SportObject soIt : sportObjectsList) {
-				sportObjects.put(soIt.getName(), soIt);
+			if (sportObjectsList != null) {
+				for (SportObject soIt : sportObjectsList) {
+					sportObjects.put(soIt.getName(), soIt);
+				}
+				updateIsOpen();
 			}
-			updateIsOpen();
+			
 //			System.out.println("sport object hashmap test");
 //			System.out.println(sportObjects.toString());
 //			System.out.println("sport object hashmap test");
@@ -50,6 +53,17 @@ public class SportObjectDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	private String getNewId() {
+		int largest = -1;
+		for (SportObject objectIt: sportObjects.values()) {
+			if (Integer.parseInt(objectIt.getId()) > largest) {
+				largest = Integer.parseInt(objectIt.getId());
+			}
+		}
+		return Integer.toString(largest + 1);
+	}
+	
 	public Workout setContentToSportObject(String SOname,Workout workout) throws FileNotFoundException {
 		workout.setSportObject(SOname);
 		SportObject Sport = sportObjects.get(SOname);
@@ -59,7 +73,7 @@ public class SportObjectDAO {
 	}
 	public Boolean addSportObjectsRequest(String req) throws FileNotFoundException {
 		SportObject so = g.fromJson(req, SportObject.class);
-		String id = Integer.toString(sportObjects.size()+1);
+		String id = getNewId();
 		so.setId(id);
 		
 		System.out.println("JSON PRINT add request sport object:");
